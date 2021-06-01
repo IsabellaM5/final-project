@@ -97,21 +97,133 @@ app.post('/signin', async (req, res) => {
 })
 
 // AUTHENTICATED ROUTES
-app.get('/sessions', authenticateUser)
-
 // GET
+app.get('/sessions/:userID/projects', authenticateUser)
+app.get('/sessions/:userID/projects', async (req, res) => {
+  const { userID } = req.params
 
-app.post('/sessions', authenticateUser)
+  try {
+    const projects = await Project.find({
+      // projectOwner: userID
+      $or: [
+        { projectOwner: userID }, { collaborators: userID }
+      ]
+    })
+
+    res.status(200).json({ success: true, projects })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Page not found', error})
+  }
+})
+
+app.get('/sessions/:projectID/tasks', authenticateUser)
+app.get('/sessions/:projectID/tasks', async (req, res) => {
+  const { projectID } = req.params
+  
+  try {
+    const tasks = await Task.find({
+      taskOwner: projectID
+    })
+
+    res.status(200).json({ success: true, tasks })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Page not found', error })
+  }
+})
+
+app.get('/sessions/:taskID', authenticateUser)
+app.get('/sessions/:taskID', async (req, res) => {
+  const { taskID } = req.params
+
+  try {
+    const task = await Task.findById(taskID)
+    res.status(200).json({ success: true, task })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Page not found', error })
+  }
+})
 
 // POST
+app.post('/sessions/:userID/projects', authenticateUser)
+app.post('/sessions/:userID/projects', async (req, res) => {
+  const { userID } = req.params
+  const { name, description, collaborators } = req.body
 
-app.delete('/sessions', authenticateUser)
+  const collaborator = await User.findOne({
+    username: collaborators
+  })
+
+  try {
+    const newProject = await new Project({
+      name,
+      description,
+      collaborators: collaborator._id,
+      projectOwner: userID
+    }).save()
+
+    res.status(201).json({ 
+      success: true,
+      projectID: newProject._id,
+      name: newProject.name, 
+      description: newProject.description,
+      collaborators: newProject.collaborators,
+      projectOwner: newProject.projectOwner
+    })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+app.post('/sessions/:projectID/tasks', authenticateUser)
+app.post('/sessions/:projectID/tasks', async (req, res) => {
+  const { projectID } = req.params
+  const { title, description, comments } = req.body
+
+  try {
+    const newTask = await new Task({
+      title,
+      description,
+      taskOwner: projectID,
+      comments
+    }).save()
+
+    res.status(201).json({
+      success: true,
+      taskID: newTask._id,
+      title: newTask.title,
+      description: newTask.description,
+      taskOwner: newTask.taskOwner,
+      comments: newTask.comments
+    })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
 
 // DELETE
+app.delete('/sessions', authenticateUser)
 
-app.patch('/sessions', authenticateUser)
+
 
 // PATCH
+app.patch('/sessions/:userID/profile', authenticateUser)
+app.patch('/sessions/:userID/profile', async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userID, req.body, { new: true })
+    if (updatedUser) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find user' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request/could not update user', error })
+  }
+})
+
+
 
 // Start the server
 app.listen(port, () => {
