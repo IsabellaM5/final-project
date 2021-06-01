@@ -7,7 +7,11 @@ import listEndpoints from 'express-list-endpoints'
 import { User, Project, Task } from './models/models'
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalprojectAPI"
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+mongoose.connect(mongoUrl, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useCreateIndex: true 
+})
 mongoose.Promise = Promise
 
 const port = process.env.PORT || 8080
@@ -104,7 +108,6 @@ app.get('/sessions/:userID/projects', async (req, res) => {
 
   try {
     const projects = await Project.find({
-      // projectOwner: userID
       $or: [
         { projectOwner: userID }, { collaborators: userID }
       ]
@@ -116,8 +119,8 @@ app.get('/sessions/:userID/projects', async (req, res) => {
   }
 })
 
-app.get('/sessions/:projectID/tasks', authenticateUser)
-app.get('/sessions/:projectID/tasks', async (req, res) => {
+app.get('/sessions/projects/:projectID/tasks', authenticateUser)
+app.get('/sessions/projects/:projectID/tasks', async (req, res) => {
   const { projectID } = req.params
   
   try {
@@ -149,10 +152,14 @@ app.post('/sessions/:userID/projects', async (req, res) => {
   const { userID } = req.params
   const { name, description, collaborators } = req.body
 
-  const collaborator = await User.findOne({
-    username: collaborators
-  })
+  let collaborator = ''
 
+  if (collaborators) {
+    collaborator = await User.findOne({
+      username: collaborators
+    })
+  }
+  
   try {
     const newProject = await new Project({
       name,
@@ -202,8 +209,73 @@ app.post('/sessions/:projectID/tasks', async (req, res) => {
 
 
 // DELETE
-app.delete('/sessions', authenticateUser)
+app.delete('/sessions/tasks/:taskID', authenticateUser)
+app.delete('/sessions/tasks/:taskID', async (req, res) => {
+  const { taskID } = req.params
 
+  try {
+    const deletedTask = await Task.findByIdAndDelete(taskID)
+    if (deletedTask) {
+      res.status(200).json({ success: true, deletedTask })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find task' })
+    }
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+app.delete('/sessions/projects/:projectID', authenticateUser)
+app.delete('/sessions/projects/:projectID', async (req, res) => {
+  const { projectID } = req.params
+
+  try {
+    const deletedProject = await Project.findByIdAndDelete(projectID)
+
+    if (deletedProject) {
+      const deletedTasks = await Task.deleteMany({ taskOwner: projectID })
+
+      if (deletedTasks) {
+        res.status(200).json({ success: true, deletedProject, deletedTasks })
+      } else {
+        res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted.' })
+      }
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+app.delete('/sessions/users/:userID', authenticateUser)
+app.delete('/sessions/users/:userID', async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(userID)
+
+    if (deletedUser) {
+      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false } )
+
+      if (deletedProjects) {
+        const deletedTasks = await Task.deleteMany({ taskOwner: deletedProjects._id })
+
+        if (deletedTasks) {
+          res.status(200).json({ success: true, deletedUser, deletedProjects, deletedTasks })
+        } else {
+          res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted' })
+        }
+      } else {
+        res.status(400).json({ success: false, message: 'Projects related to user could not be deleted' })
+      }
+    } else {
+      res.status(400).json({ success: false, message: 'Could not find user' })
+    }
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Invalid request/Could not delete user', error })
+  }
+})
 
 
 // PATCH
@@ -219,10 +291,67 @@ app.patch('/sessions/:userID/profile', async (req, res) => {
       res.status(404).json({ success: false, message: 'Could not find user' })
     }
   } catch (error) {
-    res.status(400).json({ message: 'Invalid request/could not update user', error })
+    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
   }
 })
 
+app.patch('/sessions/tasks/:taskID', authenticateUser)
+app.patch('/sessions/tasks/:taskID', async (req, res) => {
+  const { taskID } = req.params
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(taskID, req.body, { new: true })
+    if (updatedTask) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find task' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update task', error })
+  }
+})
+
+app.patch('/sessions/projects/:projectID', authenticateUser)
+app.patch('/sessions/projects/:projectID', async (req, res) => {
+  const { projectID } = req.params
+
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(projectID, req.body, { new: true })
+
+    if (updatedProject) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
+  }
+})
+
+app.patch('/sessions/projects/collaborators/:projectID', authenticateUser)
+app.patch('/sessions/projects/collaborators/:projectID', async (req, res) => {
+  const { projectID } = req.params
+
+  let collaborator = ''
+
+  if (req.body.collaborators) {
+    collaborator = await User.findOne({
+      username: req.body.collaborators
+    })
+  }
+
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaborator._id }, { new: true })
+
+    if (updatedProject) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
+  }
+})
 
 
 // Start the server
