@@ -38,25 +38,25 @@ router.post('/signin', user.signIn)
 // AUTHENTICATED ROUTES
 router.use(authenticateUser)
 
-//USER
+// USER
 router.delete('/sessions/:userID', user.deleteUser)
 router.patch('/sessions/:userID', user.patchUser)
 
-//PROJECTS
+// PROJECTS
 router.get('/sessions/:userID/projects', projects.getProjects)
 router.post('/sessions/:userID/projects', projects.newProject)
 router.delete('/sessions/projects/:projectID', projects.deleteProject)
 router.patch('/sessions/projects/:projectID', projects.patchProject)
 router.patch('/sessions/projects/:projectID/collaborators', projects.patchCollaborators)
 
-//TASKS
+// TASKS
 router.get('/sessions/projects/:projectID/tasks', tasks.getTasks)
 router.get('/sessions/projects/:projectID/tasks/:taskID', tasks.getSingleTask)
 router.post('/sessions/projects/:projectID/tasks', tasks.newTask)
 router.delete('/sessions/projects/:projectID/tasks/:taskID', tasks.deleteTask)
 router.patch('/sessions/projects/:projectID/tasks/:taskID', tasks.patchTask)
 
-// Start the server
+// START THE SERVER
 app.listen(port, () => {
   // eslint-disable-next-line
   console.log(`Server running on http://localhost:${port}`)

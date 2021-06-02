@@ -79,6 +79,18 @@
     "semi": "off",
     "linebreak-style": 0,
     "max-len": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-underscore-dangle": "off",
+    "spaced-comment": ["error", "always", {
+      "line": {
+          "markers": ["/"],
+          "exceptions": ["-", "+"]
+      },
+      "block": {
+          "markers": ["!"],
+          "exceptions": ["*"],
+          "balanced": true
+      }
+    }]
   }
 }

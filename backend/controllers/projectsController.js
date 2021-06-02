@@ -12,7 +12,7 @@ export const getProjects = async (req, res) => {
 
     res.status(200).json({ success: true, projects })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Page not found', error})
+    res.status(400).json({ success: false, message: 'Page not found', error })
   }
 }
 
@@ -29,7 +29,7 @@ export const newProject = async (req, res) => {
   }
   
   try {
-    const newProject = await new Project({
+    const project = await new Project({
       name,
       description,
       collaborators: collaborator._id,
@@ -38,11 +38,11 @@ export const newProject = async (req, res) => {
 
     res.status(201).json({ 
       success: true,
-      projectID: newProject._id,
-      name: newProject.name, 
-      description: newProject.description,
-      collaborators: newProject.collaborators,
-      projectOwner: newProject.projectOwner
+      projectID: project._id,
+      name: project.name, 
+      description: project.description,
+      collaborators: project.collaborators,
+      projectOwner: project.projectOwner
     })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })

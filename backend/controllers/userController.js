@@ -1,5 +1,6 @@
-import { User, Project, Task } from '../models/models'
 import bcrypt from 'bcryptjs'
+
+import { User, Project, Task } from '../models/models'
 
 export const signUp = async (req, res) => {
   const { username, password, email } = req.body
@@ -64,9 +65,9 @@ export const deleteUser = async (req, res) => {
 
   try {
     const deletedUser = await User.findByIdAndDelete(userID)
-
+    
     if (deletedUser) {
-      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false } )
+      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false })
 
       if (deletedProjects) {
         const deletedTasks = await Task.deleteMany({ taskOwner: deletedProjects._id })
