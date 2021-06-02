@@ -76,7 +76,8 @@ app.post('/signin', async (req, res) => {
   try {
     const user = await User.findOne({ 
       $or: [
-        { username: usernameOrEmail }, { email: usernameOrEmail }
+        { username: usernameOrEmail }, 
+        { email: usernameOrEmail }
       ]
     })    
 
@@ -101,7 +102,7 @@ app.post('/signin', async (req, res) => {
 })
 
 // AUTHENTICATED ROUTES
-// GET
+// USER
 app.get('/sessions/:userID/projects', authenticateUser)
 app.get('/sessions/:userID/projects', async (req, res) => {
   const { userID } = req.params
@@ -119,6 +120,52 @@ app.get('/sessions/:userID/projects', async (req, res) => {
   }
 })
 
+app.delete('/sessions/:userID', authenticateUser)
+app.delete('/sessions/:userID', async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(userID)
+
+    if (deletedUser) {
+      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false } )
+
+      if (deletedProjects) {
+        const deletedTasks = await Task.deleteMany({ taskOwner: deletedProjects._id })
+
+        if (deletedTasks) {
+          res.status(200).json({ success: true, deletedUser, deletedProjects, deletedTasks })
+        } else {
+          res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted' })
+        }
+      } else {
+        res.status(400).json({ success: false, message: 'Projects related to user could not be deleted' })
+      }
+    } else {
+      res.status(400).json({ success: false, message: 'Could not find user' })
+    }
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Invalid request/Could not delete user', error })
+  }
+})
+
+app.patch('/sessions/:userID', authenticateUser)
+app.patch('/sessions/:userID', async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userID, req.body, { new: true })
+    if (updatedUser) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find user' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
+  }
+})
+
+// PROJECTS
 app.get('/sessions/projects/:projectID/tasks', authenticateUser)
 app.get('/sessions/projects/:projectID/tasks', async (req, res) => {
   const { projectID } = req.params
@@ -134,19 +181,6 @@ app.get('/sessions/projects/:projectID/tasks', async (req, res) => {
   }
 })
 
-app.get('/sessions/:taskID', authenticateUser)
-app.get('/sessions/:taskID', async (req, res) => {
-  const { taskID } = req.params
-
-  try {
-    const task = await Task.findById(taskID)
-    res.status(200).json({ success: true, task })
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Page not found', error })
-  }
-})
-
-// POST
 app.post('/sessions/:userID/projects', authenticateUser)
 app.post('/sessions/:userID/projects', async (req, res) => {
   const { userID } = req.params
@@ -181,8 +215,87 @@ app.post('/sessions/:userID/projects', async (req, res) => {
   }
 })
 
-app.post('/sessions/:projectID/tasks', authenticateUser)
-app.post('/sessions/:projectID/tasks', async (req, res) => {
+app.delete('/sessions/projects/:projectID', authenticateUser)
+app.delete('/sessions/projects/:projectID', async (req, res) => {
+  const { projectID } = req.params
+
+  try {
+    const deletedProject = await Project.findByIdAndDelete(projectID)
+
+    if (deletedProject) {
+      const deletedTasks = await Task.deleteMany({ taskOwner: projectID })
+
+      if (deletedTasks) {
+        res.status(200).json({ success: true, deletedProject, deletedTasks })
+      } else {
+        res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted.' })
+      }
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+app.patch('/sessions/projects/:projectID', authenticateUser)
+app.patch('/sessions/projects/:projectID', async (req, res) => {
+  const { projectID } = req.params
+
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(projectID, req.body, { new: true })
+
+    if (updatedProject) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
+  }
+})
+
+app.patch('/sessions/projects/:projectID/collaborators', authenticateUser)
+app.patch('/sessions/projects/:projectID/collaborators', async (req, res) => {
+  const { projectID } = req.params
+
+  let collaborator = ''
+
+  if (req.body.collaborators) {
+    collaborator = await User.findOne({
+      username: req.body.collaborators
+    })
+  }
+
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaborator._id }, { new: true })
+
+    if (updatedProject) {
+      res.status(200).json({ success: true, updated: req.body })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
+  }
+})
+
+// TASKS
+app.get('/sessions/projects/:projectID/tasks/:taskID', authenticateUser)
+app.get('/sessions/projects/:projectID/tasks/:taskID', async (req, res) => {
+  const projectID = req.params.projectID
+  const taskID = req.params.taskID
+
+  try {
+    const task = await Task.findById(taskID)
+    res.status(200).json({ success: true, task })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Page not found', error })
+  }
+})
+
+app.post('/sessions/projects/:projectID/tasks', authenticateUser)
+app.post('/sessions/projects/:projectID/tasks', async (req, res) => {
   const { projectID } = req.params
   const { title, description, comments } = req.body
 
@@ -207,11 +320,10 @@ app.post('/sessions/:projectID/tasks', async (req, res) => {
   }
 })
 
-
-// DELETE
-app.delete('/sessions/tasks/:taskID', authenticateUser)
-app.delete('/sessions/tasks/:taskID', async (req, res) => {
-  const { taskID } = req.params
+app.delete('/sessions/projects/:projectID/tasks/:taskID', authenticateUser)
+app.delete('/sessions/projects/:projectID/tasks/:taskID', async (req, res) => {
+  const projectID = req.params.projectID
+  const taskID = req.params.taskID
 
   try {
     const deletedTask = await Task.findByIdAndDelete(taskID)
@@ -225,79 +337,10 @@ app.delete('/sessions/tasks/:taskID', async (req, res) => {
   }
 })
 
-app.delete('/sessions/projects/:projectID', authenticateUser)
-app.delete('/sessions/projects/:projectID', async (req, res) => {
-  const { projectID } = req.params
-
-  try {
-    const deletedProject = await Project.findByIdAndDelete(projectID)
-
-    if (deletedProject) {
-      const deletedTasks = await Task.deleteMany({ taskOwner: projectID })
-
-      if (deletedTasks) {
-        res.status(200).json({ success: true, deletedProject, deletedTasks })
-      } else {
-        res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted.' })
-      }
-    } else {
-      res.status(404).json({ success: false, message: 'Could not find project' })
-    }
-  } catch (error) {
-    res.status(404).json({ success: false, message: 'Invalid request', error })
-  }
-})
-
-app.delete('/sessions/users/:userID', authenticateUser)
-app.delete('/sessions/users/:userID', async (req, res) => {
-  const { userID } = req.params
-
-  try {
-    const deletedUser = await User.findByIdAndDelete(userID)
-
-    if (deletedUser) {
-      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false } )
-
-      if (deletedProjects) {
-        const deletedTasks = await Task.deleteMany({ taskOwner: deletedProjects._id })
-
-        if (deletedTasks) {
-          res.status(200).json({ success: true, deletedUser, deletedProjects, deletedTasks })
-        } else {
-          res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted' })
-        }
-      } else {
-        res.status(400).json({ success: false, message: 'Projects related to user could not be deleted' })
-      }
-    } else {
-      res.status(400).json({ success: false, message: 'Could not find user' })
-    }
-  } catch (error) {
-    res.status(404).json({ success: false, message: 'Invalid request/Could not delete user', error })
-  }
-})
-
-
-// PATCH
-app.patch('/sessions/:userID/profile', authenticateUser)
-app.patch('/sessions/:userID/profile', async (req, res) => {
-  const { userID } = req.params
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(userID, req.body, { new: true })
-    if (updatedUser) {
-      res.status(200).json({ success: true, updated: req.body })
-    } else {
-      res.status(404).json({ success: false, message: 'Could not find user' })
-    }
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
-  }
-})
-
-app.patch('/sessions/tasks/:taskID', authenticateUser)
-app.patch('/sessions/tasks/:taskID', async (req, res) => {
-  const { taskID } = req.params
+app.patch('/sessions/projects/:projectID/tasks/:taskID', authenticateUser)
+app.patch('/sessions/projects/:projectID/tasks/:taskID', async (req, res) => {
+  const projectID = req.params.projectID
+  const taskID = req.params.taskID
 
   try {
     const updatedTask = await Task.findByIdAndUpdate(taskID, req.body, { new: true })
@@ -310,49 +353,6 @@ app.patch('/sessions/tasks/:taskID', async (req, res) => {
     res.status(400).json({ success: false, message: 'Invalid request/could not update task', error })
   }
 })
-
-app.patch('/sessions/projects/:projectID', authenticateUser)
-app.patch('/sessions/projects/:projectID', async (req, res) => {
-  const { projectID } = req.params
-
-  try {
-    const updatedProject = await Project.findByIdAndUpdate(projectID, req.body, { new: true })
-
-    if (updatedProject) {
-      res.status(200).json({ success: true, updated: req.body })
-    } else {
-      res.status(404).json({ success: false, message: 'Could not find project' })
-    }
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
-  }
-})
-
-app.patch('/sessions/projects/collaborators/:projectID', authenticateUser)
-app.patch('/sessions/projects/collaborators/:projectID', async (req, res) => {
-  const { projectID } = req.params
-
-  let collaborator = ''
-
-  if (req.body.collaborators) {
-    collaborator = await User.findOne({
-      username: req.body.collaborators
-    })
-  }
-
-  try {
-    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaborator._id }, { new: true })
-
-    if (updatedProject) {
-      res.status(200).json({ success: true, updated: req.body })
-    } else {
-      res.status(404).json({ success: false, message: 'Could not find project' })
-    }
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
-  }
-})
-
 
 // Start the server
 app.listen(port, () => {
