@@ -1,9 +1,45 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import styled from 'styled-components/macro'
 
-export const App = () => {
+import user from 'reducers/user'
+import projects from 'reducers/projects'
+import tasks from 'reducers/tasks'
+
+import Redirect from 'components/Redirect'
+import LandingPage from 'components/pages/LandingPage'
+
+const reducer = combineReducers({
+  user: user.reducer,
+  projects: projects.reducer,
+  tasks: tasks.reducer
+})
+
+const store = configureStore({ reducer })
+
+const Main = styled.main`
+  width: 100%;
+`
+
+const App = () => {
   return (
-    <div>
-      Find me in src/app.js!
-    </div>
+    <BrowserRouter>
+      <Main>
+        <Provider store={store}>
+          <Switch>
+            <Route exact path="/">
+              <Redirect />
+            </Route>
+            <Route path="/signin">
+              <LandingPage />
+            </Route>
+          </Switch>
+        </Provider>
+      </Main>
+    </BrowserRouter>
   )
 }
+
+export default App
