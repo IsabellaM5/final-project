@@ -67,10 +67,16 @@ export const deleteUser = async (req, res) => {
     const deletedUser = await User.findByIdAndDelete(userID)
     
     if (deletedUser) {
-      const deletedProjects = await Project.findOneAndDelete({ projectOwner: userID }, { useFindAndModify: false })
+      const ownedProjects = await Project.find({ projectOwner: userID })
+      const deletedProjects = await Project.deleteMany({ projectOwner: userID }, { useFindAndModify: false })
 
       if (deletedProjects) {
-        const deletedTasks = await Task.deleteMany({ taskOwner: deletedProjects._id })
+        let wasDeletedTasks = []
+
+        ownedProjects.forEach(async item => {
+          deletedTasks = await Task.deleteMany({ taskOwner: item._id })
+          wasDeletedTasks.push(deletedTasks)
+        })
 
         if (deletedTasks) {
           res.status(200).json({ success: true, deletedUser, deletedProjects, deletedTasks })

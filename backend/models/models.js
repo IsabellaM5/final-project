@@ -47,7 +47,7 @@ export const Project = mongoose.model('Project', {
     type: String
   },
   collaborators: {
-    type: String
+    type: Array
   }, 
   projectOwner: {
     type: String,

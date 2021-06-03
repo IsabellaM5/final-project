@@ -20,33 +20,50 @@ export const newProject = async (req, res) => {
   const { userID } = req.params
   const { name, description, collaborators } = req.body
 
-  let collaborator = ''
+  let collaboratorsArray = []
 
-  if (collaborators) {
-    collaborator = await User.findOne({
-      username: collaborators
-    })
+  const loopCollaborators = async () => {
+    if (collaborators) { 
+      return new Promise((resolve, reject) => {
+        collaborators.forEach(async username => {      
+          const collaborator = await User.findOne({
+            username
+          })
+          collaboratorsArray.push(collaborator)
+          console.log('CollaboratorsArray ', collaboratorsArray)
+        })
+          resolve(collaboratorsArray)
+      })
+    }
   }
-  
-  try {
-    const project = await new Project({
-      name,
-      description,
-      collaborators: collaborator._id,
-      projectOwner: userID
-    }).save()
 
-    res.status(201).json({ 
-      success: true,
-      projectID: project._id,
-      name: project.name, 
-      description: project.description,
-      collaborators: project.collaborators,
-      projectOwner: project.projectOwner
-    })
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request', error })
+  const saveProject = async () => {
+    const getCollaboratorsProject = await loopCollaborators()
+
+    if (getCollaboratorsProject) {
+      try {
+        console.log('Project save now', collaboratorsArray)
+        const project = await new Project({
+          name,
+          description,
+          collaborators: collaboratorsArray,
+          projectOwner: userID
+        }).save()
+    
+        res.status(201).json({ 
+          success: true,
+          projectID: project._id,
+          name: project.name, 
+          description: project.description,
+          collaborators: project.collaborators,
+          projectOwner: project.projectOwner
+        })
+      } catch (error) {
+        res.status(400).json({ success: false, message: 'Invalid request', error })
+      }
+    }
   }
+  saveProject()
 }
 
 export const deleteProject = async (req, res) => {
