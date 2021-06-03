@@ -10,6 +10,7 @@ import tasks from 'reducers/tasks'
 
 import Redirect from 'components/Redirect'
 import LandingPage from 'components/pages/LandingPage'
+import AuthenticatedPage from 'components/pages/AuthenticatedPage'
 
 const reducer = combineReducers({
   user: user.reducer,
@@ -34,6 +35,9 @@ const App = () => {
             </Route>
             <Route path="/signin">
               <LandingPage />
+            </Route>
+            <Route path="/authenticated">
+              <AuthenticatedPage />
             </Route>
           </Switch>
         </Provider>
