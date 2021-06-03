@@ -22,48 +22,32 @@ export const newProject = async (req, res) => {
 
   let collaboratorsArray = []
 
-  const loopCollaborators = async () => {
+  try {
     if (collaborators) { 
-      return new Promise((resolve, reject) => {
-        collaborators.forEach(async username => {      
-          const collaborator = await User.findOne({
-            username
-          })
-          collaboratorsArray.push(collaborator)
-          console.log('CollaboratorsArray ', collaboratorsArray)
-        })
-          resolve(collaboratorsArray)
-      })
-    }
-  }
-
-  const saveProject = async () => {
-    const getCollaboratorsProject = await loopCollaborators()
-
-    if (getCollaboratorsProject) {
-      try {
-        console.log('Project save now', collaboratorsArray)
-        const project = await new Project({
-          name,
-          description,
-          collaborators: collaboratorsArray,
-          projectOwner: userID
-        }).save()
-    
-        res.status(201).json({ 
-          success: true,
-          projectID: project._id,
-          name: project.name, 
-          description: project.description,
-          collaborators: project.collaborators,
-          projectOwner: project.projectOwner
-        })
-      } catch (error) {
-        res.status(400).json({ success: false, message: 'Invalid request', error })
+      for (const username of collaborators) {      
+        const collaborator = await User.findOne({ username })
+        collaboratorsArray.push(collaborator._id)
       }
     }
+
+    const project = await new Project({
+      name,
+      description,
+      collaborators: collaboratorsArray,
+      projectOwner: userID
+    }).save()
+  
+    res.status(201).json({ 
+      success: true,
+      projectID: project._id,
+      name: project.name, 
+      description: project.description,
+      collaborators: project.collaborators,
+      projectOwner: project.projectOwner
+    })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
-  saveProject()
 }
 
 export const deleteProject = async (req, res) => {
@@ -107,16 +91,16 @@ export const patchProject = async (req, res) => {
 export const patchCollaborators = async (req, res) => {
   const { projectID } = req.params
 
-  let collaborator = ''
-
-  if (req.body.collaborators) {
-    collaborator = await User.findOne({
-      username: req.body.collaborators
-    })
-  }
+  const getProject = await Project.findById(projectID)
+  let collaboratorsArray = getProject.collaborators
 
   try {
-    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaborator._id }, { new: true })
+    for (const username of req.body.collaborators) {      
+      const collaborator = await User.findOne({ username })
+      collaboratorsArray.push(collaborator._id)
+    }
+
+    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaboratorsArray }, { new: true })
 
     if (updatedProject) {
       res.status(200).json({ success: true, updated: req.body })
