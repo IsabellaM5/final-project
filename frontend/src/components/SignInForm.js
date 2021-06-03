@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { SIGN_IN } from 'reusable/urls'
 
 const MainHeading = styled.h1`
 
@@ -42,15 +44,21 @@ const RegisterLink = styled(Link)`
 
 `
 
-const ErrorMessage = styled.p`
+// const ErrorMessage = styled.p`
 
-`
+// `
 
-const SignInForm = ({ onFormSubmit, username, setUsername, password, setPassword, setMode }) => {
-  const error = useSelector(store => store.user.errors)
+const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword }) => {
+  // const error = useSelector(store => store.user.errors)
+
+  const body = { usernameOrEmail: username, password: password }
+
+  const onFormSubmit = () => {
+    handleFormSubmit(SIGN_IN, body)
+  }
 
   return (
-    <Form onSubmit={onFormSubmit}>
+    <Form>
       <MainHeading>LOG IN</MainHeading>
       <SubContainer> 
         <Label htmlFor="input-username">Username</Label>
@@ -69,9 +77,9 @@ const SignInForm = ({ onFormSubmit, username, setUsername, password, setPassword
         />
       </SubContainer>
 
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
+      {/* {error && <ErrorMessage>{error.message}</ErrorMessage>} */}
 
-      <SignInButton type="submit" onClick={() => setMode('signin')}>SIGN IN</SignInButton>
+      <SignInButton type="button" onClick={onFormSubmit}>SIGN IN</SignInButton>
 
       <RegisterText>
         Not a user? <RegisterLink to="/signup">Register here</RegisterLink> 

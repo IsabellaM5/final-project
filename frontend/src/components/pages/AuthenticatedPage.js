@@ -64,7 +64,6 @@ const SignOutButton = styled.button`
   width: 75%;
 `
 
-
 const AuthenticatedPage = () => {
   return (
     <MainContainer>

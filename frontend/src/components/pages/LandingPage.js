@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector, batch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
+
+import user from 'reducers/user'
+
+import { API_URL } from 'reusable/urls'
 
 import SignInForm from 'components/SignInForm'
 
@@ -33,15 +39,61 @@ const CarouselImage = styled.img`
   border-radius: 20px;
 `
 
-
 const LandingPage = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  // const [email, setEmail] = useState('')
+
+  const accessToken = useSelector(store => store.user.info.accessToken)
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (accessToken) {
+      history.push('/authenticated')
+    }
+  }, [accessToken, history])
+
+  const handleFormSubmit = (SIGN_IN, body) => {
+    // event.preventDefault()
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }
+
+    fetch(API_URL(SIGN_IN), options)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          batch(() => {
+            dispatch(user.actions.setUsername(data.username))
+            dispatch(user.actions.setAccessToken(data.accessToken))
+            dispatch(user.actions.setErrors(null))
+          })
+        } else {
+          dispatch(user.actions.setErrors(data))
+        }
+      })
+  }
+
   return (
     <MainContainer>
       <Section>
         <CarouselContainer>
           <CarouselImage src="/assets/landing-page-placeholder-image.jpg" />
         </CarouselContainer>
-        <SignInForm />
+        <SignInForm 
+          handleFormSubmit={handleFormSubmit}
+          username={username} 
+          setUsername={setUsername} 
+          password={password} 
+          setPassword={setPassword}
+        />
       </Section>
     </MainContainer>
   )

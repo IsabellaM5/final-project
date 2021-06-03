@@ -16,16 +16,16 @@ const user = createSlice ({
     loading: false
   },
   reducers: {
-    // setUsername: (store, action) => {
-    //   store.username = action.payload
-    // },
-    // setAccessToken: (store, action) => {
-    //   store.accessToken = action.payload
-    //   localStorage.setItem('accessToken', store.accessToken)
-    // },
-    // setErrors: (store, action) => {
-    //   store.errors = action.payload
-    // },
+    setUsername: (store, action) => {
+      store.info.username = action.payload
+    },
+    setAccessToken: (store, action) => {
+      store.info.accessToken = action.payload
+      // localStorage.setItem('accessToken', store.accessToken)
+    },
+    setErrors: (store, action) => {
+      store.errors = action.payload
+    },
     // setSignOut: (store, action) => {
     //   store.username = null
     //   store.accessToken = null
