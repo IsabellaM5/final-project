@@ -8,6 +8,7 @@ import user from 'reducers/user'
 import { API_URL } from 'reusable/urls'
 
 import SignInForm from 'components/SignInForm'
+import SignUpForm from 'components/SignUpForm'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -41,8 +42,10 @@ const CarouselImage = styled.img`
 
 const LandingPage = () => {
   const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [email, setEmail] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [signUp, setSignUp] = useState(false)
 
   const accessToken = useSelector(store => store.user.info.accessToken)
   const dispatch = useDispatch()
@@ -54,7 +57,7 @@ const LandingPage = () => {
     }
   }, [accessToken, history])
 
-  const handleFormSubmit = (SIGN_IN, body) => {
+  const handleFormSubmit = (endpoint, body) => {
     // event.preventDefault()
 
     const options = {
@@ -65,7 +68,7 @@ const LandingPage = () => {
       body: JSON.stringify(body)
     }
 
-    fetch(API_URL(SIGN_IN), options)
+    fetch(API_URL(endpoint), options)
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -87,13 +90,28 @@ const LandingPage = () => {
         <CarouselContainer>
           <CarouselImage src="/assets/landing-page-placeholder-image.jpg" />
         </CarouselContainer>
-        <SignInForm 
-          handleFormSubmit={handleFormSubmit}
-          username={username} 
-          setUsername={setUsername} 
-          password={password} 
-          setPassword={setPassword}
-        />
+        {!signUp ? 
+          <SignInForm 
+            handleFormSubmit={handleFormSubmit}
+            username={username} 
+            setUsername={setUsername} 
+            password={password} 
+            setPassword={setPassword}
+            setSignUp={setSignUp}
+          />
+        : 
+          <SignUpForm
+            handleFormSubmit={handleFormSubmit}
+            username={username} 
+            setUsername={setUsername} 
+            email={email}
+            setEmail={setEmail}
+            password={password} 
+            setPassword={setPassword}
+            repeatPassword={repeatPassword}
+            setRepeatPassword={setRepeatPassword}
+            setSignUp={setSignUp}
+          />}
       </Section>
     </MainContainer>
   )

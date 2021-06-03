@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 // import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import { SIGN_IN } from 'reusable/urls'
 
@@ -36,11 +35,11 @@ const SignInButton = styled.button`
 
 `
 
-const RegisterText = styled.p`
+const RegisterText = styled.span`
 
 `
 
-const RegisterLink = styled(Link)`
+const RegisterButton = styled.button`
 
 `
 
@@ -48,7 +47,7 @@ const RegisterLink = styled(Link)`
 
 // `
 
-const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword }) => {
+const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp }) => {
   // const error = useSelector(store => store.user.errors)
 
   const body = { usernameOrEmail: username, password: password }
@@ -82,9 +81,9 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
       <SignInButton type="button" onClick={onFormSubmit}>SIGN IN</SignInButton>
 
       <RegisterText>
-        Not a user? <RegisterLink to="/signup">Register here</RegisterLink> 
+        Not a user? <RegisterButton onClick={() => setSignUp(true)}>Register here</RegisterButton> 
       </RegisterText>
-  </Form>
+    </Form>
   )
 }
 

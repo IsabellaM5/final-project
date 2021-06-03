@@ -31,7 +31,7 @@ const App = () => {
         <Provider store={store}>
           <Switch>
             <Route exact path="/">
-              {/* <Redirect /> */}
+              <Redirect />
             </Route>
             <Route path="/signin">
               <LandingPage />
