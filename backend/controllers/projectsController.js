@@ -97,7 +97,7 @@ export const patchCollaborators = async (req, res) => {
   try {
     for (const username of req.body.collaborators) {      
       const collaborator = await User.findOne({ username })
-      collaboratorsArray.push(collaborator._id)
+      collaboratorsArray.push(collaborator._id.toString())
     }
 
     const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaboratorsArray }, { new: true })
