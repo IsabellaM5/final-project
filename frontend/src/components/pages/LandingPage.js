@@ -21,7 +21,6 @@ const MainContainer = styled.div`
 const Section = styled.section`
   height: 85%;
   width: 85%;
-  box-sizing: border-box;
   padding: 50px;
   display: flex;
   justify-content: space-between;
@@ -77,6 +76,11 @@ const LandingPage = () => {
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
+
+            localStorage.setItem('user', JSON.stringify({
+              username: data.username,
+              accessToken: data.accessToken
+            }))
           })
         } else {
           dispatch(user.actions.setErrors(data))

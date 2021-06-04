@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
+import { useDispatch, useSelector, batch } from 'react-redux'
+import { useHistory } from 'react-router'
+
+import user from 'reducers/user'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -29,7 +33,6 @@ const NavbarContainer = styled.aside`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  box-sizing: border-box;
 `
 
 const UserInfoContainer = styled.div`
@@ -42,7 +45,7 @@ const Avatar = styled.img`
 `
 
 const Username = styled.p`
-
+  font-size: 1.6em;
 `
 
 
@@ -56,15 +59,45 @@ const ListParent = styled.ul`
 `
 
 const ListItem = styled.li`
-
+  font-size: 1.6em;
 `
 
 const SignOutButton = styled.button`
   margin-top: auto;
   width: 75%;
+  padding: 5px;
+  font-family: "Montserrat";
+  border-radius: 4px;
+  border: none;
+  background: #9c92ac;
+  color: #ffffff;
+
+  &:hover {
+    background: #c3bdcd;
+    cursor: pointer;
+  }
+
 `
 
 const AuthenticatedPage = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const accessToken = useSelector(store => store.user.info.accessToken)
+
+  useEffect(() => {
+    if (!accessToken) {
+      history.push('/signin')
+    }
+  })
+
+  const handleSignOut = () => {
+    batch(() => {
+      dispatch(user.actions.setSignOut())
+      localStorage.removeItem('user')
+    })
+  }
+
   return (
     <MainContainer>
       <Section>
@@ -80,7 +113,7 @@ const AuthenticatedPage = () => {
               <ListItem>New Project</ListItem>
             </ListParent>
           </NavBar>
-          <SignOutButton>SIGN OUT</SignOutButton>
+          <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
       </Section>
     </MainContainer>
