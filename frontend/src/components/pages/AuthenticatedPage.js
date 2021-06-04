@@ -2,8 +2,11 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { useHistory } from 'react-router'
+import { Route } from 'react-router-dom'
 
 import user from 'reducers/user'
+
+import Projects from 'components/Projects'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -115,6 +118,9 @@ const AuthenticatedPage = () => {
           </NavBar>
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
+        <Route exact path="/authenticated/projects">
+          <Projects />
+        </Route>
       </Section>
     </MainContainer>
   )
