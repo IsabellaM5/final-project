@@ -44,7 +44,8 @@ export const Project = mongoose.model('Project', {
     maxlength: 20
   },
   description: {
-    type: String
+    type: String,
+    maxlength: 40
   },
   collaborators: {
     type: Array

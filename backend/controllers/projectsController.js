@@ -26,7 +26,7 @@ export const newProject = async (req, res) => {
     if (collaborators) { 
       for (const username of collaborators) {      
         const collaborator = await User.findOne({ username })
-        collaboratorsArray.push(collaborator._id)
+        collaboratorsArray.push(collaborator._id.toString())
       }
     }
 
