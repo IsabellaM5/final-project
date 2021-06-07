@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { Link } from 'react-router-dom'
 
 const ProjectContainer = styled.div`
   background-image: url(${props => props.image ? props.image : '/assets/landing-page-placeholder-image.jpg' });
@@ -39,12 +40,19 @@ const ProjectDescription = styled.p`
   z-index: 1;
 `
 
+const ProjectLink = styled(Link)`
+  text-decoration: none;
+  color: #000000;
+`
+
 const ProjectCard = ({ item }) => {
   return (
-    <ProjectContainer image={item.image}>
-      <ProjectName>{item.name}</ProjectName>
-      <ProjectDescription>{item.description}</ProjectDescription>
-    </ProjectContainer>
+    <ProjectLink to={`/authenticated/projects/${item._id}/tasks`}>
+      <ProjectContainer image={item.image}>
+        <ProjectName>{item.name}</ProjectName>
+        <ProjectDescription>{item.description}</ProjectDescription>
+      </ProjectContainer>
+    </ProjectLink>
   )
 }
 

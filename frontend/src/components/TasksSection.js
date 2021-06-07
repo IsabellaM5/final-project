@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Link, useHistory } from 'react-router-dom'
+import { Route, Link, useHistory, useParams } from 'react-router-dom'
 
-import { API_URL, PROJECTS_URL } from 'reusable/urls'
+import { API_URL, TASKS_URL } from 'reusable/urls'
 
-import projects from 'reducers/projects'
+import tasks from 'reducers/tasks'
 
-import ProjectCard from 'components/ProjectCard'
+import TaskCard from 'components/TaskCard'
 
 const Section = styled.section`
   width: 85%;
@@ -16,7 +16,7 @@ const Section = styled.section`
   flex-direction: column;
 `
 
-const ProjectsWrapper = styled.div`
+const TasksWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
@@ -40,7 +40,7 @@ const ProjectsWrapper = styled.div`
   }
 `
 
-const AddProjectButton = styled(Link)`
+const AddTaskButton = styled(Link)`
   align-self: flex-end;
   padding: 5px;
   width: 70px;
@@ -79,7 +79,7 @@ const Modal = styled.div`
   justify-content: center;
 `
 
-const NewProjectForm = styled.form`
+const NewTaskForm = styled.form`
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -111,7 +111,7 @@ const ButtonsContainer = styled.div`
 
 `
 
-const CreateProjectButton = styled.button`
+const CreateTaskButton = styled.button`
   padding: 5px;
   width: 50px;
   font-family: "Montserrat";
@@ -143,16 +143,15 @@ const CancelButton = styled(Link)`
   }
 `
 
-const ProjectsSection = () => {
-  const [projectName, setProjectName] = useState('')
+const TasksSection = () => {
+  const { projectID } = useParams()
+
+  const [taskTitle, setTaskTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [collaborators, setCollaborators] = useState('')
+  const [comments, setComments] = useState('')
 
-  let collaboratorsArray = []
-
-  const userID = useSelector(store => store.user.info.userID)
   const accessToken = useSelector(store => store.user.info.accessToken)
-  const items = useSelector(store => store.projects.items)
+  const items = useSelector(store => store.tasks.items)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -166,103 +165,91 @@ const ProjectsSection = () => {
       }
     }
 
-    fetch(API_URL(PROJECTS_URL(userID)), options)
+    fetch(API_URL(TASKS_URL(projectID)), options)
       .then(res => res.json())
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(projects.actions.setProjects(data))
+          dispatch(tasks.actions.setTasks(data))
         } else {
-          dispatch(projects.actions.setErrors(data))
+          dispatch(tasks.actions.setErrors(data))
         }
       })
-  }, [accessToken, dispatch, userID])
-
-  const handleCollaboratorsInput = (e) => {
-    setCollaborators(e.target.value)
-
-    collaboratorsArray = collaborators.split(', ')
-    console.log(collaboratorsArray)
-  }
+  }, [accessToken, dispatch, projectID])
 
   const handleFormSubmit = () => {
-      const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken
-      },
-      body: JSON.stringify({ name: projectName, description: description, collaborators: collaboratorsArray })
+    const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken
+    },
+    body: JSON.stringify({ title: taskTitle, description: description, comments: comments })
     }
 
-    console.log(collaboratorsArray)
-
-    fetch(API_URL(PROJECTS_URL(userID)), options)
+    fetch(API_URL(TASKS_URL(projectID)), options)
       .then(res => res.json())
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(projects.actions.setNewProject(data))
-          history.push('/authenticated/projects')
+          dispatch(tasks.actions.setNewTask(data))
+          history.push(`/authenticated/projects/${projectID}/tasks`)
         } else {
-          dispatch(projects.actions.setErrors(data))
+          dispatch(tasks.actions.setErrors(data))
         }
       })
   }
 
   return (
     <Section>
-      <AddProjectButton to="/authenticated/projects/new">+ ADD</AddProjectButton>
-      <Route path="/authenticated/projects/new">
+      <AddTaskButton to={`/authenticated/projects/${projectID}/tasks/new`}>+ ADD</AddTaskButton>
+      <Route path="/authenticated/projects/:projectID/tasks/new">
         <ModalContainer>
           <Modal>
-            <NewProjectForm>
-              <SubContainer>
-                <Label htmlFor="input-project-name">Project name</Label>
+            <NewTaskForm>
+            <SubContainer>
+                <Label htmlFor="input-task-title">Title</Label>
                 <InputField 
-                  id="input-project-name"
+                  id="input-task-title"
                   type="text" 
-                  value={projectName} 
-                  onChange={(e) => setProjectName(e.target.value)} 
+                  value={taskTitle} 
+                  onChange={(e) => setTaskTitle(e.target.value)} 
                 />
-                <Label htmlFor="input-project-description">Description</Label>
+                <Label htmlFor="input-task-description">Description</Label>
                 <InputField 
-                  id="input-project-description"
+                  id="input-task-description"
                   type="text" 
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)} 
                 />
-                <Label htmlFor="input-collaborators">Collaborators</Label>
+                <Label htmlFor="input-comments">Comments</Label>
                 <InputField 
-                  id="input-collaborators"
+                  id="input-comments"
                   type="text" 
-                  value={collaborators} 
-                  onChange={handleCollaboratorsInput} 
+                  value={comments} 
+                  onChange={(e) => setComments(e.target.value)}
                 />
               </SubContainer>
               <ButtonsContainer>
-                <CreateProjectButton 
-                  type="button"
-                  onClick={handleFormSubmit}
-                >
-                  ADD
-                </CreateProjectButton>
-                <CancelButton to="/authenticated/projects">CANCEL</CancelButton>
+                <CreateTaskButton type="button" onClick={handleFormSubmit}>ADD</CreateTaskButton>
+                <CancelButton to={`/authenticated/projects/${projectID}/tasks`}>CANCEL</CancelButton>
               </ButtonsContainer>
-            </NewProjectForm>
+            </NewTaskForm>
           </Modal>
         </ModalContainer>
       </Route>
-      <ProjectsWrapper>
+
+      <TasksWrapper>
         {items.map(item => (
-          <ProjectCard 
+          <TaskCard 
             key={item._id} 
-            item={item} 
+            item={item}
+            projectID={projectID} 
           />
         ))}
-      </ProjectsWrapper>
+      </TasksWrapper>
     </Section>
   )
 }
 
-export default ProjectsSection 
+export default TasksSection

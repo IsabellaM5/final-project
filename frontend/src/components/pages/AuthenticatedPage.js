@@ -7,6 +7,7 @@ import { Route, Link } from 'react-router-dom'
 import user from 'reducers/user'
 
 import ProjectsSection from 'components/ProjectsSection'
+import TasksSection from 'components/TasksSection'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -122,8 +123,11 @@ const AuthenticatedPage = () => {
           </NavBar>
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
-        <Route path="/authenticated/projects">
+        <Route exact path="/authenticated/projects">
           <ProjectsSection />
+        </Route>
+        <Route path="/authenticated/projects/:projectID/tasks">
+          <TasksSection />
         </Route>
       </ContentWrapper>
     </MainContainer>
