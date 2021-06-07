@@ -13,6 +13,7 @@ const ProjectContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  text-align: center;
 
   &::after {
     content: '';

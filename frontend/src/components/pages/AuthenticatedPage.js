@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useDispatch, useSelector, batch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { Route } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 
 import user from 'reducers/user'
 
@@ -59,10 +59,14 @@ const NavBar = styled.nav`
 const ListParent = styled.ul`
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 `
 
-const ListItem = styled.li`
+const ListItem = styled(Link)`
   font-size: 1.6em;
+  text-decoration: none;
+  margin-bottom: 5px;
 `
 
 const SignOutButton = styled.button`
@@ -111,14 +115,14 @@ const AuthenticatedPage = () => {
           </UserInfoContainer>
           <NavBar>
             <ListParent>
-              <ListItem>Profile</ListItem>
-              <ListItem>Overview</ListItem>
-              <ListItem>New Project</ListItem>
+              <ListItem to="/authenticated/profile">Profile</ListItem>
+              <ListItem to="/authenticated/projects">Overview</ListItem>
+              <ListItem to="/authenticated/projects">New Project</ListItem>
             </ListParent>
           </NavBar>
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
-        <Route exact path="/authenticated/projects">
+        <Route path="/authenticated/projects">
           <ProjectsSection />
         </Route>
       </ContentWrapper>
