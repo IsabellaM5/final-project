@@ -9,7 +9,7 @@ const projects = createSlice ({
   },
   reducers: {
     setProjects: (store, action) => {
-      store.items = action.payload
+      store.items = action.payload.projects
     },
     setErrors: (store, action) => {
       store.errors = action.payload

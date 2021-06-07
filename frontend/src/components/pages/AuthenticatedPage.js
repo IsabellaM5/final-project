@@ -6,7 +6,7 @@ import { Route } from 'react-router-dom'
 
 import user from 'reducers/user'
 
-import Projects from 'components/Projects'
+import ProjectsSection from 'components/ProjectsSection'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -16,7 +16,7 @@ const MainContainer = styled.div`
   align-items: center;
 `
 
-const Section = styled.section`
+const ContentWrapper = styled.div`
   height: 85%;
   width: 85%;
   box-sizing: border-box;
@@ -30,7 +30,7 @@ const Section = styled.section`
 
 const NavbarContainer = styled.aside`
   background: #f2eff6;
-  width: 200px;
+  width: 15%;
   height: 100%;
   border-radius: 25px 0px 0px 25px;
   display: flex;
@@ -103,7 +103,7 @@ const AuthenticatedPage = () => {
 
   return (
     <MainContainer>
-      <Section>
+      <ContentWrapper>
         <NavbarContainer>
           <UserInfoContainer>
             <Avatar src="https://via.placeholder.com/100"/>
@@ -119,9 +119,9 @@ const AuthenticatedPage = () => {
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
         <Route exact path="/authenticated/projects">
-          <Projects />
+          <ProjectsSection />
         </Route>
-      </Section>
+      </ContentWrapper>
     </MainContainer>
   )
 }
