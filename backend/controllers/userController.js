@@ -2,6 +2,20 @@ import bcrypt from 'bcryptjs'
 
 import { User, Project, Task } from '../models/models'
 
+export const getAllUsers = async (req, res) => {
+  let usersArray = []
+
+  try {
+    const users = await User.find()
+    for (const user of users) {
+      usersArray.push(user.username) 
+    }
+    res.status(201).json({ success: true, usersArray })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Could not get users', error })
+  }
+}
+
 export const signUp = async (req, res) => {
   const { username, password, email } = req.body
 

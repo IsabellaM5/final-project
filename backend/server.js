@@ -39,6 +39,7 @@ router.post('/signin', user.signIn)
 router.use(authenticateUser)
 
 // USER
+router.get('/sessions/users', user.getAllUsers)
 router.delete('/sessions/:userID', user.deleteUser)
 router.patch('/sessions/:userID', user.patchUser)
 
