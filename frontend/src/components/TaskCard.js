@@ -25,7 +25,7 @@ const TaskLink = styled(Link)`
 
 const TaskCard = ({ item, projectID }) => {
   return (
-    <TaskLink to={`/authenticated/projects/${projectID}/tasks/${item._id}`}>
+    <TaskLink to={`/authenticated/${projectID}/${item._id}`}>
       <TaskContainer>
         <Title>{item.title}</Title>
       </TaskContainer>

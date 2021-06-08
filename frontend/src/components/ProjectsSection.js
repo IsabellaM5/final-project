@@ -8,6 +8,7 @@ import { API_URL, PROJECTS_URL } from 'reusable/urls'
 import projects from 'reducers/projects'
 
 import ProjectCard from 'components/ProjectCard'
+import Modal from 'components/Modal'
 
 const Section = styled.section`
   width: 85%;
@@ -57,96 +58,11 @@ const AddProjectButton = styled(Link)`
   }
 `
 
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background: rgba(000, 000, 000, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-`
-
-const Modal = styled.div`
-  background: #ffffff;
-  width: 50%;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const NewProjectForm = styled.form`
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 40px;
-  border-radius: 20px;
-`
-
-const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const Label = styled.label`
-  font-size: 1.6em;
-  margin-bottom: 5px;
-`
-
-const InputField = styled.input`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
-`
-
-const ButtonsContainer = styled.div`
-
-`
-
-const CreateProjectButton = styled.button`
-  padding: 5px;
-  width: 50px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin-bottom: 25px;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const CancelButton = styled(Link)`
-  padding: 5px;
-  width: 70px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin-bottom: 25px;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
 const ProjectsSection = () => {
   const [projectName, setProjectName] = useState('')
   const [description, setDescription] = useState('')
   const [collaborators, setCollaborators] = useState('')
+  const [selectedCollaborators, setSelectedCollaborators] = useState([])
 
   let collaboratorsArray = []
 
@@ -178,21 +94,21 @@ const ProjectsSection = () => {
       })
   }, [accessToken, dispatch, userID])
 
-  const handleCollaboratorsInput = (e) => {
-    setCollaborators(e.target.value)
+  // const handleCollaboratorsInput = (e) => {
+  //   setCollaborators(e.target.value)
 
-    collaboratorsArray = collaborators.split(', ')
-    console.log(collaboratorsArray)
-  }
+  //   collaboratorsArray = collaborators.split(', ')
+  //   console.log(collaboratorsArray)
+  // }
 
   const handleFormSubmit = () => {
-      const options = {
+    const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': accessToken
       },
-      body: JSON.stringify({ name: projectName, description: description, collaborators: collaboratorsArray })
+      body: JSON.stringify({ name: projectName, description: description, collaborators: selectedCollaborators })
     }
 
     console.log(collaboratorsArray)
@@ -214,44 +130,18 @@ const ProjectsSection = () => {
     <Section>
       <AddProjectButton to="/authenticated/projects/new">+ ADD</AddProjectButton>
       <Route path="/authenticated/projects/new">
-        <ModalContainer>
-          <Modal>
-            <NewProjectForm>
-              <SubContainer>
-                <Label htmlFor="input-project-name">Project name</Label>
-                <InputField 
-                  id="input-project-name"
-                  type="text" 
-                  value={projectName} 
-                  onChange={(e) => setProjectName(e.target.value)} 
-                />
-                <Label htmlFor="input-project-description">Description</Label>
-                <InputField 
-                  id="input-project-description"
-                  type="text" 
-                  value={description} 
-                  onChange={(e) => setDescription(e.target.value)} 
-                />
-                <Label htmlFor="input-collaborators">Collaborators</Label>
-                <InputField 
-                  id="input-collaborators"
-                  type="text" 
-                  value={collaborators} 
-                  onChange={handleCollaboratorsInput} 
-                />
-              </SubContainer>
-              <ButtonsContainer>
-                <CreateProjectButton 
-                  type="button"
-                  onClick={handleFormSubmit}
-                >
-                  ADD
-                </CreateProjectButton>
-                <CancelButton to="/authenticated/projects">CANCEL</CancelButton>
-              </ButtonsContainer>
-            </NewProjectForm>
-          </Modal>
-        </ModalContainer>
+        <Modal
+          projectName={projectName}
+          setProjectName={setProjectName}
+          description={description}
+          setDescription={setDescription}
+          collaborators={collaborators}
+          setCollaborators={setCollaborators}
+          // handleCollaboratorsInput={handleCollaboratorsInput}
+          selectedCollaborators={selectedCollaborators}
+          setSelectedCollaborators={setSelectedCollaborators}
+          handleFormSubmit={handleFormSubmit}
+        />
       </Route>
       <ProjectsWrapper>
         {items.map(item => (

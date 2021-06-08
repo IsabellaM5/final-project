@@ -123,10 +123,10 @@ const AuthenticatedPage = () => {
           </NavBar>
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
-        <Route exact path="/authenticated/projects">
+        <Route path="/authenticated/projects">
           <ProjectsSection />
         </Route>
-        <Route path="/authenticated/projects/:projectID/tasks">
+        <Route path="/authenticated/:projectID/tasks">
           <TasksSection />
         </Route>
       </ContentWrapper>

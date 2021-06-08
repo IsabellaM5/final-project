@@ -193,7 +193,7 @@ const TasksSection = () => {
         console.log(data)
         if (data.success) {
           dispatch(tasks.actions.setNewTask(data))
-          history.push(`/authenticated/projects/${projectID}/tasks`)
+          history.push(`/authenticated/${projectID}/tasks`)
         } else {
           dispatch(tasks.actions.setErrors(data))
         }
@@ -202,8 +202,8 @@ const TasksSection = () => {
 
   return (
     <Section>
-      <AddTaskButton to={`/authenticated/projects/${projectID}/tasks/new`}>+ ADD</AddTaskButton>
-      <Route path="/authenticated/projects/:projectID/tasks/new">
+      <AddTaskButton to={`/authenticated/${projectID}/tasks/new`}>+ ADD</AddTaskButton>
+      <Route path="/authenticated/:projectID/tasks/new">
         <ModalContainer>
           <Modal>
             <NewTaskForm>
@@ -232,7 +232,7 @@ const TasksSection = () => {
               </SubContainer>
               <ButtonsContainer>
                 <CreateTaskButton type="button" onClick={handleFormSubmit}>ADD</CreateTaskButton>
-                <CancelButton to={`/authenticated/projects/${projectID}/tasks`}>CANCEL</CancelButton>
+                <CancelButton to={`/authenticated/${projectID}/tasks`}>CANCEL</CancelButton>
               </ButtonsContainer>
             </NewTaskForm>
           </Modal>

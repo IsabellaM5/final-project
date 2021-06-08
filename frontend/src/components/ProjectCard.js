@@ -47,7 +47,7 @@ const ProjectLink = styled(Link)`
 
 const ProjectCard = ({ item }) => {
   return (
-    <ProjectLink to={`/authenticated/projects/${item._id}/tasks`}>
+    <ProjectLink to={`/authenticated/${item._id}/tasks`}>
       <ProjectContainer image={item.image}>
         <ProjectName>{item.name}</ProjectName>
         <ProjectDescription>{item.description}</ProjectDescription>
