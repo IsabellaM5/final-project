@@ -54,7 +54,7 @@ export const newTask = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      taskID: task._id,
+      _id: task._id,
       title: task.title,
       description: task.description,
       taskOwner: task.taskOwner,
@@ -104,6 +104,7 @@ export const patchTask = async (req, res) => {
     if (updatedTask) {
       res.status(200).json({ 
         success: true, 
+        _id: taskID,
         updated: req.body 
       })
     } else {
