@@ -40,6 +40,7 @@ router.use(authenticateUser)
 
 // USER
 router.get('/sessions/users', user.getAllUsers)
+router.get('/sessions/:userID', user.getUser)
 router.delete('/sessions/:userID', user.deleteUser)
 router.patch('/sessions/:userID', user.patchUser)
 
@@ -49,6 +50,7 @@ router.post('/sessions/:userID/projects', projects.newProject)
 router.delete('/sessions/projects/:projectID', projects.deleteProject)
 router.patch('/sessions/projects/:projectID', projects.patchProject)
 router.patch('/sessions/projects/:projectID/collaborators', projects.patchCollaborators)
+router.patch('/sessions/projects/:projectID/collaborators/delete', projects.deleteCollaborator)
 
 // TASKS
 router.get('/sessions/projects/:projectID/tasks', tasks.getTasks)

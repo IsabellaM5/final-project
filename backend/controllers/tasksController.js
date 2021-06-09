@@ -54,11 +54,7 @@ export const newTask = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      _id: task._id,
-      title: task.title,
-      description: task.description,
-      taskOwner: task.taskOwner,
-      comments: task.comments
+      task
     })
   } catch (error) {
     res.status(400).json({ 
@@ -105,7 +101,7 @@ export const patchTask = async (req, res) => {
       res.status(200).json({ 
         success: true, 
         _id: taskID,
-        updated: req.body 
+        updatedTask,
       })
     } else {
       res.status(404).json({ 

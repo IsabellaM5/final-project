@@ -39,11 +39,7 @@ export const newProject = async (req, res) => {
   
     res.status(201).json({ 
       success: true,
-      _id: project._id,
-      name: project.name, 
-      description: project.description,
-      collaborators: project.collaborators,
-      projectOwner: project.projectOwner
+      project
     })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
@@ -79,7 +75,7 @@ export const patchProject = async (req, res) => {
     const updatedProject = await Project.findByIdAndUpdate(projectID, req.body, { new: true })
 
     if (updatedProject) {
-      res.status(200).json({ success: true, _id: projectID, updated: req.body })
+      res.status(200).json({ success: true, updatedProject })
     } else {
       res.status(404).json({ success: false, message: 'Could not find project' })
     }
@@ -103,7 +99,33 @@ export const patchCollaborators = async (req, res) => {
     const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaboratorsArray }, { new: true })
 
     if (updatedProject) {
-      res.status(200).json({ success: true, _id: projectID, updated: req.body })
+      res.status(200).json({ success: true, updatedProject })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not find project' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update project', error })
+  }
+}
+
+export const deleteCollaborator = async (req, res) => {
+  const { projectID } = req.params
+  
+  try {
+    let newCollaboratorsArray = []
+    const getProject = await Project.findById(projectID)
+    const collaborator = await User.findOne({ username: req.body.username })
+    const selectedCollaborator = collaborator._id.toString()
+
+    for (const collab of getProject.collaborators) {
+      if (collab !== selectedCollaborator) {
+        newCollaboratorsArray.push(collab)
+      }
+    }
+
+    const updateCollaborators = await Project.findByIdAndUpdate(projectID, { collaborators: newCollaboratorsArray }, { new: true })
+    if (updateCollaborators) {
+      res.status(200).json({ success: true, updateCollaborators })
     } else {
       res.status(404).json({ success: false, message: 'Could not find project' })
     }

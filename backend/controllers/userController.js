@@ -16,6 +16,18 @@ export const getAllUsers = async (req, res) => {
   }
 }
 
+export const getUser = async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const singleUser = await User.findById(userID)
+
+    res.status(201).json({ success: true, singleUser })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Could not get user', error })
+  }
+}
+
 export const signUp = async (req, res) => {
   const { username, password, email } = req.body
 
