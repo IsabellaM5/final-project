@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import Chip from '@material-ui/core/Chip'
+import Select from 'react-select'
 
 import { API_URL, GET_USERS } from 'reusable/urls'
 
@@ -22,54 +23,53 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-const SearchFieldInput = styled.input`
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
-  position: relative;
+// const SearchFieldInput = styled.input`
+//   border-radius: 4px;
+//   height: 30px;
+//   border: none;
+//   background: #9c92ac;
+//   position: relative;
   
-  &:focus {
-    outline: none;
-  }
-`
+//   &:focus {
+//     outline: none;
+//   }
+// `
 
-const SearchOptionsContainer = styled.ul`
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  margin-top: 52px;
-  position: fixed;
-  align-self: stretch;
-  /* width: 100%; */
-`
+// const SearchOptionsContainer = styled.ul`
+//   list-style: none;
+//   padding: 0;
+//   display: flex;
+//   flex-direction: column;
+//   margin-top: 52px;
+//   position: fixed;
+//   align-self: stretch;
+//   /* width: 100%; */
+// `
 
-const SearchOptions = styled.li`
-  font-size: 1.6em;
-  text-decoration: none;
-  cursor: pointer;
-  background: #e0e0e0;
-  border-bottom: solid 2px #ffffff;
-  padding: 5px;
-  width: 100%;
+// const SearchOptions = styled.li`
+//   font-size: 1.6em;
+//   text-decoration: none;
+//   cursor: pointer;
+//   background: #e0e0e0;
+//   border-bottom: solid 2px #ffffff;
+//   padding: 5px;
+//   width: 100%;
 
-  &:last-child {
-    border-radius: 0px 0px 4px 4px;
-  }
-`
+//   &:last-child {
+//     border-radius: 0px 0px 4px 4px;
+//   }
+// `
 
 const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, setSelectedCollaborators }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
 
+  const [selectedOption, setSelectedOption] = useState(null)
+
   const dispatch = useDispatch()
-  
-  const [inputFieldFocus, setInputFieldFocus] = useState(false)
-  const [userArray, setUserArray] = useState(users)
 
   useEffect(() => {
-    const options = {
+    const config = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
       }
     }
 
-    fetch(API_URL(GET_USERS), options)
+    fetch(API_URL(GET_USERS), config)
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -89,16 +89,13 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
       })
   }, [accessToken, dispatch])
 
-  const filterSearchOptions = () => {
-    const filteredArray = users.filter(user => user.toLowerCase().includes(collaborators.toLowerCase()))
-    setUserArray(filteredArray)
-  }
-
   const handleOptionClick = (e) => {
-    console.log(typeof e.target.innerText)
-    let collabArray = ''
+    setSelectedOption(e.target.value)
 
-    collabArray = e.target.innerText
+    let collabArray = ''
+    console.log(selectedOption)
+
+    collabArray = selectedOption
     setSelectedCollaborators(array => [...array, collabArray])
   }
 
@@ -117,7 +114,12 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
           ))}
         </ChipsContainer>
       )}
-      <SearchFieldInput 
+      <Select
+        defaultValue={selectedOption}
+        onChange={handleOptionClick}
+        options={users}
+      />
+      {/* <SearchFieldInput 
         id="input-collaborators"
         type="text"
         value={collaborators} 
@@ -138,7 +140,7 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
             </SearchOptions>
           ))}
         </SearchOptionsContainer>
-      )}
+      )} */}
     </SearchFieldContainer>
   )
 }
