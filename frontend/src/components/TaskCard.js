@@ -1,6 +1,21 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
+import { Link, Route } from 'react-router-dom'
+import { FaTrashAlt, FaEdit } from 'react-icons/fa'
+
+import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
+
+import tasks from 'reducers/tasks'
+
+import EditTask from 'components/EditTask'
+import Icon from 'components/Icon'
+
+const TaskLink = styled(Link)`
+  text-decoration: none;
+  color: #000000;
+`
 
 const TaskContainer = styled.div`
   background: #dfdbe5;
@@ -9,6 +24,8 @@ const TaskContainer = styled.div`
   border-radius: 15px;
   display: flex;
   align-items: center;
+  padding: 10px;
+  justify-content: space-between;
 `
 
 const Title = styled.p`
@@ -18,16 +35,64 @@ const Title = styled.p`
   font-weight: 500;
 `
 
-const TaskLink = styled(Link)`
-  text-decoration: none;
-  color: #000000;
+const ButtonsContainer = styled.div`
+  display: flex;
+  align-self: flex-start;
 `
 
 const TaskCard = ({ item, projectID }) => {
+  const accessToken = useSelector(store => store.user.info.accessToken)
+
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  console.log(API_URL(SINGLE_TASK_URL(projectID, item._id)))
+
+  const handleDeleteTask = (apiMethod) => {
+    const config = {
+      method: apiMethod,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken
+      }
+    }
+
+    fetch(API_URL(SINGLE_TASK_URL(projectID, item._id)), config)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          dispatch(tasks.actions.deleteTask(data))
+        } else {
+          dispatch(tasks.actions.setErrors(data))
+        }
+      })
+  }
+
+  const handleEditTask = () => {
+    history.push(`/authenticated/${projectID}/tasks/${item._id}`)
+  }
+
   return (
-    <TaskLink to={`/authenticated/${projectID}/${item._id}`}>
+    <TaskLink to={`/authenticated/${projectID}/tasks/${item._id}`}>
       <TaskContainer>
         <Title>{item.title}</Title>
+        <ButtonsContainer>
+          <Icon 
+            icon={<FaEdit size="15" />}
+            handleIconClick={handleEditTask}
+          />
+          <Icon 
+            icon={<FaTrashAlt size="15" />} 
+            handleIconClick={handleDeleteTask}
+            apiMethod={'DELETE'} 
+          />
+        </ButtonsContainer>
+        <Route path="/authenticated/:projectID/tasks/:itemID">
+          <EditTask 
+            item={item}
+          />
+        </Route>
       </TaskContainer>
     </TaskLink>
   )

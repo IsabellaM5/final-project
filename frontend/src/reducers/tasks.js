@@ -12,6 +12,26 @@ const tasks = createSlice ({
     setNewTask: (store, action) => {
       store.items = [...store.items, action.payload]
     },
+    editTask: (store, action) => {
+      const findItem = store.items.find(item => item._id === action.payload._id)
+
+      const updatedItem = store.items.map((item) => {
+        if (item._id === findItem._id) {
+          return {
+            title: action.payload.updated.title,
+            description: action.payload.updated.description,
+            comments: action.payload.updated.comments
+          }
+        } else {
+          return item
+        }
+      })
+      store.items = updatedItem
+    },
+    deleteTask: (store, action) => {
+      const filterItems = store.items.filter(item => item._id !== action.payload.deletedTask._id)
+      store.items = filterItems
+    },
     setErrors: (store, action) => {
       store.errors = action.payload
     }
