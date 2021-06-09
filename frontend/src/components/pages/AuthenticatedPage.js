@@ -6,6 +6,7 @@ import { Route, Link } from 'react-router-dom'
 
 import user from 'reducers/user'
 
+import ProfileSection from 'components/ProfileSection'
 import ProjectsSection from 'components/ProjectsSection'
 import TasksSection from 'components/TasksSection'
 
@@ -123,6 +124,9 @@ const AuthenticatedPage = () => {
           </NavBar>
           <SignOutButton onClick={handleSignOut}>SIGN OUT</SignOutButton>
         </NavbarContainer>
+        <Route path="/authenticated/profile">
+          <ProfileSection />
+        </Route>
         <Route path="/authenticated/projects">
           <ProjectsSection />
         </Route>
