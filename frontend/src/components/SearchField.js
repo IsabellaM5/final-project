@@ -89,9 +89,7 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
       })
   }, [accessToken, dispatch])
 
-  const handleOptionClick = (e) => {
-    setSelectedOption(e.target.value)
-
+  const handleOptionClick = () => {
     let collabArray = ''
     console.log(selectedOption)
 
@@ -115,8 +113,12 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
         </ChipsContainer>
       )}
       <Select
+        value={selectedOption}
         defaultValue={selectedOption}
-        onChange={handleOptionClick}
+        onChange={(e, newValue) => {
+          setSelectedOption(newValue)
+          handleOptionClick()
+        }}
         options={users}
       />
       {/* <SearchFieldInput 
