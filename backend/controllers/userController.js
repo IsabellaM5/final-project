@@ -8,7 +8,7 @@ export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
     for (const user of users) {
-      usersArray.push(user.username) 
+      usersArray.push({ value: user.username.toLowerCase(), label: user.username }) 
     }
     res.status(201).json({ success: true, usersArray })
   } catch (error) {
