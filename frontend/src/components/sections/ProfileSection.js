@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
 
-import { API_URL, PROJECTS_URL } from 'reusable/urls'
+import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 
 import user from 'reducers/user'
 import projects from 'reducers/projects'
@@ -24,6 +24,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
+`
+
+const TotalProjectsWrapper = styled.div`
+
 `
 
 const Avatar = styled.img`
@@ -32,11 +37,11 @@ const Avatar = styled.img`
 `
 
 const Title = styled.h2`
-
+  font-size: 1.8em;
 `
 
 const Info = styled.p`
-
+  font-size: 1.6em;
 `
 
 const Diagram = styled.img`
@@ -56,6 +61,7 @@ const CollabContainer = styled.div`
 
 const Collaborator = styled.p`
   margin-left: 10px;
+  font-size: 1.6em;
 `
 
 
@@ -95,15 +101,15 @@ const ProfileSection = () => {
       }
     }
 
-    fetch(API_URL(`sessions/${info.userID}`), options)
+    fetch(API_URL(SINGLE_USER(info.userID)), options)
       .then(res => res.json())
       .then(data => {
         console.log(data)
         if (data.success) {
           batch(() => {
-            dispatch(user.actions.setRole(data.role))
-            dispatch(user.actions.setName(data.name))
-            dispatch(user.actions.setBio(data.bio))
+            dispatch(user.actions.setRole(data.singleUser.role))
+            dispatch(user.actions.setName(data.singleUser.name))
+            dispatch(user.actions.setBio(data.singleUser.bio))
           })
         } else {
           dispatch(user.actions.setErrors(data))
@@ -126,10 +132,12 @@ const ProfileSection = () => {
           <Info>{info.bio}</Info>
         </Container>
         <Container>
-          <Title>Total projects ongoing: {totalProjects.length}</Title>
-          <Diagram src="https://via.placeholder.com/200"/>
+          <TotalProjectsWrapper>
+            <Title>Total projects ongoing: {totalProjects.length}</Title>
+            <Diagram src="https://via.placeholder.com/200"/>
+          </TotalProjectsWrapper>
           <CollaboratorsContainer>
-            <Title>Collaborators:</Title>
+            <Title>Collaborators</Title>
             <CollabContainer>
               <Avatar src="https://via.placeholder.com/40"/>
               <Collaborator>Name</Collaborator>
