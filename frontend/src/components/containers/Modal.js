@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 
-import SearchField from 'components/SearchField'
+import InputField from 'components/reusable/InputField'
+import SearchField from 'components/reusable/SearchField'
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -24,6 +25,7 @@ const ModalSubContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 50vh;
 `
 
 const NewProjectForm = styled.form`
@@ -34,33 +36,14 @@ const NewProjectForm = styled.form`
   grid-gap: 20px;
   padding: 40px;
   border-radius: 20px;
+  height: 100%;
 `
 
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const Label = styled.label`
-  font-size: 1.6em;
-  margin-bottom: 5px;
-`
-
-const InputField = styled.input`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
-`
-
-const Textarea = styled.textarea`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  resize: none;
-  height: 70px;
+  height: 100%;
+  justify-content: space-evenly;
 `
 
 const ButtonsContainer = styled.div`
@@ -111,19 +94,34 @@ const Modal = ({ projectName, setProjectName, description, setDescription, selec
       <ModalSubContainer>
         <NewProjectForm>
           <SubContainer>
-            <Label htmlFor="input-project-name">Project name</Label>
+            <InputField 
+              id="input-project-name"
+              label="Project name"
+              type="text" 
+              value={projectName} 
+              handleChange={setProjectName} 
+            />
+            <InputField
+              id="input-project-description"
+              label="Description"
+              type="text"
+              value={description} 
+              multiline={true}
+              handleChange={setDescription} 
+            />
+            {/* <Label htmlFor="input-project-name">Project name</Label>
             <InputField 
               id="input-project-name"
               type="text" 
               value={projectName} 
               onChange={(e) => setProjectName(e.target.value)} 
-            />
-            <Label htmlFor="input-project-description">Description</Label>
+            /> */}
+            {/* <Label htmlFor="input-project-description">Description</Label>
             <Textarea 
               id="input-project-description"
               value={description} 
               onChange={(e) => setDescription(e.target.value)} 
-            />
+            /> */}
           </SubContainer>
           <SearchField 
             selectedCollaborators={selectedCollaborators}

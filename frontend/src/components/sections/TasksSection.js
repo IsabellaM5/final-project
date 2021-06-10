@@ -7,7 +7,9 @@ import { API_URL, TASKS_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-import TaskCard from 'components/TaskCard'
+import TaskCard from 'components/containers/TaskCard'
+import EditTask from 'components/containers/EditTask'
+import InputField from 'components/reusable/InputField'
 
 const Section = styled.section`
   width: 85%;
@@ -57,7 +59,7 @@ const AddTaskButton = styled(Link)`
   }
 `
 
-const ModalContainer = styled.div`
+const TaskModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -70,7 +72,7 @@ const ModalContainer = styled.div`
   z-index: 2;
 `
 
-const Modal = styled.div`
+const TaskModal = styled.div`
   background: #ffffff;
   width: 50%;
   border-radius: 15px;
@@ -92,19 +94,6 @@ const NewTaskForm = styled.form`
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const Label = styled.label`
-  font-size: 1.6em;
-  margin-bottom: 5px;
-`
-
-const InputField = styled.input`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
 `
 
 const ButtonsContainer = styled.div`
@@ -204,30 +193,32 @@ const TasksSection = () => {
     <Section>
       <AddTaskButton to={`/authenticated/${projectID}/tasks/new`}>+ ADD</AddTaskButton>
       <Route path="/authenticated/:projectID/tasks/new">
-        <ModalContainer>
-          <Modal>
+        <TaskModalContainer>
+          <TaskModal>
             <NewTaskForm>
-            <SubContainer>
-                <Label htmlFor="input-task-title">Title</Label>
+              <SubContainer>
                 <InputField 
                   id="input-task-title"
+                  label="Task title"
                   type="text" 
                   value={taskTitle} 
-                  onChange={(e) => setTaskTitle(e.target.value)} 
+                  handleChange={setTaskTitle} 
                 />
-                <Label htmlFor="input-task-description">Description</Label>
                 <InputField 
                   id="input-task-description"
+                  label="Description"
                   type="text" 
+                  multiline={true}
                   value={description} 
-                  onChange={(e) => setDescription(e.target.value)} 
+                  handleChange={setDescription} 
                 />
-                <Label htmlFor="input-comments">Comments</Label>
                 <InputField 
-                  id="input-comments"
+                  id="input-task-comments"
+                  label="Comments"
                   type="text" 
+                  multiline={true}
                   value={comments} 
-                  onChange={(e) => setComments(e.target.value)}
+                  handleChange={setComments} 
                 />
               </SubContainer>
               <ButtonsContainer>
@@ -235,19 +226,27 @@ const TasksSection = () => {
                 <CancelButton to={`/authenticated/${projectID}/tasks`}>CANCEL</CancelButton>
               </ButtonsContainer>
             </NewTaskForm>
-          </Modal>
-        </ModalContainer>
+          </TaskModal>
+        </TaskModalContainer>
       </Route>
 
-      <TasksWrapper>
+        <TasksWrapper>
         {items.map(item => (
-          <TaskCard 
-            key={item._id} 
-            item={item}
-            projectID={projectID} 
-          />
+          <>
+            <TaskCard 
+              key={item._id} 
+              item={item}
+              projectID={projectID} 
+            />
+            <Route path="/authenticated/:projectID/tasks/task/:itemID">
+              <EditTask 
+                item={item}
+              />
+            </Route>
+          </>
         ))}
-      </TasksWrapper>
+        </TasksWrapper>
+
     </Section>
   )
 }

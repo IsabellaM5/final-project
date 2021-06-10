@@ -7,8 +7,8 @@ import { API_URL, PROJECTS_URL } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-import ProjectCard from 'components/ProjectCard'
-import Modal from 'components/Modal'
+import ProjectCard from 'components/containers/ProjectCard'
+import Modal from 'components/containers/Modal'
 
 const Section = styled.section`
   width: 85%;

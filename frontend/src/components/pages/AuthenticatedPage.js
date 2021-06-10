@@ -6,9 +6,9 @@ import { Route, Link } from 'react-router-dom'
 
 import user from 'reducers/user'
 
-import ProfileSection from 'components/ProfileSection'
-import ProjectsSection from 'components/ProjectsSection'
-import TasksSection from 'components/TasksSection'
+import ProfileSection from 'components/sections/ProfileSection'
+import ProjectsSection from 'components/sections/ProjectsSection'
+import TasksSection from 'components/sections/TasksSection'
 
 const MainContainer = styled.div`
   height: 100vh;

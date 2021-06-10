@@ -4,6 +4,8 @@ import styled from 'styled-components/macro'
 
 import { SIGN_IN } from 'reusable/urls'
 
+import InputField from 'components/reusable/InputField'
+
 const MainHeading = styled.h1`
   font-size: 3.2em;
 `
@@ -22,19 +24,8 @@ const Form = styled.form`
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const Label = styled.label`
-  font-size: 1.6em;
-  margin-bottom: 5px;
-`
-
-const InputField = styled.input`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
+  height: 30%;
+  justify-content: space-evenly;
 `
 
 const SignInButton = styled.button`
@@ -88,19 +79,19 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
     <Form>
       <MainHeading>SIGN IN</MainHeading>
       <SubContainer> 
-        <Label htmlFor="input-username">Username</Label>
         <InputField 
           id="input-username"
+          label="Username"
           type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
+          value={username}
+          handleChange={setUsername} 
         />
-        <Label htmlFor="input-password">Password</Label>
         <InputField 
           id="input-password"
+          label="Password"
           type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
+          value={password}
+          handleChange={setPassword} 
         />
       </SubContainer>
 

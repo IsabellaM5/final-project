@@ -13,6 +13,7 @@ const SearchFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  justify-content: flex-end;
 `
 
 const ChipsContainer = styled.div`
@@ -58,6 +59,19 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
 
   return (
     <SearchFieldContainer>
+      <Autocomplete
+        id="autocomplete"
+        value={selectedOption || ''}
+        onChange={(event, v) => {
+          setSelectedOption(v)
+          setSelectedCollaborators([...selectedCollaborators, v])
+        }}
+        options={usersArray}
+        style={{ width: 300, marginBottom: 'auto' }}
+        renderInput={(params) => (
+          <TextField {...params} label="Users" variant="outlined" />
+        )}
+      />
       <Label htmlFor="input-collaborators">Collaborators</Label>
       {selectedCollaborators.length > 0 && (
         <ChipsContainer 
@@ -72,19 +86,6 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
           ))}
         </ChipsContainer>
       )}
-      <Autocomplete
-        id="autocomplete"
-        value={selectedOption || ''}
-        onChange={(event, v) => {
-          setSelectedOption(v)
-          setSelectedCollaborators([...selectedCollaborators, v])
-        }}
-        options={usersArray}
-        style={{ width: 300 }}
-        renderInput={(params) => (
-          <TextField {...params} label="Users" variant="outlined" />
-        )}
-      />
     </SearchFieldContainer>
   )
 }

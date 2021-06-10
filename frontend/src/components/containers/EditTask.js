@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import { Link, useParams } from 'react-router-dom'
@@ -7,6 +7,8 @@ import { Link, useParams } from 'react-router-dom'
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
+
+import InputField from 'components/reusable/InputField'
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -45,18 +47,18 @@ const SubContainer = styled.div`
   flex-direction: column;
 `
 
-const Label = styled.label`
-  font-size: 1.6em;
-  margin-bottom: 5px;
-`
+// const Label = styled.label`
+//   font-size: 1.6em;
+//   margin-bottom: 5px;
+// `
 
-const InputField = styled.input`
-  margin-bottom: 10px;
-  border-radius: 4px;
-  height: 30px;
-  border: none;
-  background: #9c92ac;
-`
+// const InputField = styled.input`
+//   margin-bottom: 10px;
+//   border-radius: 4px;
+//   height: 30px;
+//   border: none;
+//   background: #9c92ac;
+// `
 
 const Textarea = styled.textarea`
   margin-bottom: 10px;
@@ -151,7 +153,30 @@ const EditTask = ({ item }) => {
       <ModalSubContainer>
         <EditTaskForm>
           <SubContainer>
-            <Label htmlFor="input-task-title">Title</Label>
+            {/* <InputField 
+              id="input-task-title"
+              label="Task title"
+              type="text" 
+              value={taskTitle} 
+              handleChange={setTaskTitle} 
+            />
+            <InputField 
+              id="input-task-description"
+              label="Description"
+              type="text" 
+              multiline={true}
+              value={taskDesc} 
+              handleChange={setTaskDesc} 
+            />
+            <InputField 
+              id="input-task-comments"
+              label="Comments"
+              type="text" 
+              multiline={true}
+              value={taskComments} 
+              handleChange={setTaskComments} 
+            /> */}
+            {/* <Label htmlFor="input-task-title">Title</Label>
             <InputField 
               id="input-task-title"
               type="text" 
@@ -171,7 +196,7 @@ const EditTask = ({ item }) => {
               type="text" 
               value={taskComments} 
               onChange={(e) => setTaskComments(e.target.value)}
-            />
+            /> */}
           </SubContainer>
           <ButtonsContainer>
             <SaveButton 

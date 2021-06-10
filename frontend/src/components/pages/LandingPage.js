@@ -7,8 +7,8 @@ import user from 'reducers/user'
 
 import { API_URL } from 'reusable/urls'
 
-import SignInForm from 'components/SignInForm'
-import SignUpForm from 'components/SignUpForm'
+import SignInForm from 'components/containers/SignInForm'
+import SignUpForm from 'components/containers/SignUpForm'
 
 const MainContainer = styled.div`
   height: 100vh;

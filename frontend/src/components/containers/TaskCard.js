@@ -9,8 +9,8 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-import EditTask from 'components/EditTask'
-import Icon from 'components/Icon'
+// import EditTask from 'components/containers/EditTask'
+import Icon from 'components/minor/Icon'
 
 const TaskLink = styled(Link)`
   text-decoration: none;
@@ -70,11 +70,11 @@ const TaskCard = ({ item, projectID }) => {
   }
 
   const handleEditTask = () => {
-    history.push(`/authenticated/${projectID}/tasks/${item._id}`)
+    history.push(`/authenticated/${projectID}/tasks/task/${item._id}`)
   }
 
   return (
-    <TaskLink to={`/authenticated/${projectID}/tasks/${item._id}`}>
+    <TaskLink to={`/authenticated/${projectID}/tasks/task/${item._id}`}>
       <TaskContainer>
         <Title>{item.title}</Title>
         <ButtonsContainer>
@@ -88,11 +88,11 @@ const TaskCard = ({ item, projectID }) => {
             apiMethod={'DELETE'} 
           />
         </ButtonsContainer>
-        <Route path="/authenticated/:projectID/tasks/:itemID">
+        {/* <Route path="/authenticated/:projectID/tasks/:itemID">
           <EditTask 
             item={item}
           />
-        </Route>
+        </Route> */}
       </TaskContainer>
     </TaskLink>
   )
