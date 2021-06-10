@@ -105,7 +105,7 @@ const CancelButton = styled(Link)`
   }
 `
 
-const Modal = ({ projectName, setProjectName, description, setDescription, collaborators, setCollaborators, selectedCollaborators, setSelectedCollaborators, handleCollaboratorsInput, handleFormSubmit }) => {
+const Modal = ({ projectName, setProjectName, description, setDescription, selectedCollaborators, setSelectedCollaborators, handleFormSubmit }) => {
   return (
     <ModalContainer>
       <ModalSubContainer>
@@ -126,8 +126,6 @@ const Modal = ({ projectName, setProjectName, description, setDescription, colla
             />
           </SubContainer>
           <SearchField 
-            collaborators={collaborators} 
-            setCollaborators={setCollaborators}
             selectedCollaborators={selectedCollaborators}
             setSelectedCollaborators={setSelectedCollaborators}
           />

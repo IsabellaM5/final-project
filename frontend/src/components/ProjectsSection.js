@@ -61,7 +61,6 @@ const AddProjectButton = styled(Link)`
 const ProjectsSection = () => {
   const [projectName, setProjectName] = useState('')
   const [description, setDescription] = useState('')
-  const [collaborators, setCollaborators] = useState('')
   const [selectedCollaborators, setSelectedCollaborators] = useState([])
 
   let collaboratorsArray = []
@@ -93,13 +92,6 @@ const ProjectsSection = () => {
         }
       })
   }, [accessToken, dispatch, userID])
-
-  // const handleCollaboratorsInput = (e) => {
-  //   setCollaborators(e.target.value)
-
-  //   collaboratorsArray = collaborators.split(', ')
-  //   console.log(collaboratorsArray)
-  // }
 
   const handleFormSubmit = () => {
     const options = {
@@ -135,9 +127,6 @@ const ProjectsSection = () => {
           setProjectName={setProjectName}
           description={description}
           setDescription={setDescription}
-          collaborators={collaborators}
-          setCollaborators={setCollaborators}
-          // handleCollaboratorsInput={handleCollaboratorsInput}
           selectedCollaborators={selectedCollaborators}
           setSelectedCollaborators={setSelectedCollaborators}
           handleFormSubmit={handleFormSubmit}

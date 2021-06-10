@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import Chip from '@material-ui/core/Chip'
-import Select from 'react-select'
+import TextField from '@material-ui/core/TextField'
+import Autocomplete from "@material-ui/lab/Autocomplete"
 
 import { API_URL, GET_USERS } from 'reusable/urls'
 
@@ -23,48 +24,14 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-// const SearchFieldInput = styled.input`
-//   border-radius: 4px;
-//   height: 30px;
-//   border: none;
-//   background: #9c92ac;
-//   position: relative;
-  
-//   &:focus {
-//     outline: none;
-//   }
-// `
-
-// const SearchOptionsContainer = styled.ul`
-//   list-style: none;
-//   padding: 0;
-//   display: flex;
-//   flex-direction: column;
-//   margin-top: 52px;
-//   position: fixed;
-//   align-self: stretch;
-//   /* width: 100%; */
-// `
-
-// const SearchOptions = styled.li`
-//   font-size: 1.6em;
-//   text-decoration: none;
-//   cursor: pointer;
-//   background: #e0e0e0;
-//   border-bottom: solid 2px #ffffff;
-//   padding: 5px;
-//   width: 100%;
-
-//   &:last-child {
-//     border-radius: 0px 0px 4px 4px;
-//   }
-// `
-
-const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, setSelectedCollaborators }) => {
+const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
 
-  const [selectedOption, setSelectedOption] = useState(null)
+  const usersArray = users.map(user => user.label)
+  console.log(selectedCollaborators)
+
+  const [selectedOption, setSelectedOption] = useState(usersArray[0])
 
   const dispatch = useDispatch()
 
@@ -89,14 +56,6 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
       })
   }, [accessToken, dispatch])
 
-  const handleOptionClick = () => {
-    let collabArray = ''
-    console.log(selectedOption)
-
-    collabArray = selectedOption
-    setSelectedCollaborators(array => [...array, collabArray])
-  }
-
   return (
     <SearchFieldContainer>
       <Label htmlFor="input-collaborators">Collaborators</Label>
@@ -106,43 +65,26 @@ const SearchField = ({ collaborators, setCollaborators, selectedCollaborators, s
         >
           {selectedCollaborators.map(collab => (
             <Chip
+              key={collab}
               label={collab}
               size="small"
             />
           ))}
         </ChipsContainer>
       )}
-      <Select
-        value={selectedOption}
-        defaultValue={selectedOption}
-        onChange={(e, newValue) => {
-          setSelectedOption(newValue)
-          handleOptionClick()
+      <Autocomplete
+        id="autocomplete"
+        value={selectedOption || ''}
+        onChange={(event, v) => {
+          setSelectedOption(v)
+          setSelectedCollaborators([...selectedCollaborators, v])
         }}
-        options={users}
+        options={usersArray}
+        style={{ width: 300 }}
+        renderInput={(params) => (
+          <TextField {...params} label="Users" variant="outlined" />
+        )}
       />
-      {/* <SearchFieldInput 
-        id="input-collaborators"
-        type="text"
-        value={collaborators} 
-        onChange={(e) => setCollaborators(e.target.value)}
-        onKeyUp={filterSearchOptions}
-        onFocus={() => setInputFieldFocus(true)}
-        // onBlur={() => setInputFieldFocus(false)}
-        autoComplete="off"
-      />
-      {inputFieldFocus && (
-        <SearchOptionsContainer>
-          {userArray.map(user => (
-            <SearchOptions
-              key={user}
-              onClick={handleOptionClick}
-            >
-              {user}
-            </SearchOptions>
-          ))}
-        </SearchOptionsContainer>
-      )} */}
     </SearchFieldContainer>
   )
 }
