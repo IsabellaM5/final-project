@@ -63,6 +63,9 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
         id="autocomplete"
         value={selectedOption || ''}
         onChange={(event, v) => {
+          if (!v) {
+            return
+          }
           setSelectedOption(v)
           setSelectedCollaborators([...selectedCollaborators, v])
         }}
