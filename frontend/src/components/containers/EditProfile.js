@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
+import { API_URL, SINGLE_USER } from 'reusable/urls'
 
-import tasks from 'reducers/tasks'
+import user from 'reducers/user'
 
 import InputField from 'components/reusable/InputField'
 
@@ -47,40 +47,78 @@ const SubContainer = styled.div`
   flex-direction: column;
 `
 
-const EditProfile = () => {
-  const [name, setName] = useState('')
-  const [role, setRole] = useState('')
-  const [bio, setBio] = useState('')
+const ButtonsContainer = styled.div`
+  grid-column: 1 / 3;
+  display: flex;
+  justify-content: flex-end;
+`
 
-  const info = useSelector(store => store.user.info)
+const SaveButton = styled.button`
+  padding: 5px;
+  width: 50px;
+  font-family: "Montserrat";
+  border-radius: 4px;
+  border: none;
+  background: #9c92ac;
+  color: #ffffff;
+  margin: 5px;
+  font-size: 1.4em;
 
+  &:hover {
+    background: #c3bdcd;
+    cursor: pointer;
+  }
+`
+
+const CancelButton = styled(Link)`
+  padding: 5px;
+  width: 70px;
+  font-family: "Montserrat";
+  border-radius: 4px;
+  border: none;
+  background: #9c92ac;
+  color: #ffffff;
+  margin: 5px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.4em;
+
+  &:hover {
+    background: #c3bdcd;
+    cursor: pointer;
+  }
+`
+
+const EditProfile = ({ info, name, setName, role, setRole, bio, setBio }) => {
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
   const history = useHistory()
 
-  // const handleFormSubmit = () => {
-  //   const config = {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': accessToken
-  //     },
-  //     body: JSON.stringify({ name: editName, description: taskDesc, comments: taskComments })
-  //   }
+  const handleFormSubmit = () => {
+    const config = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken
+      },
+      body: JSON.stringify({ name: name ? name : info.name, role: role ? role : info.role, bio: bio ? bio : info.bio }) // change code here once it's fixed on backend
+    }
 
-  //   fetch(API_URL(SINGLE_TASK_URL(projectID, itemID)), config)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       if (data.success) {
-  //         dispatch(tasks.actions.editTask(data))
-  //         history.push(`/authenticated/${projectID}/tasks`)
-  //       } else {
-  //         dispatch(tasks.actions.setErrors(data))
-  //       }
-  //     })
-  // }
+    fetch(API_URL(SINGLE_USER(info.userID)), config)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          batch(() => {           
+            dispatch(user.actions.editUser(data.singleUser))
+            history.push('/authenticated/profile')
+          })
+        } else {
+          dispatch(user.actions.setErrors(data))
+        }
+      })
+  }
 
   return (
     <ModalContainer>
@@ -110,6 +148,15 @@ const EditProfile = () => {
               handleChange={setBio} 
             />
           </SubContainer>
+          <ButtonsContainer>
+            <SaveButton 
+              type="button"
+              onClick={handleFormSubmit}
+            >
+              ADD
+            </SaveButton>
+            <CancelButton to={'/authenticated/profile'}>CANCEL</CancelButton>
+          </ButtonsContainer>
         </EditProfileForm>
       </ModalSubContainer>
     </ModalContainer>

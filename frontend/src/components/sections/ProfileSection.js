@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { Route, useHistory } from 'react-router-dom'
@@ -7,7 +7,6 @@ import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 
 import user from 'reducers/user'
 import projects from 'reducers/projects'
-
 
 import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
@@ -27,6 +26,10 @@ const ProfileWrapper = styled.div`
 `
 
 const ProfileSection = () => {
+  const [name, setName] = useState('')
+  const [role, setRole] = useState('')
+  const [bio, setBio] = useState('')
+
   const info = useSelector(store => store.user.info)
   const totalProjects = useSelector(store => store.projects.items)
 
@@ -87,6 +90,12 @@ const ProfileSection = () => {
       <Route path="/authenticated/profile/edit">
         <EditProfile 
           info={info}
+          name={name}
+          setName={setName}
+          role={role}
+          setRole={setRole}
+          bio={bio}
+          setBio={setBio}
         />
       </Route>
     </Section>

@@ -53,6 +53,9 @@ const user = createSlice ({
     setBio: (store, action) => {
       store.info.bio = action.payload
     },
+    editUser: (store, action) => {
+      store.info = action.payload
+    },
     setErrors: (store, action) => {
       store.errors = action.payload
     },
