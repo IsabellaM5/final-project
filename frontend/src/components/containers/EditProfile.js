@@ -89,7 +89,7 @@ const CancelButton = styled(Link)`
   }
 `
 
-const EditProfile = ({ info, name, setName, role, setRole, bio, setBio }) => {
+const EditProfile = ({ info, name, setName, role, setRole, bio, setBio, email, setEmail }) => {
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
@@ -102,7 +102,7 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio }) => {
         'Content-Type': 'application/json',
         'Authorization': accessToken
       },
-      body: JSON.stringify({ name: name ? name : info.name, role: role ? role : info.role, bio: bio ? bio : info.bio }) // change code here once it's fixed on backend
+      body: JSON.stringify({ name, role, bio, email }) // change code here once it's fixed on backend
     }
 
     fetch(API_URL(SINGLE_USER(info.userID)), config)
@@ -111,8 +111,15 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio }) => {
         console.log(data)
         if (data.success) {
           batch(() => {           
-            dispatch(user.actions.editUser(data.singleUser))
+            dispatch(user.actions.editUser(data))
             history.push('/authenticated/profile')
+
+            localStorage.setItem('user', JSON.stringify({
+              name: data.name,
+              role: data.role,
+              bio: data.bio,
+              email: data.email
+            }))
           })
         } else {
           dispatch(user.actions.setErrors(data))
@@ -131,6 +138,14 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio }) => {
               type="text" 
               value={name}
               handleChange={setName} 
+            />
+            <InputField 
+              id="input-email"
+              label="Email"
+              type="email" 
+              multiline={true}
+              value={email}
+              handleChange={setEmail} 
             />
             <InputField 
               id="input-role"

@@ -1,35 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = localStorage.getItem('user') ? 
+const initialState = 
   {
     info: {
       userID: JSON.parse(localStorage.getItem('user')).userID,
       username: JSON.parse(localStorage.getItem('user')).username,
-      email: null,
+      email: '',
       accessToken: JSON.parse(localStorage.getItem('user')).accessToken,
-      role: null,
-      name: null,
-      bio: null,
-      image: null,
+      role: JSON.parse(localStorage.getItem('user')).role,
+      name: JSON.parse(localStorage.getItem('user')).name,
+      bio: JSON.parse(localStorage.getItem('user')).bio,
+      image: '',
     }, 
     errors: null,
     loading: false
   }
-  : 
-  {
-    info: {
-      userID: null,
-      username: null,
-      email: null,
-      accessToken: null,
-      role: null,
-      name: null,
-      bio: null,
-      image: null,
-    }, 
-    errors: null,
-    loading: false
-  }
+  
 
 const user = createSlice ({
   name: 'user',
@@ -40,6 +26,9 @@ const user = createSlice ({
     },
     setUsername: (store, action) => {
       store.info.username = action.payload
+    },
+    setEmail: (store, action) => {
+      store.info.email = action.payload
     },
     setAccessToken: (store, action) => {
       store.info.accessToken = action.payload
@@ -54,7 +43,11 @@ const user = createSlice ({
       store.info.bio = action.payload
     },
     editUser: (store, action) => {
-      store.info = action.payload
+      store.info.email = action.payload.email
+      store.info.name = action.payload.name
+      store.info.role = action.payload.role
+      store.info.bio = action.payload.bio
+      store.info.image = action.payload.image
     },
     setErrors: (store, action) => {
       store.errors = action.payload
@@ -63,6 +56,11 @@ const user = createSlice ({
       store.info.username = null
       store.info.accessToken = null
       store.errors = null
+      store.info.email = null
+      store.info.name = null
+      store.info.role = null
+      store.info.bio = null
+      store.info.image = null
     }
   }
 })

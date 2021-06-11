@@ -13,14 +13,14 @@ const tasks = createSlice ({
       store.items = [...store.items, action.payload]
     },
     editTask: (store, action) => {
-      const findItem = store.items.find(item => item._id === action.payload._id)
+      const findItem = store.items.find(item => item._id === action.payload.updatedTask._id)
 
       const updatedItem = store.items.map((item) => {
         if (item._id === findItem._id) {
           return {
-            title: action.payload.updated.title,
-            description: action.payload.updated.description,
-            comments: action.payload.updated.comments
+            title: action.payload.updatedTask.title,
+            description: action.payload.updatedTask.description,
+            comments: action.payload.updatedTask.comments
           }
         } else {
           return item

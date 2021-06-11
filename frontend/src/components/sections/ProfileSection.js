@@ -25,16 +25,18 @@ const ProfileWrapper = styled.div`
   padding: 0px 10px;
 `
 
-const ProfileSection = () => {
-  const [name, setName] = useState('')
-  const [role, setRole] = useState('')
-  const [bio, setBio] = useState('')
-
-  const info = useSelector(store => store.user.info)
+const ProfileSection = ({ info }) => {
   const totalProjects = useSelector(store => store.projects.items)
+
+  const [name, setName] = useState(info.name)
+  const [role, setRole] = useState(info.role)
+  const [bio, setBio] = useState(info.bio)
+  const [email, setEmail] = useState(info.email)
 
   const dispatch = useDispatch()
   const history = useHistory()
+
+  console.log(name, role, bio)
 
   useEffect(() => {
     const options = {
@@ -51,9 +53,9 @@ const ProfileSection = () => {
         console.log(data)
         if (data.success) {
           batch(() => {
-            dispatch(user.actions.setRole(data.singleUser.role))
-            dispatch(user.actions.setName(data.singleUser.name))
-            dispatch(user.actions.setBio(data.singleUser.bio))
+            dispatch(user.actions.setRole(data.role))
+            dispatch(user.actions.setName(data.name))
+            dispatch(user.actions.setBio(data.bio))
           })
         } else {
           dispatch(user.actions.setErrors(data))
@@ -96,6 +98,8 @@ const ProfileSection = () => {
           setRole={setRole}
           bio={bio}
           setBio={setBio}
+          email={email}
+          setEmail={setEmail}
         />
       </Route>
     </Section>

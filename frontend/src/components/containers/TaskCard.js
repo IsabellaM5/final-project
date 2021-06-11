@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -8,8 +8,6 @@ import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
-
-import EditTask from 'components/containers/EditTask'
 import Icon from 'components/minor/Icon'
 
 const TaskLink = styled(Link)`
@@ -40,10 +38,13 @@ const ButtonsContainer = styled.div`
   align-self: flex-start;
 `
 
-const TaskCard = ({ item, projectID }) => {
-  const [taskTitle, setTaskTitle] = useState(item.title)
-  const [taskDesc, setTaskDesc] = useState(item.description)
-  const [taskComments, setTaskComments] = useState(item.comments)
+const TaskCard = ({ item, projectID, setTaskTitle, setTaskDesc, setTaskComments }) => {
+  
+  useEffect(()=> {
+    setTaskTitle(item.title)
+    setTaskDesc(item.description)
+    setTaskComments(item.comments)
+  }, [])
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
@@ -95,17 +96,6 @@ const TaskCard = ({ item, projectID }) => {
           </ButtonsContainer>
         </TaskContainer>
       </TaskLink>
-      <Route path="/authenticated/:projectID/tasks/task/:itemID">
-      <EditTask 
-        item={item}
-        taskTitle={taskTitle}
-        setTaskTitle={setTaskTitle}
-        taskDesc={taskDesc}
-        setTaskDesc={setTaskDesc}
-        taskComments={taskComments}
-        setTaskComments={setTaskComments}
-      />
-      </Route>
     </>
   )
 }

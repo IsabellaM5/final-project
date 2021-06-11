@@ -36,6 +36,7 @@ const AuthenticatedPage = () => {
   const history = useHistory()
 
   const accessToken = useSelector(store => store.user.info.accessToken)
+  const info = useSelector(store => store.user.info)
 
   useEffect(() => {
     if (!accessToken) {
@@ -57,7 +58,9 @@ const AuthenticatedPage = () => {
           onSignOut={handleSignOut}
         />
         <Route path="/authenticated/profile">
-          <ProfileSection />
+          <ProfileSection 
+            info={info}
+          />
         </Route>
         <Route path="/authenticated/projects">
           <ProjectsSection />

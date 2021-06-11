@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Link, useParams, useHistory } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { API_URL, TASKS_URL } from 'reusable/urls'
 import tasks from 'reducers/tasks'
 
 import TaskCard from 'components/containers/TaskCard'
+import EditTask from 'components/containers/EditTask' 
 import NewTask from 'components/containers/NewTask'
 import DeleteProject from 'components/containers/DeleteProject'
 
@@ -70,6 +71,10 @@ const EditProjectButton = styled.button`
 const TasksSection = () => {
   const { projectID } = useParams()
 
+  const [taskTitle, setTaskTitle] = useState('')
+  const [taskDesc, setTaskDesc] = useState('')
+  const [taskComments, setTaskComments] = useState('')
+
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.tasks.items)
 
@@ -119,15 +124,26 @@ const TasksSection = () => {
         <NewTask />
       </Route>
       <TasksWrapper>
-      {items.map(item => (
-        <>
+        {items.map(item => (
           <TaskCard 
             key={item._id} 
             item={item}
             projectID={projectID}
+            setTaskTitle={setTaskTitle}
+            setTaskDesc={setTaskDesc}
+            setTaskComments={setTaskComments}
           />
-        </>
-      ))}
+        ))}
+        <Route path="/authenticated/:projectID/tasks/task/:itemID">
+          <EditTask 
+            taskTitle={taskTitle}
+            setTaskTitle={setTaskTitle}
+            taskDesc={taskDesc}
+            setTaskDesc={setTaskDesc}
+            taskComments={taskComments}
+            setTaskComments={setTaskComments}
+          />
+      </Route>
       </TasksWrapper>
     </Section>
   )

@@ -89,7 +89,7 @@ const CancelButton = styled(Link)`
   }
 `
 
-const EditTask = ({ item, taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments }) => {
+const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments }) => {
   const { projectID, itemID } = useParams()
 
   const accessToken = useSelector(store => store.user.info.accessToken)
