@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
+import { Route, useHistory } from 'react-router-dom'
 
 import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 
 import user from 'reducers/user'
 import projects from 'reducers/projects'
 
+
 import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
+import EditProfile from 'components/containers/EditProfile'
 
 const Section = styled.section`
   width: 85%;
@@ -28,6 +31,7 @@ const ProfileSection = () => {
   const totalProjects = useSelector(store => store.projects.items)
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
     const options = {
@@ -65,16 +69,26 @@ const ProfileSection = () => {
       })
   }, [info.accessToken, dispatch, info.userID])
 
+  const handleEditProfile = () => {
+    history.push('/authenticated/profile/edit')
+  }
+
   return (
     <Section>
       <ProfileWrapper>
         <UserInfoContainer 
+          handleEditProfile={handleEditProfile}
           info={info}
         />
         <ProjectsCollabsContainer
           totalProjects={totalProjects}
         />
       </ProfileWrapper>
+      <Route path="/authenticated/profile/edit">
+        <EditProfile 
+          info={info}
+        />
+      </Route>
     </Section>
   )
 }

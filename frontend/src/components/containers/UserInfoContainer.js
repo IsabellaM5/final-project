@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { FaEdit } from 'react-icons/fa'
+
+import Icon from 'components/minor/Icon'
 
 const Container = styled.div`
   display: flex;
@@ -21,10 +24,14 @@ const Info = styled.p`
   font-size: 1.6em;
 `
 
-const UserInfoContainer = ({ info }) => {
+const UserInfoContainer = ({ info, handleEditProfile }) => {
   return (
     <Container>
       <Avatar src="https://via.placeholder.com/150"/>
+      <Icon 
+        icon={<FaEdit size="15" />}
+        handleIconClick={handleEditProfile}
+      />
       <Title>Username</Title>
       <Info>{info.username}</Info>
       <Title>Name</Title>
