@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Link, useParams } from 'react-router-dom'
+import { Route, Link, useParams, useHistory } from 'react-router-dom'
 
 import { API_URL, TASKS_URL } from 'reusable/urls'
 
@@ -9,6 +9,7 @@ import tasks from 'reducers/tasks'
 
 import TaskCard from 'components/containers/TaskCard'
 import NewTask from 'components/containers/NewTask'
+import DeleteProject from 'components/containers/DeleteProject'
 
 const Section = styled.section`
   width: 85%;
@@ -58,6 +59,14 @@ const AddTaskButton = styled(Link)`
   }
 `
 
+const ButtonsContainer = styled.div`
+
+`
+
+const EditProjectButton = styled.button`
+
+`
+
 const TasksSection = () => {
   const { projectID } = useParams()
 
@@ -65,6 +74,7 @@ const TasksSection = () => {
   const items = useSelector(store => store.tasks.items)
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
     const options = {
@@ -86,12 +96,25 @@ const TasksSection = () => {
         }
       })
   }, [accessToken, dispatch, projectID])
-
   
+  const handleEditProject = () => {
+    history.push(`/authenticated/project/${projectID}`)
+  }
 
   return (
     <Section>
-      <AddTaskButton to={`/authenticated/${projectID}/tasks/new`}>+ ADD</AddTaskButton>
+      <ButtonsContainer>
+        <EditProjectButton
+          type="button"
+          onClick={handleEditProject}  
+        >
+          EDIT PROJECT
+        </EditProjectButton>
+        <DeleteProject 
+          projectID={projectID}
+        />
+        <AddTaskButton to={`/authenticated/${projectID}/tasks/new`}>NEW TASK</AddTaskButton>
+      </ButtonsContainer>
       <Route path="/authenticated/:projectID/tasks/new">
         <NewTask />
       </Route>

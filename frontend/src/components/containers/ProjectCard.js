@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+
 
 const ProjectContainer = styled.div`
   background-image: url(${props => props.image ? props.image : '/assets/landing-page-placeholder-image.jpg' });
@@ -46,9 +47,21 @@ const ProjectLink = styled(Link)`
 `
 
 const ProjectCard = ({ item }) => {
+
+  const history = useHistory()
+  
+  // const handleEditProject = () => {
+  //   history.push(`/authenticated/project/${item._id}`)
+  // }
+
+
   return (
     <ProjectLink to={`/authenticated/${item._id}/tasks`}>
       <ProjectContainer image={item.image}>
+        {/* <Icon 
+          icon={<FaEdit size="15" />}
+          handleIconClick={handleEditProject}
+        /> */}
         <ProjectName>{item.name}</ProjectName>
         <ProjectDescription>{item.description}</ProjectDescription>
       </ProjectContainer>
