@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
-import { Link, useParams } from 'react-router-dom'
 
-import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
+import { API_URL, TASKS_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
 
-const ModalContainer = styled.div`
+const TaskModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -23,7 +22,7 @@ const ModalContainer = styled.div`
   z-index: 2;
 `
 
-const ModalSubContainer = styled.div`
+const TaskModal = styled.div`
   background: #ffffff;
   width: 50%;
   border-radius: 15px;
@@ -32,12 +31,12 @@ const ModalSubContainer = styled.div`
   justify-content: center;
 `
 
-const EditTaskForm = styled.form`
+const NewTaskForm = styled.form`
   width: 90%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   padding: 40px;
   border-radius: 20px;
 `
@@ -48,12 +47,10 @@ const SubContainer = styled.div`
 `
 
 const ButtonsContainer = styled.div`
-  grid-column: 1 / 3;
-  display: flex;
-  justify-content: flex-end;
+
 `
 
-const SaveButton = styled.button`
+const CreateTaskButton = styled.button`
   padding: 5px;
   width: 50px;
   font-family: "Montserrat";
@@ -61,8 +58,7 @@ const SaveButton = styled.button`
   border: none;
   background: #9c92ac;
   color: #ffffff;
-  margin: 5px;
-  font-size: 1.4em;
+  margin-bottom: 25px;
 
   &:hover {
     background: #c3bdcd;
@@ -78,10 +74,7 @@ const CancelButton = styled(Link)`
   border: none;
   background: #9c92ac;
   color: #ffffff;
-  margin: 5px;
-  text-decoration: none;
-  text-align: center;
-  font-size: 1.4em;
+  margin-bottom: 25px;
 
   &:hover {
     background: #c3bdcd;
@@ -89,8 +82,12 @@ const CancelButton = styled(Link)`
   }
 `
 
-const EditTask = ({ item, taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments }) => {
-  const { projectID, itemID } = useParams()
+const NewTask = () => {
+  const { projectID } = useParams()
+
+  const [taskTitle, setTaskTitle] = useState('')
+  const [taskDesc, setTaskDesc] = useState('')
+  const [taskComments, setTaskComments] = useState('')
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
@@ -98,34 +95,32 @@ const EditTask = ({ item, taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskCo
   const history = useHistory()
 
   const handleFormSubmit = () => {
-    const config = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken
-      },
-      body: JSON.stringify({ title: taskTitle, description: taskDesc, comments: taskComments })
+    const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken
+    },
+    body: JSON.stringify({ title: taskTitle, description: taskDesc, comments: taskComments })
     }
 
-    fetch(API_URL(SINGLE_TASK_URL(projectID, itemID)), config)
+    fetch(API_URL(TASKS_URL(projectID)), options)
       .then(res => res.json())
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(tasks.actions.editTask(data))
+          dispatch(tasks.actions.setNewTask(data))
           history.push(`/authenticated/${projectID}/tasks`)
         } else {
           dispatch(tasks.actions.setErrors(data))
         }
       })
   }
-  
-
 
   return (
-    <ModalContainer>
-      <ModalSubContainer>
-        <EditTaskForm>
+    <TaskModalContainer>
+      <TaskModal>
+        <NewTaskForm>
           <SubContainer>
             <InputField 
               id="input-task-title"
@@ -152,18 +147,13 @@ const EditTask = ({ item, taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskCo
             />
           </SubContainer>
           <ButtonsContainer>
-            <SaveButton 
-              type="button"
-              onClick={handleFormSubmit}
-            >
-              ADD
-            </SaveButton>
+            <CreateTaskButton type="button" onClick={handleFormSubmit}>ADD</CreateTaskButton>
             <CancelButton to={`/authenticated/${projectID}/tasks`}>CANCEL</CancelButton>
           </ButtonsContainer>
-        </EditTaskForm>
-      </ModalSubContainer>
-    </ModalContainer>
+        </NewTaskForm>
+      </TaskModal>
+    </TaskModalContainer>
   )
 }
 
-export default EditTask
+export default NewTask

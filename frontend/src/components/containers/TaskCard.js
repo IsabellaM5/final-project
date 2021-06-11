@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -9,7 +9,7 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-// import EditTask from 'components/containers/EditTask'
+import EditTask from 'components/containers/EditTask'
 import Icon from 'components/minor/Icon'
 
 const TaskLink = styled(Link)`
@@ -41,6 +41,10 @@ const ButtonsContainer = styled.div`
 `
 
 const TaskCard = ({ item, projectID }) => {
+  const [taskTitle, setTaskTitle] = useState(item.title)
+  const [taskDesc, setTaskDesc] = useState(item.description)
+  const [taskComments, setTaskComments] = useState(item.comments)
+
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
@@ -74,27 +78,35 @@ const TaskCard = ({ item, projectID }) => {
   }
 
   return (
-    <TaskLink to={`/authenticated/${projectID}/tasks/task/${item._id}`}>
-      <TaskContainer>
-        <Title>{item.title}</Title>
-        <ButtonsContainer>
-          <Icon 
-            icon={<FaEdit size="15" />}
-            handleIconClick={handleEditTask}
-          />
-          <Icon 
-            icon={<FaTrashAlt size="15" />} 
-            handleIconClick={handleDeleteTask}
-            apiMethod={'DELETE'} 
-          />
-        </ButtonsContainer>
-        {/* <Route path="/authenticated/:projectID/tasks/:itemID">
-          <EditTask 
-            item={item}
-          />
-        </Route> */}
-      </TaskContainer>
-    </TaskLink>
+    <>
+      <TaskLink to={`/authenticated/${projectID}/tasks/task/${item._id}`}>
+        <TaskContainer>
+          <Title>{item.title}</Title>
+          <ButtonsContainer>
+            <Icon 
+              icon={<FaEdit size="15" />}
+              handleIconClick={handleEditTask}
+            />
+            <Icon 
+              icon={<FaTrashAlt size="15" />} 
+              handleIconClick={handleDeleteTask}
+              apiMethod={'DELETE'} 
+            />
+          </ButtonsContainer>
+        </TaskContainer>
+      </TaskLink>
+      <Route path="/authenticated/:projectID/tasks/task/:itemID">
+      <EditTask 
+        item={item}
+        taskTitle={taskTitle}
+        setTaskTitle={setTaskTitle}
+        taskDesc={taskDesc}
+        setTaskDesc={setTaskDesc}
+        taskComments={taskComments}
+        setTaskComments={setTaskComments}
+      />
+      </Route>
+    </>
   )
 }
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Icon = ({ icon, handleIconClick, apiMethod }) => {
-  const IconButton = styled.button`
+const IconButton = styled.button`
     background: transparent;
     display: flex;
     justify-content: center;
@@ -16,7 +15,8 @@ const Icon = ({ icon, handleIconClick, apiMethod }) => {
       background: #EEE6E6;
     }
   `
-  
+
+const Icon = ({ icon, handleIconClick, apiMethod }) => {
   return (
     <IconButton 
       type="button"

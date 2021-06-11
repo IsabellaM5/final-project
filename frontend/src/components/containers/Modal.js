@@ -25,7 +25,7 @@ const ModalSubContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  height: 40vh;
 `
 
 const NewProjectForm = styled.form`
@@ -43,18 +43,21 @@ const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `
 
 const ButtonsContainer = styled.div`
   grid-column: 1 / 3;
+  align-self: end;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `
 
 const CreateProjectButton = styled.button`
   padding: 5px;
   width: 50px;
+  height: 30px;
   font-family: "Montserrat";
   border-radius: 4px;
   border: none;
@@ -72,6 +75,7 @@ const CreateProjectButton = styled.button`
 const CancelButton = styled(Link)`
   padding: 5px;
   width: 70px;
+  height: 30px;
   font-family: "Montserrat";
   border-radius: 4px;
   border: none;
@@ -109,19 +113,6 @@ const Modal = ({ projectName, setProjectName, description, setDescription, selec
               multiline={true}
               handleChange={setDescription} 
             />
-            {/* <Label htmlFor="input-project-name">Project name</Label>
-            <InputField 
-              id="input-project-name"
-              type="text" 
-              value={projectName} 
-              onChange={(e) => setProjectName(e.target.value)} 
-            /> */}
-            {/* <Label htmlFor="input-project-description">Description</Label>
-            <Textarea 
-              id="input-project-description"
-              value={description} 
-              onChange={(e) => setDescription(e.target.value)} 
-            /> */}
           </SubContainer>
           <SearchField 
             selectedCollaborators={selectedCollaborators}

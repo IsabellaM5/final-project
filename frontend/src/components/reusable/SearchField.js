@@ -20,9 +20,9 @@ const ChipsContainer = styled.div`
   margin: 10px 0px;
 `
 
-const Label = styled.label`
+const Label = styled.p`
   font-size: 1.6em;
-  margin-bottom: 5px;
+  margin: 0;
 `
 
 const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
@@ -70,12 +70,12 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
           setSelectedCollaborators([...selectedCollaborators, v])
         }}
         options={usersArray}
-        style={{ width: 300, marginBottom: 'auto' }}
+        style={{ width: 250, marginBottom: 'auto' }}
         renderInput={(params) => (
           <TextField {...params} label="Users" variant="outlined" />
         )}
       />
-      <Label htmlFor="input-collaborators">Collaborators</Label>
+      <Label>Collaborators</Label>
       {selectedCollaborators.length > 0 && (
         <ChipsContainer 
           selectedCollaborators={selectedCollaborators}
