@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
+import { Route, useHistory } from 'react-router-dom'
 
 import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 
 import user from 'reducers/user'
 import projects from 'reducers/projects'
+
+
+import UserInfoContainer from 'components/containers/UserInfoContainer'
+import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
+import EditProfile from 'components/containers/EditProfile'
 
 const Section = styled.section`
   width: 85%;
@@ -20,77 +26,12 @@ const ProfileWrapper = styled.div`
   padding: 0px 10px;
 `
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-`
-
-const TotalProjectsWrapper = styled.div`
-
-`
-
-const Avatar = styled.img`
-  border-radius: 50%;
-  overflow: none;
-`
-
-const Title = styled.h2`
-  font-size: 1.8em;
-`
-
-const Info = styled.p`
-  font-size: 1.6em;
-`
-
-const Diagram = styled.img`
-  border-radius: 50%;
-  overflow: none;
-`
-
-const CollaboratorsContainer = styled.div`
-  width: 100%;
-`
-
-const CollabContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`
-
-const Collaborator = styled.p`
-  margin-left: 10px;
-  font-size: 1.6em;
-`
-
-
 const ProfileSection = () => {
   const info = useSelector(store => store.user.info)
   const totalProjects = useSelector(store => store.projects.items)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': info.accessToken
-      }
-    }
-
-    fetch(API_URL(PROJECTS_URL(info.userID)), options)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        if (data.success) {
-          dispatch(projects.actions.setProjects(data))
-        } else {
-          dispatch(projects.actions.setErrors(data))
-        }
-      })
-  }, [info.accessToken, dispatch, info.userID])
+  const history = useHistory()
 
   useEffect(() => {
     const options = {
@@ -115,36 +56,39 @@ const ProfileSection = () => {
           dispatch(user.actions.setErrors(data))
         }
       })
+
+    fetch(API_URL(PROJECTS_URL(info.userID)), options)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          dispatch(projects.actions.setProjects(data))
+        } else {
+          dispatch(projects.actions.setErrors(data))
+        }
+      })
   }, [info.accessToken, dispatch, info.userID])
+
+  const handleEditProfile = () => {
+    history.push('/authenticated/profile/edit')
+  }
 
   return (
     <Section>
       <ProfileWrapper>
-        <Container>
-          <Avatar src="https://via.placeholder.com/150"/>
-          <Title>Username</Title>
-          <Info>{info.username}</Info>
-          <Title>Name</Title>
-          <Info>{info.name}</Info>
-          <Title>Role</Title>
-          <Info>{info.role}</Info>
-          <Title>Biography</Title>
-          <Info>{info.bio}</Info>
-        </Container>
-        <Container>
-          <TotalProjectsWrapper>
-            <Title>Total projects ongoing: {totalProjects.length}</Title>
-            <Diagram src="https://via.placeholder.com/200"/>
-          </TotalProjectsWrapper>
-          <CollaboratorsContainer>
-            <Title>Collaborators</Title>
-            <CollabContainer>
-              <Avatar src="https://via.placeholder.com/40"/>
-              <Collaborator>Name</Collaborator>
-            </CollabContainer>
-          </CollaboratorsContainer>
-        </Container>
+        <UserInfoContainer 
+          handleEditProfile={handleEditProfile}
+          info={info}
+        />
+        <ProjectsCollabsContainer
+          totalProjects={totalProjects}
+        />
       </ProfileWrapper>
+      <Route path="/authenticated/profile/edit">
+        <EditProfile 
+          info={info}
+        />
+      </Route>
     </Section>
   )
 }
