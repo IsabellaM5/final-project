@@ -22,7 +22,14 @@ export const getUser = async (req, res) => {
   try {
     const singleUser = await User.findById(userID)
 
-    res.status(201).json({ success: true, singleUser })
+    res.status(201).json({ 
+      success: true, 
+      email: singleUser.email,
+      role: singleUser.role,
+      name: singleUser.name,
+      bio: singleUser.bio,
+      image: singleUser.image
+    })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Could not get user', error })
   }
@@ -126,7 +133,14 @@ export const patchUser = async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(userID, req.body, { new: true })
     if (updatedUser) {
-      res.status(200).json({ success: true, userID: userID, updated: req.body })
+      res.status(200).json({ 
+        success: true, 
+        email: updatedUser.email,
+        role: updatedUser.role,
+        name: updatedUser.name,
+        bio: updatedUser.bio,
+        image: updatedUser.image
+      })
     } else {
       res.status(404).json({ success: false, message: 'Could not find user' })
     }
