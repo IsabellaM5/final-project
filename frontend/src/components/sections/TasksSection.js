@@ -11,7 +11,6 @@ import tasks from 'reducers/tasks'
 import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
 import NewTask from 'components/containers/NewTask'
-import EditProject from 'components/containers/EditProject'
 
 const Section = styled.section`
   width: 85%;
@@ -91,27 +90,11 @@ const TasksSection = () => {
         }
       })
   }, [accessToken, dispatch, projectID])
-  
-  const project = useSelector(store => store.projects.activeProject)
-
-  const [editProject, setEditProject] = useState(false)
-  const [projectName, setProjectName] = useState(project.name)
-  const [projectDesc, setProjectDesc] = useState(project.description)
-  const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
-
-  console.log(projectCollabs)
-
-  
-  
-  const handleEditProject = () => {
-    setEditProject(true)
-  }
 
   return (
     <Section>
       <TasksSectionHeader 
         projectID={projectID}
-        handleEditProject={handleEditProject}
       />
       <Route path="/authenticated/:projectID/tasks/new">
         <NewTask />
@@ -125,18 +108,6 @@ const TasksSection = () => {
           />
         ))}
       </TasksWrapper>
-      {editProject && (
-        <EditProject 
-          projectID={projectID}
-          setEditProject={setEditProject}
-          projectName={projectName}
-          setProjectName={setProjectName}
-          projectDesc={projectDesc}
-          setProjectDesc={setProjectDesc}
-          projectCollabs={projectCollabs}
-          setProjectCollabs={setProjectCollabs}
-        />
-      )}
     </Section>
   )
 }

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { Route, Link, useParams, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
+import EditProject from 'components/containers/EditProject'
 import DeleteProject from 'components/containers/DeleteProject'
 import Button from 'components/reusable/Button'
 
@@ -54,48 +55,73 @@ const Username = styled.p`
   margin: 2px;
 `
 
-const TasksSectionHeader = ({ projectID, handleEditProject }) => {
+const TasksSectionHeader = ({ projectID }) => {
   const project = useSelector(store => store.projects.activeProject)
 
+  const [editProject, setEditProject] = useState(false)
+  const [projectName, setProjectName] = useState(project.name)
+  const [projectDesc, setProjectDesc] = useState(project.description)
+  const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
+
+  console.log(projectName)
+
+  const handleEditProject = () => {
+    setEditProject(true)
+  }
+
   return (
-    <HeaderWrapper>
-      <ProjectInfoContainer>
-        <Heading>
-          Project Manager
-        </Heading>
-        <Username>
-          {project.projectOwner}
-        </Username>
-      </ProjectInfoContainer>
-      <ProjectInfoContainer>
-        <Heading>
-          Collaborators
-        </Heading>
-        {project.collaborators && (
-          project.collaborators.map(collab => (
-            <Username>{collab}</Username>
-          )))}
-      </ProjectInfoContainer>
-      <ProjectName>
-        {project.name}
-      </ProjectName>
-      <ProjectBtnsContainer>
-        <Button 
-          btnText="EDIT PROJECT"
-          handleClick={handleEditProject}  
-        />
-        <DeleteProject 
-          projectID={projectID}
-        />
-      </ProjectBtnsContainer>
-      <TaskBtnsContainer>
-        <Link to={`/authenticated/${projectID}/tasks/new`}>
+    <>
+      <HeaderWrapper>
+        <ProjectInfoContainer>
+          <Heading>
+            Project Manager
+          </Heading>
+          <Username>
+            {project.projectOwner}
+          </Username>
+        </ProjectInfoContainer>
+        <ProjectInfoContainer>
+          <Heading>
+            Collaborators
+          </Heading>
+          {project.collaborators && (
+            project.collaborators.map(collab => (
+              <Username>{collab}</Username>
+            )))}
+        </ProjectInfoContainer>
+        <ProjectName>
+          {project.name}
+        </ProjectName>
+        <ProjectBtnsContainer>
           <Button 
-            btnText="NEW TASK"
+            btnText="EDIT PROJECT"
+            handleClick={handleEditProject}  
           />
-        </Link>
-      </TaskBtnsContainer>
-    </HeaderWrapper>
+          <DeleteProject 
+            projectID={projectID}
+          />
+        </ProjectBtnsContainer>
+        <TaskBtnsContainer>
+          <Link to={`/authenticated/${projectID}/tasks/new`}>
+            <Button 
+              btnText="NEW TASK"
+            />
+          </Link>
+        </TaskBtnsContainer>
+      </HeaderWrapper>
+      {editProject && (
+        <EditProject 
+          projectID={projectID}
+          setEditProject={setEditProject}
+          projectName={projectName}
+          setProjectName={setProjectName}
+          projectDesc={projectDesc}
+          setProjectDesc={setProjectDesc}
+          projectCollabs={projectCollabs}
+          setProjectCollabs={setProjectCollabs}
+        />
+      )}
+    </>
   )
 }
 
