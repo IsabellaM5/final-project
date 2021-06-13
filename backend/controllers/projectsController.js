@@ -33,6 +33,31 @@ export const getProjects = async (req, res) => {
   }
 }
 
+export const getSingleProject = async (req, res) => {
+  const { projectID } = req.params
+
+  try {
+    const project = await Project.findById(projectID)
+    const collabs = []
+    for (const id of project.collaborators) {
+      const user = await User.findById({_id: id})
+      collabs.push(user.username)
+    }
+    const projectOwner = await User.findById(project.projectOwner)
+
+    res.status(200).json({
+      success: true, 
+      _id: project._id, 
+      name: project.name, 
+      description: project.description, 
+      collaborators: collabs, 
+      projectOwner: projectOwner.username 
+    })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Page not found', error })
+  }
+}
+
 export const newProject = async (req, res) => {
   const { userID } = req.params
   const { name, description, collaborators } = req.body

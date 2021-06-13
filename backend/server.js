@@ -46,6 +46,7 @@ router.patch('/sessions/:userID', user.patchUser)
 
 // PROJECTS
 router.get('/sessions/:userID/projects', projects.getProjects)
+router.get('/sessions/projects/:projectID', projects.getSingleProject)
 router.post('/sessions/:userID/projects', projects.newProject)
 router.delete('/sessions/projects/:projectID', projects.deleteProject)
 router.patch('/sessions/projects/:projectID', projects.patchProject)

@@ -7,10 +7,9 @@ import { API_URL, TASKS_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
+import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
-import EditTask from 'components/containers/EditTask' 
 import NewTask from 'components/containers/NewTask'
-import DeleteProject from 'components/containers/DeleteProject'
 
 const Section = styled.section`
   width: 85%;
@@ -27,6 +26,7 @@ const TasksWrapper = styled.div`
   max-height: 80%;
   overflow-y: auto;
   padding: 0px 10px;
+  margin-top: 20px;
   
   &::-webkit-scrollbar {
     width: 10px;
@@ -43,37 +43,10 @@ const TasksWrapper = styled.div`
   }
 `
 
-const AddTaskButton = styled(Link)`
-  align-self: flex-end;
-  padding: 5px;
-  width: 70px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin-bottom: 25px;
 
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const ButtonsContainer = styled.div`
-
-`
-
-const EditProjectButton = styled.button`
-
-`
 
 const TasksSection = () => {
   const { projectID } = useParams()
-
-  const [taskTitle, setTaskTitle] = useState('')
-  const [taskDesc, setTaskDesc] = useState('')
-  const [taskComments, setTaskComments] = useState('')
 
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.tasks.items)
@@ -108,18 +81,10 @@ const TasksSection = () => {
 
   return (
     <Section>
-      <ButtonsContainer>
-        <EditProjectButton
-          type="button"
-          onClick={handleEditProject}  
-        >
-          EDIT PROJECT
-        </EditProjectButton>
-        <DeleteProject 
-          projectID={projectID}
-        />
-        <AddTaskButton to={`/authenticated/${projectID}/tasks/new`}>NEW TASK</AddTaskButton>
-      </ButtonsContainer>
+      <TasksSectionHeader 
+        projectID={projectID}
+        handleEditProject={handleEditProject}
+      />
       <Route path="/authenticated/:projectID/tasks/new">
         <NewTask />
       </Route>
@@ -129,32 +94,12 @@ const TasksSection = () => {
             key={item._id} 
             item={item}
             projectID={projectID}
-            setTaskTitle={setTaskTitle}
-            setTaskDesc={setTaskDesc}
-            setTaskComments={setTaskComments}
           />
         ))}
-        <Route path="/authenticated/:projectID/tasks/task/:itemID">
-          <EditTask 
-            taskTitle={taskTitle}
-            setTaskTitle={setTaskTitle}
-            taskDesc={taskDesc}
-            setTaskDesc={setTaskDesc}
-            taskComments={taskComments}
-            setTaskComments={setTaskComments}
-          />
-      </Route>
+        
       </TasksWrapper>
     </Section>
   )
 }
 
 export default TasksSection
-
-/* 
-  taskTitle={taskTitle}
-  setTaskTitle={setTaskTitle}
-  taskDesc={taskDesc}
-  setTaskDesc={setTaskDesc}
-  taskComments={taskComments}
-  setTaskComments={setTaskComments}*/

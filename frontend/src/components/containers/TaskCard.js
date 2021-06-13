@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
 import { Link, Route } from 'react-router-dom'
 import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
+import EditTask from 'components/containers/EditTask' 
 import Icon from 'components/minor/Icon'
-
-const TaskLink = styled(Link)`
-  text-decoration: none;
-  color: #000000;
-`
 
 const TaskContainer = styled.div`
   background: #dfdbe5;
@@ -24,6 +19,7 @@ const TaskContainer = styled.div`
   align-items: center;
   padding: 10px;
   justify-content: space-between;
+  cursor: pointer;
 `
 
 const Title = styled.p`
@@ -38,18 +34,15 @@ const ButtonsContainer = styled.div`
   align-self: flex-start;
 `
 
-const TaskCard = ({ item, projectID, setTaskTitle, setTaskDesc, setTaskComments }) => {
-  
-  useEffect(()=> {
-    setTaskTitle(item.title)
-    setTaskDesc(item.description)
-    setTaskComments(item.comments)
-  }, [])
+const TaskCard = ({ item, projectID }) => {
+  const [editMode, setEditMode] = useState(false)
+  const [taskTitle, setTaskTitle] = useState(item.title)
+  const [taskDesc, setTaskDesc] = useState(item.description)
+  const [taskComments, setTaskComments] = useState(item.comments)
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
   console.log(API_URL(SINGLE_TASK_URL(projectID, item._id)))
 
@@ -75,27 +68,36 @@ const TaskCard = ({ item, projectID, setTaskTitle, setTaskDesc, setTaskComments 
   }
 
   const handleEditTask = () => {
-    history.push(`/authenticated/${projectID}/tasks/task/${item._id}`)
+    setEditMode(true)
   }
 
   return (
     <>
-      <TaskLink to={`/authenticated/${projectID}/tasks/task/${item._id}`}>
-        <TaskContainer>
-          <Title>{item.title}</Title>
-          <ButtonsContainer>
-            <Icon 
-              icon={<FaEdit size="15" />}
-              handleIconClick={handleEditTask}
-            />
-            <Icon 
-              icon={<FaTrashAlt size="15" />} 
-              handleIconClick={handleDeleteTask}
-              apiMethod={'DELETE'} 
-            />
-          </ButtonsContainer>
-        </TaskContainer>
-      </TaskLink>
+      <TaskContainer onClick={handleEditTask}>
+        <Title>{item.title}</Title>
+        <ButtonsContainer>
+          <Icon 
+            icon={<FaEdit size="15" />}
+            handleIconClick={handleEditTask}
+          />
+          <Icon 
+            icon={<FaTrashAlt size="15" />} 
+            handleIconClick={handleDeleteTask}
+            apiMethod={'DELETE'} 
+          />
+        </ButtonsContainer>
+      </TaskContainer>
+      {editMode && (
+        <EditTask 
+          taskTitle={taskTitle}
+          setTaskTitle={setTaskTitle}
+          taskDesc={taskDesc}
+          setTaskDesc={setTaskDesc}
+          taskComments={taskComments}
+          setTaskComments={setTaskComments}
+          setEditMode={setEditMode}
+        />
+      )}
     </>
   )
 }

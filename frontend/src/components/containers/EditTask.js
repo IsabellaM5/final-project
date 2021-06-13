@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
@@ -70,7 +69,7 @@ const SaveButton = styled.button`
   }
 `
 
-const CancelButton = styled(Link)`
+const CancelButton = styled.button`
   padding: 5px;
   width: 70px;
   font-family: "Montserrat";
@@ -89,13 +88,12 @@ const CancelButton = styled(Link)`
   }
 `
 
-const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments }) => {
+const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments, setEditMode }) => {
   const { projectID, itemID } = useParams()
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const handleFormSubmit = () => {
     const config = {
@@ -113,14 +111,12 @@ const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments
         console.log(data)
         if (data.success) {
           dispatch(tasks.actions.editTask(data))
-          history.push(`/authenticated/${projectID}/tasks`)
+          setEditMode(false)
         } else {
           dispatch(tasks.actions.setErrors(data))
         }
       })
   }
-  
-
 
   return (
     <ModalContainer>
@@ -156,9 +152,9 @@ const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments
               type="button"
               onClick={handleFormSubmit}
             >
-              ADD
+              SAVE
             </SaveButton>
-            <CancelButton to={`/authenticated/${projectID}/tasks`}>CANCEL</CancelButton>
+            <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
           </ButtonsContainer>
         </EditTaskForm>
       </ModalSubContainer>
