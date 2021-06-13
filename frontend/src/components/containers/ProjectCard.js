@@ -50,18 +50,12 @@ const ProjectCard = ({ item }) => {
 
   const history = useHistory()
   
-  // const handleEditProject = () => {
-  //   history.push(`/authenticated/project/${item._id}`)
-  // }
+  console.log(item)
 
 
   return (
     <ProjectLink to={`/authenticated/${item._id}/tasks`}>
       <ProjectContainer image={item.image}>
-        {/* <Icon 
-          icon={<FaEdit size="15" />}
-          handleIconClick={handleEditProject}
-        /> */}
         <ProjectName>{item.name}</ProjectName>
         <ProjectDescription>{item.description}</ProjectDescription>
       </ProjectContainer>

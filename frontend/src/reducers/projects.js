@@ -10,7 +10,7 @@ const projects = createSlice ({
   },
   reducers: {
     setProjects: (store, action) => {
-      store.items = action.payload.projects
+      store.items = action.payload.altProjects
     },
     setUsers: (store, action) => {
       store.users = action.payload.usersArray
