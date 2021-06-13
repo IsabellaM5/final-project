@@ -8,6 +8,7 @@ import { API_URL, TASKS_URL } from 'reusable/urls'
 import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
+import Button from 'components/reusable/Button'
 
 const TaskModalContainer = styled.div`
   position: fixed;
@@ -53,22 +54,6 @@ const ButtonsContainer = styled.div`
 const CreateTaskButton = styled.button`
   padding: 5px;
   width: 50px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin-bottom: 25px;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const CancelButton = styled(Link)`
-  padding: 5px;
-  width: 70px;
   font-family: "Montserrat";
   border-radius: 4px;
   border: none;
@@ -148,7 +133,11 @@ const NewTask = () => {
           </SubContainer>
           <ButtonsContainer>
             <CreateTaskButton type="button" onClick={handleFormSubmit}>ADD</CreateTaskButton>
-            <CancelButton to={`/authenticated/${projectID}/tasks`}>CANCEL</CancelButton>
+            <Link to={`/authenticated/${projectID}/tasks`}>
+              <Button 
+                btnText="CANCEL"
+              />
+            </Link>
           </ButtonsContainer>
         </NewTaskForm>
       </TaskModal>

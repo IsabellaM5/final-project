@@ -4,6 +4,7 @@ const projects = createSlice ({
   name: 'projects',
   initialState: {
     items: [],
+    activeProject: [],
     users: [],
     errors: null,
     loading: false
@@ -11,6 +12,9 @@ const projects = createSlice ({
   reducers: {
     setProjects: (store, action) => {
       store.items = action.payload.altProjects
+    },
+    setActiveProject: (store, action) => {
+      store.activeProject = action.payload
     },
     setUsers: (store, action) => {
       store.users = action.payload.usersArray

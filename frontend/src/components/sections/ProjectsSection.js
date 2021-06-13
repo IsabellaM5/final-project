@@ -9,6 +9,7 @@ import projects from 'reducers/projects'
 
 import ProjectCard from 'components/containers/ProjectCard'
 import Modal from 'components/containers/Modal'
+import Button from 'components/reusable/Button'
 
 const Section = styled.section`
   width: 85%;
@@ -41,21 +42,8 @@ const ProjectsWrapper = styled.div`
   }
 `
 
-const AddProjectButton = styled(Link)`
+const AddProject = styled(Link)`
   align-self: flex-end;
-  padding: 5px;
-  width: 70px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin-bottom: 25px;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
 `
 
 const ProjectsSection = () => {
@@ -110,7 +98,7 @@ const ProjectsSection = () => {
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(projects.actions.setNewProject(data))
+          dispatch(projects.actions.setNewProject(data.project))
           history.push('/authenticated/projects')
         } else {
           dispatch(projects.actions.setErrors(data))
@@ -120,7 +108,11 @@ const ProjectsSection = () => {
 
   return (
     <Section>
-      <AddProjectButton to="/authenticated/projects/new">+ ADD</AddProjectButton>
+      <AddProject to="/authenticated/projects/new">
+        <Button 
+          btnText="ADD"
+        />
+      </AddProject>
       <Route path="/authenticated/projects/new">
         <Modal
           projectName={projectName}

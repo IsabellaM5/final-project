@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 
 import user from 'reducers/user'
 
+import Button from 'components/reusable/Button'
+
 const Container = styled.aside`
   background: #f2eff6;
   width: 15%;
@@ -51,20 +53,8 @@ const ListItem = styled(Link)`
   }
 `
 
-const SignOutButton = styled.button`
+const SignOut = styled(Link)`
   margin-top: auto;
-  width: 75%;
-  padding: 5px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
 `
 
 const NavbarContainer = ({ onSignOut }) => {
@@ -80,10 +70,14 @@ const NavbarContainer = ({ onSignOut }) => {
         <ListParent>
           <ListItem to="/authenticated/profile">Profile</ListItem>
           <ListItem to="/authenticated/projects">Overview</ListItem>
-          <ListItem to="/authenticated/projects">New Project</ListItem>
+          <ListItem to="/authenticated/projects/new">New Project</ListItem>
         </ListParent>
       </NavBar>
-      <SignOutButton onClick={onSignOut}>SIGN OUT</SignOutButton>
+      <SignOut onClick={onSignOut}>
+        <Button 
+          btnText="SIGN OUT"
+        />
+      </SignOut>
     </Container>
   )
 }

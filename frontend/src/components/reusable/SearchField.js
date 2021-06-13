@@ -76,7 +76,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
         )}
       />
       <Label>Collaborators</Label>
-      {selectedCollaborators.length > 0 && (
+      {selectedCollaborators.length != 0 && (
         <ChipsContainer 
           selectedCollaborators={selectedCollaborators}
         >
