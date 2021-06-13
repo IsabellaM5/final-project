@@ -3,6 +3,8 @@ import { User, Project, Task } from '../models/models'
 export const getProjects = async (req, res) => {
   const { userID } = req.params
 
+  let altProjects = []
+
   try {
     const projects = await Project.find({
       $or: [
@@ -10,7 +12,16 @@ export const getProjects = async (req, res) => {
       ]
     })
 
-    res.status(200).json({ success: true, projects })
+    for (const project of projects) {
+      let collabs = []
+      for (const id of project.collaborators) {
+        const user = await User.findById({_id: id})
+        collabs.push(user.username)
+      }
+      altProjects.push({ name: project.name, description: project.description, collaborators: collabs, projectOwner: project.projectOwner })
+    }
+
+    res.status(200).json({ success: true, altProjects })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Page not found', error })
   }
