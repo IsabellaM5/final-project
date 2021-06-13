@@ -18,7 +18,13 @@ export const getProjects = async (req, res) => {
         const user = await User.findById({_id: id})
         collabs.push(user.username)
       }
-      altProjects.push({ name: project.name, description: project.description, collaborators: collabs, projectOwner: project.projectOwner })
+      altProjects.push({ 
+        _id: project._id, 
+        name: project.name, 
+        description: project.description, 
+        collaborators: collabs, 
+        projectOwner: project.projectOwner 
+      })
     }
 
     res.status(200).json({ success: true, altProjects })
