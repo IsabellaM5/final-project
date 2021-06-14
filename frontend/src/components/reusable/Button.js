@@ -17,11 +17,12 @@ const Btn = styled.button`
   }
 `
 
-const Button = ({ btnText, handleClick }) => {
+const Button = ({ btnText, handleClick, disabled }) => {
   return (
     <Btn 
       type="button" 
       onClick={handleClick}
+      disabled={disabled}
     >
       {btnText}
     </Btn>

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
@@ -55,7 +55,12 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `
 
-const EditProject = ({ projectID, setEditProject, projectName, setProjectName, projectDesc, setProjectDesc, projectCollabs, setProjectCollabs }) => {
+const EditProject = ({ projectID, setEditProject }) => {
+  const project = useSelector(store => store.projects.activeProject)
+  
+  const [projectName, setProjectName] = useState(project.name)
+  const [projectDesc, setProjectDesc] = useState(project.description)
+  const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
 
   const handleFormSubmit = () => {
 

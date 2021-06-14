@@ -59,11 +59,6 @@ const TasksSectionHeader = ({ projectID }) => {
   const project = useSelector(store => store.projects.activeProject)
 
   const [editProject, setEditProject] = useState(false)
-  const [projectName, setProjectName] = useState(project.name)
-  const [projectDesc, setProjectDesc] = useState(project.description)
-  const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
-
-  console.log(projectName)
 
   const handleEditProject = () => {
     setEditProject(true)
@@ -86,7 +81,7 @@ const TasksSectionHeader = ({ projectID }) => {
           </Heading>
           {project.collaborators && (
             project.collaborators.map(collab => (
-              <Username>{collab}</Username>
+              <Username key={collab}>{collab}</Username>
             )))}
         </ProjectInfoContainer>
         <ProjectName>
@@ -113,12 +108,6 @@ const TasksSectionHeader = ({ projectID }) => {
         <EditProject 
           projectID={projectID}
           setEditProject={setEditProject}
-          projectName={projectName}
-          setProjectName={setProjectName}
-          projectDesc={projectDesc}
-          setProjectDesc={setProjectDesc}
-          projectCollabs={projectCollabs}
-          setProjectCollabs={setProjectCollabs}
         />
       )}
     </>

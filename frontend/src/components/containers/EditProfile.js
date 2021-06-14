@@ -9,6 +9,7 @@ import { API_URL, SINGLE_USER } from 'reusable/urls'
 import user from 'reducers/user'
 
 import InputField from 'components/reusable/InputField'
+import Button from 'components/reusable/Button'
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -164,13 +165,15 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio, email, s
             />
           </SubContainer>
           <ButtonsContainer>
-            <SaveButton 
-              type="button"
-              onClick={handleFormSubmit}
-            >
-              ADD
-            </SaveButton>
-            <CancelButton to={'/authenticated/profile'}>CANCEL</CancelButton>
+            <Button 
+              btnText="ADD"
+              handleClick={handleFormSubmit}
+            />
+            <Link to={'/authenticated/profile'}>
+              <Button
+                btnText="CANCEL"
+            />            
+            </Link>
           </ButtonsContainer>
         </EditProfileForm>
       </ModalSubContainer>

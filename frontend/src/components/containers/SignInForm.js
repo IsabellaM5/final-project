@@ -5,6 +5,7 @@ import styled from 'styled-components/macro'
 import { SIGN_IN } from 'reusable/urls'
 
 import InputField from 'components/reusable/InputField'
+import Button from 'components/reusable/Button'
 
 const MainHeading = styled.h1`
   font-size: 3.2em;
@@ -97,10 +98,17 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
 
       {/* {error && <ErrorMessage>{error.message}</ErrorMessage>} */}
 
-      <SignInButton type="button" onClick={onFormSubmit}>SIGN IN</SignInButton>
+      <Button 
+        btnText="SIGN IN" 
+        handleClick={onFormSubmit}
+      />
 
       <RegisterText>
-        Not a user? <RegisterButton onClick={() => setSignUp(true)}>Sign up here</RegisterButton> 
+        Not a user? 
+        <Button 
+          btnText="SIGN UP HERE" 
+          handleClick={() => setSignUp(true)}
+        /> 
       </RegisterText>
     </Form>
   )

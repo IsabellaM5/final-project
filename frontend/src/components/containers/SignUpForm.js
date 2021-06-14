@@ -4,6 +4,7 @@ import styled from 'styled-components/macro'
 import { SIGN_UP } from 'reusable/urls'
 
 import InputField from 'components/reusable/InputField'
+import Button from 'components/reusable/Button'
 
 const MainHeading = styled.h1`
   font-size: 3.2em;
@@ -104,9 +105,17 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
         />
       </SubContainer>
 
-      <SignUpButton type="button" disabled={password === repeatPassword && password ? false : true } onClick={onFormSubmit}>SIGN UP</SignUpButton>
+      <Button 
+        btnText="SIGN UP" 
+        disabled={password === repeatPassword && password ? false : true } 
+        handleClick={onFormSubmit}
+      />
       <RegisterText>
-        Already a user? <RegisterButton onClick={() => setSignUp(false)}>Sign in here</RegisterButton> 
+        Already a user? 
+        <Button 
+          btnText="SIGN IN HERE" 
+          handleClick={() => setSignUp(false)} 
+        /> 
       </RegisterText>
     </Form>
   )
