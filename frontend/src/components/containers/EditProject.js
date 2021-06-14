@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { useSelector } from 'react-redux'
+import { useSelector, batch, useDispatch } from 'react-redux'
+
+import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
+
+import projects from 'reducers/projects'
 
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
@@ -57,14 +61,40 @@ const ButtonsContainer = styled.div`
 
 const EditProject = ({ projectID, setEditProject }) => {
   const project = useSelector(store => store.projects.activeProject)
+  const accessToken = useSelector(store => store.user.info.accessToken)
+
+  const dispatch = useDispatch()
   
   const [projectName, setProjectName] = useState(project.name)
   const [projectDesc, setProjectDesc] = useState(project.description)
   const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
 
   const handleFormSubmit = () => {
+    const config = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken
+      },
+      body: JSON.stringify({ name: projectName, description: projectDesc })
+    }
 
+    fetch(API_URL(SINGLE_PROJECT(projectID)), config)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          batch(() => {           
+            dispatch(projects.actions.editProject(data.updatedProject))
+            setEditProject(false)
+            dispatch(projects.actions.setActiveProject(data.updatedProject))
+          })
+        } else {
+          dispatch(projects.actions.setErrors(data))
+        }
+      })
   }
+
   return (
     <ModalContainer>
       <ModalSubContainer>

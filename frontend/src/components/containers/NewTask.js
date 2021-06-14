@@ -94,7 +94,7 @@ const NewTask = () => {
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(tasks.actions.setNewTask(data))
+          dispatch(tasks.actions.setNewTask(data.task))
           history.push(`/authenticated/${projectID}/tasks`)
         } else {
           dispatch(tasks.actions.setErrors(data))

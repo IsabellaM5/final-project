@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { Route, Link, useParams, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import EditProject from 'components/containers/EditProject'
 import DeleteProject from 'components/containers/DeleteProject'

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Link, useParams, useHistory } from 'react-router-dom'
+import { Route, useParams } from 'react-router-dom'
 
 import { API_URL, SINGLE_PROJECT, TASKS_URL } from 'reusable/urls'
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { Route, useHistory } from 'react-router-dom'
@@ -25,18 +25,13 @@ const ProfileWrapper = styled.div`
   padding: 0px 10px;
 `
 
-const ProfileSection = ({ info }) => {
+const ProfileSection = () => {
   const totalProjects = useSelector(store => store.projects.items)
 
-  const [name, setName] = useState(info.name)
-  const [role, setRole] = useState(info.role)
-  const [bio, setBio] = useState(info.bio)
-  const [email, setEmail] = useState(info.email)
+  const info = useSelector(store => store.user.info)
 
   const dispatch = useDispatch()
   const history = useHistory()
-
-  console.log(name, role, bio)
 
   useEffect(() => {
     const options = {
@@ -90,17 +85,7 @@ const ProfileSection = ({ info }) => {
         />
       </ProfileWrapper>
       <Route path="/authenticated/profile/edit">
-        <EditProfile 
-          info={info}
-          name={name}
-          setName={setName}
-          role={role}
-          setRole={setRole}
-          bio={bio}
-          setBio={setBio}
-          email={email}
-          setEmail={setEmail}
-        />
+        <EditProfile />
       </Route>
     </Section>
   )

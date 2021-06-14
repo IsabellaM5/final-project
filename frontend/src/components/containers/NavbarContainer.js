@@ -3,8 +3,6 @@ import styled from 'styled-components/macro'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import user from 'reducers/user'
-
 import Button from 'components/reusable/Button'
 
 const Container = styled.aside`
@@ -53,7 +51,7 @@ const ListItem = styled(Link)`
   }
 `
 
-const SignOut = styled(Link)`
+const ButtonContainer = styled.div`
   margin-top: auto;
 `
 
@@ -73,11 +71,12 @@ const NavbarContainer = ({ onSignOut }) => {
           <ListItem to="/authenticated/projects/new">New Project</ListItem>
         </ListParent>
       </NavBar>
-      <SignOut onClick={onSignOut}>
-        <Button 
+      <ButtonContainer>
+        <Button
+          handleClick={onSignOut} 
           btnText="SIGN OUT"
         />
-      </SignOut>
+      </ButtonContainer>
     </Container>
   )
 }

@@ -28,41 +28,9 @@ const SubContainer = styled.div`
   height: 50%;
 `
 
-
-const SignUpButton = styled.button`
-  padding: 5px;
-  width: 100px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
 const RegisterText = styled.span`
   font-size: 1.6em;
 `
-
-const RegisterButton = styled.button`
-  padding: 5px;
-  width: 100px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
 
 const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setSignUp }) => {
   const body = { username: username, email: email, password: password }

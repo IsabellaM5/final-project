@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, Route } from 'react-router-dom'
 import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'

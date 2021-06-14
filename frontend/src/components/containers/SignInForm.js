@@ -29,43 +29,9 @@ const SubContainer = styled.div`
   justify-content: space-evenly;
 `
 
-const SignInButton = styled.button`
-  padding: 5px;
-  width: 100px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
 const RegisterText = styled.span`
   font-size: 1.6em;
 `
-
-const RegisterButton = styled.button`
-  padding: 5px;
-  width: 100px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-// const ErrorMessage = styled.p`
-
-// `
 
 const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp }) => {
   // const error = useSelector(store => store.user.errors)

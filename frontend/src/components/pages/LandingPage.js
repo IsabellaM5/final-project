@@ -52,7 +52,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (accessToken) {
-      history.push('/authenticated')
+      history.push('/authenticated/projects')
     }
   }, [accessToken, history])
 
@@ -76,12 +76,15 @@ const LandingPage = () => {
             dispatch(user.actions.setUserID(data.userID))
             dispatch(user.actions.setUsername(data.username))
             dispatch(user.actions.setAccessToken(data.accessToken))
+            dispatch(user.actions.setEmail(data.email))
+
             dispatch(user.actions.setErrors(null))
 
             localStorage.setItem('user', JSON.stringify({
               userID: data.userID,
               username: data.username,
-              accessToken: data.accessToken
+              accessToken: data.accessToken,
+              email: data.email
             }))
           })
         } else {

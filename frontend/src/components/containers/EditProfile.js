@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -54,44 +54,15 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
 `
 
-const SaveButton = styled.button`
-  padding: 5px;
-  width: 50px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const CancelButton = styled(Link)`
-  padding: 5px;
-  width: 70px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  text-decoration: none;
-  text-align: center;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const EditProfile = ({ info, name, setName, role, setRole, bio, setBio, email, setEmail }) => {
+const EditProfile = () => {
   const accessToken = useSelector(store => store.user.info.accessToken)
+
+  const info = useSelector(store => store.user.info)
+
+  const [name, setName] = useState(info.name)
+  const [role, setRole] = useState(info.role)
+  const [bio, setBio] = useState(info.bio)
+  const [email, setEmail] = useState(info.email)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -128,6 +99,8 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio, email, s
       })
   }
 
+  console.log(name, role, bio, email)
+
   return (
     <ModalContainer>
       <ModalSubContainer>
@@ -158,7 +131,7 @@ const EditProfile = ({ info, name, setName, role, setRole, bio, setBio, email, s
             <InputField 
               id="input-bio"
               label="Bio"
-              type="textarea" 
+              type="text" 
               multiline={true}
               value={bio}
               handleChange={setBio} 

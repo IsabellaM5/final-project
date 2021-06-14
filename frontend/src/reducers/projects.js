@@ -11,7 +11,7 @@ const projects = createSlice ({
   },
   reducers: {
     setProjects: (store, action) => {
-      store.items = action.payload.altProjects
+      store.items = action.payload
     },
     setActiveProject: (store, action) => {
       store.activeProject = action.payload
@@ -28,7 +28,7 @@ const projects = createSlice ({
       const updatedItem = store.items.map((item) => {
         if (item._id === findItem._id) {
           return {
-            title: action.payload.name,
+            name: action.payload.name,
             description: action.payload.description,
             comments: action.payload.comments
           }

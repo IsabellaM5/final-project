@@ -74,7 +74,7 @@ const ProjectsSection = () => {
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(projects.actions.setProjects(data))
+          dispatch(projects.actions.setProjects(data.altProjects))
         } else {
           dispatch(projects.actions.setErrors(data))
         }
