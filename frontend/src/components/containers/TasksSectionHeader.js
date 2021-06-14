@@ -33,12 +33,20 @@ const TaskBtnsContainer = styled.div`
 `
 
 const ProjectName = styled.h2`
-  grid-column: 3 / 4;
-  font-weight: 400;
+  /* grid-column: 3 / 4; */
+  font-weight: 500;
   font-size: 2.4em;
   text-align: center;
   margin: 0;
 `
+
+const DescriptionText = styled.h3`
+  font-weight: 400;
+  font-size: 1.8em;
+  text-align: center;
+  margin: 0;
+`
+
 
 const ProjectInfoContainer = styled.div`
   //grid-column: 2 / 3;
@@ -84,9 +92,14 @@ const TasksSectionHeader = ({ projectID }) => {
               <Username key={collab}>{collab}</Username>
             )))}
         </ProjectInfoContainer>
-        <ProjectName>
-          {project.name}
-        </ProjectName>
+        <ProjectInfoContainer>
+          <ProjectName>
+            {project.name}
+          </ProjectName>
+          <DescriptionText>
+            {project.description}
+          </DescriptionText>
+        </ProjectInfoContainer>
         <ProjectBtnsContainer>
           <Button 
             btnText="EDIT PROJECT"

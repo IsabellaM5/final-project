@@ -4,7 +4,7 @@ const projects = createSlice ({
   name: 'projects',
   initialState: {
     items: [],
-    activeProject: JSON.parse(localStorage.getItem('project')) || [],
+    activeProject: [],
     users: [],
     errors: null,
     loading: false

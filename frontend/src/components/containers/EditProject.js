@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, batch, useDispatch } from 'react-redux'
 
-import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
+import { API_URL, SINGLE_PROJECT, EDIT_COLLAB } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
@@ -85,10 +85,31 @@ const EditProject = ({ projectID, setEditProject }) => {
         console.log(data)
         if (data.success) {
           batch(() => {           
-            dispatch(projects.actions.editProject(data.updatedProject))
+            dispatch(projects.actions.setActiveProject(data))
             setEditProject(false)
-            dispatch(projects.actions.setActiveProject(data.updatedProject))
           })
+        } else {
+          dispatch(projects.actions.setErrors(data))
+        }
+      })
+  }
+
+  const handleInputChange = (v, endpoint) => {
+    const config = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken
+      },
+      body: JSON.stringify({ collaborators: [v] })
+    }
+
+    fetch(API_URL(endpoint(projectID)), config)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          dispatch(projects.actions.setActiveProject(data))
         } else {
           dispatch(projects.actions.setErrors(data))
         }
@@ -119,6 +140,7 @@ const EditProject = ({ projectID, setEditProject }) => {
           <SearchField 
             selectedCollaborators={projectCollabs}
             setSelectedCollaborators={setProjectCollabs}
+            onInputChange={handleInputChange}
           />
           <ButtonsContainer>
             <Button 

@@ -5,7 +5,7 @@ import Chip from '@material-ui/core/Chip'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from "@material-ui/lab/Autocomplete"
 
-import { API_URL, GET_USERS } from 'reusable/urls'
+import { API_URL, GET_USERS, EDIT_COLLAB, DELETE_COLLAB } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
@@ -25,12 +25,11 @@ const Label = styled.p`
   margin: 0;
 `
 
-const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
+const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onCollabDelete }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const usersArray = users.map(user => user.label)
-  console.log(selectedCollaborators)
 
   const [selectedOption, setSelectedOption] = useState(usersArray[0])
 
@@ -48,7 +47,6 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
     fetch(API_URL(GET_USERS), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(projects.actions.setUsers(data))
         } else {
@@ -68,6 +66,10 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
           }
           setSelectedOption(v)
           setSelectedCollaborators([...selectedCollaborators, v])
+
+          if (onInputChange) {
+            onInputChange(v, EDIT_COLLAB)
+          }
         }}
         options={usersArray}
         style={{ width: 250, marginBottom: 'auto' }}
@@ -85,6 +87,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators }) => {
               key={collab}
               label={collab}
               size="small"
+              onDelete={() => onInputChange(collab, DELETE_COLLAB)}
             />
           ))}
         </ChipsContainer>
