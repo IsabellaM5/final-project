@@ -75,7 +75,7 @@ export const newProject = async (req, res) => {
     const project = await new Project({
       name,
       description,
-      collaborators: collaboratorsArray,
+      collaborators,
       projectOwner: userID
     }).save()
   
@@ -115,9 +115,22 @@ export const patchProject = async (req, res) => {
 
   try {
     const updatedProject = await Project.findByIdAndUpdate(projectID, req.body, { new: true })
+    const collabs = []
+    for (const id of updatedProject.collaborators) {
+      const user = await User.findById({_id: id})
+      collabs.push(user.username)
+    }
+    const projectOwner = await User.findById(updatedProject.projectOwner)
 
     if (updatedProject) {
-      res.status(200).json({ success: true, updatedProject })
+      res.status(200).json({ 
+        success: true, 
+        _id: updatedProject._id, 
+        name: updatedProject.name, 
+        description: updatedProject.description, 
+        collaborators: collabs, 
+        projectOwner: projectOwner.username 
+      })
     } else {
       res.status(404).json({ success: false, message: 'Could not find project' })
     }
@@ -140,8 +153,22 @@ export const patchCollaborators = async (req, res) => {
 
     const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaboratorsArray }, { new: true })
 
+    const collabs = []
+    for (const id of updatedProject.collaborators) {
+      const user = await User.findById({_id: id})
+      collabs.push(user.username)
+    }
+    const projectOwner = await User.findById(updatedProject.projectOwner)
+
     if (updatedProject) {
-      res.status(200).json({ success: true, updatedProject })
+      res.status(200).json({ 
+        success: true, 
+        _id: updatedProject._id, 
+        name: updatedProject.name, 
+        description: updatedProject.description, 
+        collaborators: collabs, 
+        projectOwner: projectOwner.username 
+      })
     } else {
       res.status(404).json({ success: false, message: 'Could not find project' })
     }
@@ -156,7 +183,7 @@ export const deleteCollaborator = async (req, res) => {
   try {
     let newCollaboratorsArray = []
     const getProject = await Project.findById(projectID)
-    const collaborator = await User.findOne({ username: req.body.username })
+    const collaborator = await User.findOne({ username: req.body.collaborators })
     const selectedCollaborator = collaborator._id.toString()
 
     for (const collab of getProject.collaborators) {
@@ -165,9 +192,24 @@ export const deleteCollaborator = async (req, res) => {
       }
     }
 
-    const updateCollaborators = await Project.findByIdAndUpdate(projectID, { collaborators: newCollaboratorsArray }, { new: true })
-    if (updateCollaborators) {
-      res.status(200).json({ success: true, updateCollaborators })
+    const updatedCollaborators = await Project.findByIdAndUpdate(projectID, { collaborators: newCollaboratorsArray }, { new: true })
+
+    const collabs = []
+    for (const id of updatedCollaborators.collaborators) {
+      const user = await User.findById({_id: id})
+      collabs.push(user.username)
+    }
+    const projectOwner = await User.findById(updatedCollaborators.projectOwner)
+
+    if (updatedCollaborators) {
+      res.status(200).json({ 
+        success: true, 
+        _id: updatedCollaborators._id, 
+        name: updatedCollaborators.name, 
+        description: updatedCollaborators.description, 
+        collaborators: collabs, 
+        projectOwner: projectOwner.username       
+      })
     } else {
       res.status(404).json({ success: false, message: 'Could not find project' })
     }
