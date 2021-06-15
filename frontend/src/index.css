@@ -34,3 +34,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.MuiChip-root.MuiChip-deletable {
+  background: #f2eff6; 
+  margin: 0px 10px 10px 0px;
+}
+
+.MuiSvgIcon-root.MuiChip-deleteIcon {
+  color: #9c92ac;
+}

@@ -56,13 +56,11 @@ const ButtonsContainer = styled.div`
 
 const EditProfile = () => {
   const accessToken = useSelector(store => store.user.info.accessToken)
-
   const info = useSelector(store => store.user.info)
 
   const [name, setName] = useState(info.name)
   const [role, setRole] = useState(info.role)
   const [bio, setBio] = useState(info.bio)
-  const [email, setEmail] = useState(info.email)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -74,13 +72,12 @@ const EditProfile = () => {
         'Content-Type': 'application/json',
         'Authorization': accessToken
       },
-      body: JSON.stringify({ name, role, bio, email }) // change code here once it's fixed on backend
+      body: JSON.stringify({ name, role, bio }) // change code here once it's fixed on backend
     }
 
     fetch(API_URL(SINGLE_USER(info.userID)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           batch(() => {           
             dispatch(user.actions.editUser(data))
@@ -89,8 +86,7 @@ const EditProfile = () => {
             localStorage.setItem('user', JSON.stringify({
               name: data.name,
               role: data.role,
-              bio: data.bio,
-              email: data.email
+              bio: data.bio
             }))
           })
         } else {
@@ -98,8 +94,6 @@ const EditProfile = () => {
         }
       })
   }
-
-  console.log(name, role, bio, email)
 
   return (
     <ModalContainer>
@@ -112,14 +106,6 @@ const EditProfile = () => {
               type="text" 
               value={name}
               handleChange={setName} 
-            />
-            <InputField 
-              id="input-email"
-              label="Email"
-              type="email" 
-              multiline={true}
-              value={email}
-              handleChange={setEmail} 
             />
             <InputField 
               id="input-role"

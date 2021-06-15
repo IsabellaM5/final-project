@@ -72,13 +72,13 @@ const ProjectsSection = () => {
     fetch(API_URL(PROJECTS_URL(userID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(projects.actions.setProjects(data.altProjects))
         } else {
           dispatch(projects.actions.setErrors(data))
         }
       })
+      console.log('projectssection')
   }, [accessToken, dispatch, userID])
 
   const handleFormSubmit = () => {

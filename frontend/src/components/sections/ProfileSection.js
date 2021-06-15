@@ -45,7 +45,6 @@ const ProfileSection = () => {
     fetch(API_URL(SINGLE_USER(info.userID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setRole(data.role))
@@ -60,7 +59,6 @@ const ProfileSection = () => {
     fetch(API_URL(PROJECTS_URL(info.userID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(projects.actions.setProjects(data))
         } else {

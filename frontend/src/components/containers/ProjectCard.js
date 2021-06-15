@@ -49,9 +49,6 @@ const ProjectLink = styled(Link)`
 const ProjectCard = ({ item }) => {
 
   const history = useHistory()
-  
-  console.log(item)
-
 
   return (
     <ProjectLink to={`/authenticated/${item._id}/tasks`}>

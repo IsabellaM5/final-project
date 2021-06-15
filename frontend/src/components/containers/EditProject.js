@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, batch, useDispatch } from 'react-redux'
 
-import { API_URL, SINGLE_PROJECT, EDIT_COLLAB } from 'reusable/urls'
+import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
@@ -92,6 +92,7 @@ const EditProject = ({ projectID, setEditProject }) => {
           dispatch(projects.actions.setErrors(data))
         }
       })
+      console.log('editproject, patch regular')
   }
 
   const handleInputChange = (v, endpoint) => {
@@ -110,10 +111,12 @@ const EditProject = ({ projectID, setEditProject }) => {
         console.log(data)
         if (data.success) {
           dispatch(projects.actions.setActiveProject(data))
+          setProjectCollabs(data.collaborators)
         } else {
           dispatch(projects.actions.setErrors(data))
         }
       })
+      console.log('editproject, patch collab')
   }
 
   return (

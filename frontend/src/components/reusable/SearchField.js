@@ -25,9 +25,10 @@ const Label = styled.p`
   margin: 0;
 `
 
-const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onCollabDelete }) => {
+const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
+  const activeProject = useSelector(store => store.projects.activeProject)
 
   const usersArray = users.map(user => user.label)
 
@@ -53,6 +54,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
           dispatch(projects.actions.setErrors(data))
         }
       })
+      console.log('searchfield')
   }, [accessToken, dispatch])
 
   return (
@@ -86,8 +88,10 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
             <Chip
               key={collab}
               label={collab}
-              size="small"
-              onDelete={() => onInputChange(collab, DELETE_COLLAB)}
+              size="medium"
+              onDelete={() => {
+                onInputChange(collab, DELETE_COLLAB)
+              }}
             />
           ))}
         </ChipsContainer>
