@@ -7,41 +7,23 @@ import { API_URL, PROJECTS_URL } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
+import Button from 'components/reusable/Button'
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
 
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background: rgba(000, 000, 000, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-`
-
-const ModalSubContainer = styled.div`
-  background: #ffffff;
-  width: 50%;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40vh;
-`
-
 const NewProjectForm = styled.form`
-  width: 90%;
+  width: 50%;
+  background: #ffffff;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-gap: 20px;
   padding: 40px;
   border-radius: 20px;
-  height: 100%;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const SubContainer = styled.div`
@@ -59,45 +41,7 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `
 
-const CreateProjectButton = styled.button`
-  padding: 5px;
-  width: 50px;
-  height: 30px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const CancelButton = styled(Link)`
-  padding: 5px;
-  width: 70px;
-  height: 30px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  text-decoration: none;
-  text-align: center;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const Modal = () => {
+const NewProject = ({ setNewItemMode }) => {
   const user = useSelector(store => store.user.info)
 
   const [projectName, setProjectName] = useState('')
@@ -105,7 +49,6 @@ const Modal = () => {
   const [selectedCollaborators, setSelectedCollaborators] = useState([])
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const handleFormSubmit = () => {
     const options = {
@@ -122,7 +65,7 @@ const Modal = () => {
       .then(data => {
         if (data.success) {
           dispatch(projects.actions.setNewProject(data.project))
-          history.push('/authenticated/projects')
+          setNewItemMode(false)
         } else {
           dispatch(projects.actions.setErrors(data))
         }
@@ -135,44 +78,41 @@ const Modal = () => {
   }
 
   return (
-    <ModalContainer>
-      <ModalSubContainer>
-        <NewProjectForm>
-          <SubContainer>
-            <InputField 
-              id="input-project-name"
-              label="Project name"
-              type="text" 
-              value={projectName} 
-              handleChange={setProjectName} 
-            />
-            <InputField
-              id="input-project-description"
-              label="Description"
-              type="text"
-              value={description} 
-              multiline={true}
-              handleChange={setDescription} 
-            />
-          </SubContainer>
-          <SearchField 
-            selectedCollaborators={selectedCollaborators}
-            setSelectedCollaborators={setSelectedCollaborators}
-            onDeleteCollaborator={removeCollabs}
-          />
-          <ButtonsContainer>
-            <CreateProjectButton 
-              type="button"
-              onClick={handleFormSubmit}
-            >
-              ADD
-            </CreateProjectButton>
-            <CancelButton to="/authenticated/projects">CANCEL</CancelButton>
-          </ButtonsContainer>
-        </NewProjectForm>
-      </ModalSubContainer>
-    </ModalContainer>
+    <NewProjectForm>
+      <SubContainer>
+        <InputField 
+          id="input-project-name"
+          label="Project name"
+          type="text" 
+          value={projectName} 
+          handleChange={setProjectName} 
+        />
+        <InputField
+          id="input-project-description"
+          label="Description"
+          type="text"
+          value={description} 
+          multiline={true}
+          handleChange={setDescription} 
+        />
+      </SubContainer>
+      <SearchField 
+        selectedCollaborators={selectedCollaborators}
+        setSelectedCollaborators={setSelectedCollaborators}
+        onDeleteCollaborator={removeCollabs}
+      />
+      <ButtonsContainer>
+        <Button 
+          btnText="ADD"
+          handleClick={handleFormSubmit}
+        />
+        <Button 
+          btnText="CANCEL"
+          handleClick={() => setNewItemMode(false)}
+        />
+      </ButtonsContainer>
+    </NewProjectForm>
   )
 }
 
-export default Modal
+export default NewProject

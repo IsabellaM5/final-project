@@ -7,7 +7,7 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-import ModalContainer from 'components/reusable/Modal'
+import ModalContainer from 'components/reusable/ModalContainer'
 import EditTask from 'components/forms/EditTask' 
 import Icon from 'components/minor/Icon'
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { Route, useHistory } from 'react-router-dom'
@@ -10,6 +10,7 @@ import projects from 'reducers/projects'
 
 import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
+import ModalContainer from 'components/reusable/ModalContainer'
 import EditProfile from 'components/forms/EditProfile'
 
 const Section = styled.section`
@@ -27,8 +28,9 @@ const ProfileWrapper = styled.div`
 
 const ProfileSection = () => {
   const totalProjects = useSelector(store => store.projects.items)
-
   const info = useSelector(store => store.user.info)
+
+  const [editMode, setEditMode] = useState(false)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -67,24 +69,26 @@ const ProfileSection = () => {
       })
   }, [info.accessToken, dispatch, info.userID])
 
-  const handleEditProfile = () => {
-    history.push('/authenticated/profile/edit')
-  }
-
   return (
     <Section>
       <ProfileWrapper>
         <UserInfoContainer 
-          handleEditProfile={handleEditProfile}
+          handleEditProfile={() => setEditMode(true)}
           info={info}
         />
         <ProjectsCollabsContainer
           totalProjects={totalProjects}
         />
       </ProfileWrapper>
-      <Route path="/authenticated/profile/edit">
-        <EditProfile />
-      </Route>
+      <ModalContainer 
+        editMode={editMode}
+        setEditMode={setEditMode}
+        component={
+          <EditProfile 
+            setEditMode={setEditMode}
+          />
+        }
+      />
     </Section>
   )
 }

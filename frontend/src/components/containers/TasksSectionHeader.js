@@ -3,7 +3,9 @@ import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+import ModalContainer from 'components/reusable/ModalContainer'
 import EditProject from 'components/forms/EditProject'
+import NewTask from 'components/forms/NewTask'
 import DeleteProject from 'components/containers/DeleteProject'
 import Button from 'components/reusable/Button'
 
@@ -66,11 +68,8 @@ const Username = styled.p`
 const TasksSectionHeader = ({ projectID }) => {
   const project = useSelector(store => store.projects.activeProject)
 
-  const [editProject, setEditProject] = useState(false)
-
-  const handleEditProject = () => {
-    setEditProject(true)
-  }
+  const [editMode, setEditMode] = useState(false)
+  const [newItemMode, setNewItemMode] = useState(false)
 
   return (
     <>
@@ -103,27 +102,41 @@ const TasksSectionHeader = ({ projectID }) => {
         <ProjectBtnsContainer>
           <Button 
             btnText="EDIT PROJECT"
-            handleClick={handleEditProject}  
+            handleClick={() => setEditMode(true)}  
           />
           <DeleteProject 
             projectID={projectID}
           />
         </ProjectBtnsContainer>
         <TaskBtnsContainer>
-          <Link to={`/authenticated/${projectID}/tasks/new`}>
-            <Button 
-              btnText="NEW TASK"
-            />
-          </Link>
+          <Button 
+            btnText="NEW TASK"
+            handleClick={() => setNewItemMode(true)}
+          />
         </TaskBtnsContainer>
       </HeaderWrapper>
-      {editProject && (
-        <EditProject 
-          projectID={projectID}
-          editProject={editProject}
-          setEditProject={setEditProject}
-        />
-      )}
+      <ModalContainer 
+        editMode={editMode}
+        setEditMode={setEditMode}
+        component={
+          <EditProject 
+            projectID={projectID}
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
+        }
+      />
+      <ModalContainer 
+        editMode={newItemMode}
+        setEditMode={setNewItemMode}
+        component={
+          <NewTask 
+            newItemMode={newItemMode}
+            setNewItemMode={setNewItemMode}
+          />
+        }
+      />
+        
     </>
   )
 }

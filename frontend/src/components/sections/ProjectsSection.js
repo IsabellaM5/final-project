@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Link, useHistory } from 'react-router-dom'
 
 import { API_URL, PROJECTS_URL } from 'reusable/urls'
 
@@ -10,6 +9,7 @@ import projects from 'reducers/projects'
 import ProjectCard from 'components/containers/ProjectCard'
 import NewProject from 'components/forms/NewProject'
 import Button from 'components/reusable/Button'
+import ModalContainer from 'components/reusable/ModalContainer'
 
 const Section = styled.section`
   width: 85%;
@@ -42,7 +42,7 @@ const ProjectsWrapper = styled.div`
   }
 `
 
-const AddProject = styled(Link)`
+const ButtonWrapper = styled.div`
   align-self: flex-end;
 `
 
@@ -50,6 +50,8 @@ const ProjectsSection = () => {
   const userID = useSelector(store => store.user.info.userID)
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.projects.items)
+
+  const [newItemMode, setNewItemMode] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -75,14 +77,12 @@ const ProjectsSection = () => {
 
   return (
     <Section>
-      <AddProject to="/authenticated/projects/new">
+      <ButtonWrapper>
         <Button 
           btnText="ADD"
+          handleClick={() => setNewItemMode(true)}
         />
-      </AddProject>
-      <Route path="/authenticated/projects/new">
-        <NewProject />
-      </Route>
+      </ButtonWrapper>
       <ProjectsWrapper>
         {items.length !== 0 && (
           items.map(item => (
@@ -94,6 +94,15 @@ const ProjectsSection = () => {
         )}
         
       </ProjectsWrapper>
+      <ModalContainer 
+        editMode={newItemMode}
+        setEditMode={setNewItemMode}
+        component={
+          <NewProject 
+            setNewItemMode={setNewItemMode}
+          />
+        }
+      />
     </Section>
   )
 }
