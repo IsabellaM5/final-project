@@ -92,7 +92,6 @@ const EditProject = ({ projectID, setEditProject }) => {
           dispatch(projects.actions.setErrors(data))
         }
       })
-      console.log('editproject, patch regular')
   }
 
   const handleInputChange = (v, endpoint) => {
@@ -116,7 +115,6 @@ const EditProject = ({ projectID, setEditProject }) => {
           dispatch(projects.actions.setErrors(data))
         }
       })
-      console.log('editproject, patch collab')
   }
 
   return (
@@ -144,6 +142,7 @@ const EditProject = ({ projectID, setEditProject }) => {
             selectedCollaborators={projectCollabs}
             setSelectedCollaborators={setProjectCollabs}
             onInputChange={handleInputChange}
+            onDeleteCollaborator={handleInputChange}
           />
           <ButtonsContainer>
             <Button 

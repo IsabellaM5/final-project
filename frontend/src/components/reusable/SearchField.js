@@ -25,7 +25,7 @@ const Label = styled.p`
   margin: 0;
 `
 
-const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange }) => {
+const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onDeleteCollaborator }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
   const activeProject = useSelector(store => store.projects.activeProject)
@@ -54,7 +54,6 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
           dispatch(projects.actions.setErrors(data))
         }
       })
-      console.log('searchfield')
   }, [accessToken, dispatch])
 
   return (
@@ -90,7 +89,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
               label={collab}
               size="medium"
               onDelete={() => {
-                onInputChange(collab, DELETE_COLLAB)
+                onDeleteCollaborator(collab, DELETE_COLLAB)
               }}
             />
           ))}

@@ -47,18 +47,11 @@ const AddProject = styled(Link)`
 `
 
 const ProjectsSection = () => {
-  const [projectName, setProjectName] = useState('')
-  const [description, setDescription] = useState('')
-  const [selectedCollaborators, setSelectedCollaborators] = useState([])
-
-  let collaboratorsArray = []
-
   const userID = useSelector(store => store.user.info.userID)
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.projects.items)
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
   useEffect(() => {
     const options = {
@@ -78,33 +71,9 @@ const ProjectsSection = () => {
           dispatch(projects.actions.setErrors(data))
         }
       })
-      console.log('projectssection')
   }, [accessToken, dispatch, userID])
 
-  const handleFormSubmit = () => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken
-      },
-      body: JSON.stringify({ name: projectName, description: description, collaborators: selectedCollaborators })
-    }
-
-    console.log(collaboratorsArray)
-
-    fetch(API_URL(PROJECTS_URL(userID)), options)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        if (data.success) {
-          dispatch(projects.actions.setNewProject(data.project))
-          history.push('/authenticated/projects')
-        } else {
-          dispatch(projects.actions.setErrors(data))
-        }
-      })
-  }
+  
 
   return (
     <Section>
@@ -114,23 +83,18 @@ const ProjectsSection = () => {
         />
       </AddProject>
       <Route path="/authenticated/projects/new">
-        <Modal
-          projectName={projectName}
-          setProjectName={setProjectName}
-          description={description}
-          setDescription={setDescription}
-          selectedCollaborators={selectedCollaborators}
-          setSelectedCollaborators={setSelectedCollaborators}
-          handleFormSubmit={handleFormSubmit}
-        />
+        <Modal />
       </Route>
       <ProjectsWrapper>
-        {items.map(item => (
-          <ProjectCard 
-            key={item._id} 
-            item={item} 
-          />
-        ))}
+        {items.length !== 0 && (
+          items.map(item => (
+            <ProjectCard 
+              key={item._id} 
+              item={item} 
+            />
+          ))
+        )}
+        
       </ProjectsWrapper>
     </Section>
   )

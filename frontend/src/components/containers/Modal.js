@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
+
+import { API_URL, PROJECTS_URL } from 'reusable/urls'
+
+import projects from 'reducers/projects'
 
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
@@ -92,7 +97,43 @@ const CancelButton = styled(Link)`
   }
 `
 
-const Modal = ({ projectName, setProjectName, description, setDescription, selectedCollaborators, setSelectedCollaborators, handleFormSubmit }) => {
+const Modal = () => {
+  const user = useSelector(store => store.user.info)
+
+  const [projectName, setProjectName] = useState('')
+  const [description, setDescription] = useState('')
+  const [selectedCollaborators, setSelectedCollaborators] = useState([])
+
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const handleFormSubmit = () => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': user.accessToken
+      },
+      body: JSON.stringify({ name: projectName, description: description, collaborators: selectedCollaborators })
+    }
+
+    fetch(API_URL(PROJECTS_URL(user.userID)), options)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          dispatch(projects.actions.setNewProject(data.project))
+          history.push('/authenticated/projects')
+        } else {
+          dispatch(projects.actions.setErrors(data))
+        }
+      })
+  }
+
+  const removeCollabs = (collab, url) => {
+    const filteredCollabs = selectedCollaborators.filter(c => c !== collab)
+    setSelectedCollaborators(filteredCollabs)
+  }
+
   return (
     <ModalContainer>
       <ModalSubContainer>
@@ -117,6 +158,7 @@ const Modal = ({ projectName, setProjectName, description, setDescription, selec
           <SearchField 
             selectedCollaborators={selectedCollaborators}
             setSelectedCollaborators={setSelectedCollaborators}
+            onDeleteCollaborator={removeCollabs}
           />
           <ButtonsContainer>
             <CreateProjectButton 
