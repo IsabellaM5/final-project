@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, batch, useDispatch } from 'react-redux'
+import Modal from '@material-ui/core/Modal'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 
@@ -9,6 +11,14 @@ import projects from 'reducers/projects'
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
 import Button from 'components/reusable/Button'
+
+const useStyles = makeStyles(() => ({
+  backdropModal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+}))
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -59,12 +69,13 @@ const ButtonsContainer = styled.div`
   align-items: center;
 `
 
-const EditProject = ({ projectID, setEditProject }) => {
+const EditProject = ({ projectID, editProject, setEditProject }) => {
   const project = useSelector(store => store.projects.activeProject)
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
-  
+  const classes = useStyles()
+
   const [projectName, setProjectName] = useState(project.name)
   const [projectDesc, setProjectDesc] = useState(project.description)
   const [projectCollabs, setProjectCollabs] = useState(project.collaborators)
@@ -118,45 +129,47 @@ const EditProject = ({ projectID, setEditProject }) => {
   }
 
   return (
-    <ModalContainer>
-      <ModalSubContainer>
-        <ProjectForm>
-          <SubContainer>
-            <InputField 
-              id="input-project-name"
-              label="Project name"
-              type="text" 
-              value={projectName} 
-              handleChange={setProjectName} 
-            />
-            <InputField
-              id="input-project-description"
-              label="Description"
-              type="text"
-              value={projectDesc} 
-              multiline={true}
-              handleChange={setProjectDesc} 
-            />
-          </SubContainer>
-          <SearchField 
-            selectedCollaborators={projectCollabs}
-            setSelectedCollaborators={setProjectCollabs}
-            onInputChange={handleInputChange}
-            onDeleteCollaborator={handleInputChange}
+    <Modal
+      open={editProject}
+      onBackdropClick={() => setEditProject(false)}
+      className={classes.backdropModal}
+    >
+      <ProjectForm>
+        <SubContainer>
+          <InputField 
+            id="input-project-name"
+            label="Project name"
+            type="text" 
+            value={projectName} 
+            handleChange={setProjectName} 
           />
-          <ButtonsContainer>
-            <Button 
-              btnText="SAVE"
-              handleClick={handleFormSubmit}
-            />
-            <Button 
-              btnText="CANCEL"
-              handleClick={() => setEditProject(false)}
-            />
-          </ButtonsContainer>
-        </ProjectForm>
-      </ModalSubContainer>
-    </ModalContainer>
+          <InputField
+            id="input-project-description"
+            label="Description"
+            type="text"
+            value={projectDesc} 
+            multiline={true}
+            handleChange={setProjectDesc} 
+          />
+        </SubContainer>
+        <SearchField 
+          selectedCollaborators={projectCollabs}
+          setSelectedCollaborators={setProjectCollabs}
+          onInputChange={handleInputChange}
+          onDeleteCollaborator={handleInputChange}
+        />
+        <ButtonsContainer>
+          <Button 
+            btnText="SAVE"
+            handleClick={handleFormSubmit}
+          />
+          <Button 
+            btnText="CANCEL"
+            handleClick={() => setEditProject(false)}
+          />
+        </ButtonsContainer>
+      </ProjectForm>
+    </Modal>
   )
 }
 

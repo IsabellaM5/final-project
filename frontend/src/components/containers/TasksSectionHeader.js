@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import EditProject from 'components/containers/EditProject'
+import EditProject from 'components/forms/EditProject'
 import DeleteProject from 'components/containers/DeleteProject'
 import Button from 'components/reusable/Button'
 
@@ -120,6 +120,7 @@ const TasksSectionHeader = ({ projectID }) => {
       {editProject && (
         <EditProject 
           projectID={projectID}
+          editProject={editProject}
           setEditProject={setEditProject}
         />
       )}

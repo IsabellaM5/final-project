@@ -6,7 +6,9 @@ import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
-import EditTask from 'components/containers/EditTask' 
+
+import ModalContainer from 'components/reusable/Modal'
+import EditTask from 'components/forms/EditTask' 
 import Icon from 'components/minor/Icon'
 
 const TaskContainer = styled.div`
@@ -35,9 +37,6 @@ const ButtonsContainer = styled.div`
 
 const TaskCard = ({ item, projectID }) => {
   const [editMode, setEditMode] = useState(false)
-  const [taskTitle, setTaskTitle] = useState(item.title)
-  const [taskDesc, setTaskDesc] = useState(item.description)
-  const [taskComments, setTaskComments] = useState(item.comments)
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
@@ -86,17 +85,16 @@ const TaskCard = ({ item, projectID }) => {
           />
         </ButtonsContainer>
       </TaskContainer>
-      {editMode && (
-        <EditTask 
-          taskTitle={taskTitle}
-          setTaskTitle={setTaskTitle}
-          taskDesc={taskDesc}
-          setTaskDesc={setTaskDesc}
-          taskComments={taskComments}
-          setTaskComments={setTaskComments}
-          setEditMode={setEditMode}
-        />
-      )}
+      <ModalContainer 
+        editMode={editMode}
+        setEditMode={setEditMode}
+        component={
+          <EditTask
+            item={item} 
+            setEditMode={setEditMode}
+          />
+        }
+      />
     </>
   )
 }

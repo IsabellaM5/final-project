@@ -72,7 +72,7 @@ const EditProfile = () => {
         'Content-Type': 'application/json',
         'Authorization': accessToken
       },
-      body: JSON.stringify({ name, role, bio }) // change code here once it's fixed on backend
+      body: JSON.stringify({ name, role, bio })
     }
 
     fetch(API_URL(SINGLE_USER(info.userID)), config)

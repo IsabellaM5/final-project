@@ -10,7 +10,7 @@ import tasks from 'reducers/tasks'
 
 import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
-import NewTask from 'components/containers/NewTask'
+import NewTask from 'components/forms/NewTask'
 
 const Section = styled.section`
   width: 85%;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -9,36 +9,19 @@ import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
 
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background: rgba(000, 000, 000, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-`
-
-const ModalSubContainer = styled.div`
-  background: #ffffff;
-  width: 50%;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 const EditTaskForm = styled.form`
-  width: 90%;
+  width: 50%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-gap: 20px;
   padding: 40px;
-  border-radius: 20px;
+  border-radius: 15px;
+  background: #ffffff;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const SubContainer = styled.div`
@@ -88,7 +71,11 @@ const CancelButton = styled.button`
   }
 `
 
-const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments, setTaskComments, setEditMode }) => {
+const EditTask = ({ item, setEditMode }) => {
+  const [taskTitle, setTaskTitle] = useState(item.title)
+  const [taskDesc, setTaskDesc] = useState(item.description)
+  const [taskComments, setTaskComments] = useState(item.comments)
+
   const { projectID, itemID } = useParams()
 
   const accessToken = useSelector(store => store.user.info.accessToken)
@@ -119,46 +106,42 @@ const EditTask = ({ taskTitle, setTaskTitle, taskDesc, setTaskDesc, taskComments
   }
 
   return (
-    <ModalContainer>
-      <ModalSubContainer>
-        <EditTaskForm>
-          <SubContainer>
-            <InputField 
-              id="input-task-title"
-              label="Task title"
-              type="text" 
-              value={taskTitle} 
-              handleChange={setTaskTitle} 
-            />
-            <InputField 
-              id="input-task-description"
-              label="Description"
-              type="text" 
-              multiline={true}
-              value={taskDesc} 
-              handleChange={setTaskDesc} 
-            />
-            <InputField 
-              id="input-task-comments"
-              label="Comments"
-              type="text" 
-              multiline={true}
-              value={taskComments} 
-              handleChange={setTaskComments} 
-            />
-          </SubContainer>
-          <ButtonsContainer>
-            <SaveButton 
-              type="button"
-              onClick={handleFormSubmit}
-            >
-              SAVE
-            </SaveButton>
-            <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
-          </ButtonsContainer>
-        </EditTaskForm>
-      </ModalSubContainer>
-    </ModalContainer>
+    <EditTaskForm>
+      <SubContainer>
+        <InputField 
+          id="input-task-title"
+          label="Task title"
+          type="text" 
+          value={taskTitle} 
+          handleChange={setTaskTitle} 
+        />
+        <InputField 
+          id="input-task-description"
+          label="Description"
+          type="text" 
+          multiline={true}
+          value={taskDesc} 
+          handleChange={setTaskDesc} 
+        />
+        <InputField 
+          id="input-task-comments"
+          label="Comments"
+          type="text" 
+          multiline={true}
+          value={taskComments} 
+          handleChange={setTaskComments} 
+        />
+      </SubContainer>
+      <ButtonsContainer>
+        <SaveButton 
+          type="button"
+          onClick={handleFormSubmit}
+        >
+          SAVE
+        </SaveButton>
+        <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
+      </ButtonsContainer>
+    </EditTaskForm>
   )
 }
 

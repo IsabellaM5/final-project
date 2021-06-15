@@ -8,7 +8,7 @@ import { API_URL, PROJECTS_URL } from 'reusable/urls'
 import projects from 'reducers/projects'
 
 import ProjectCard from 'components/containers/ProjectCard'
-import Modal from 'components/containers/Modal'
+import NewProject from 'components/forms/NewProject'
 import Button from 'components/reusable/Button'
 
 const Section = styled.section`
@@ -73,8 +73,6 @@ const ProjectsSection = () => {
       })
   }, [accessToken, dispatch, userID])
 
-  
-
   return (
     <Section>
       <AddProject to="/authenticated/projects/new">
@@ -83,7 +81,7 @@ const ProjectsSection = () => {
         />
       </AddProject>
       <Route path="/authenticated/projects/new">
-        <Modal />
+        <NewProject />
       </Route>
       <ProjectsWrapper>
         {items.length !== 0 && (

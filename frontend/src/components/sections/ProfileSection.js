@@ -10,7 +10,7 @@ import projects from 'reducers/projects'
 
 import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
-import EditProfile from 'components/containers/EditProfile'
+import EditProfile from 'components/forms/EditProfile'
 
 const Section = styled.section`
   width: 85%;
