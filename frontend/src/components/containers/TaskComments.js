@@ -96,7 +96,7 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
         'Content-Type': 'application/json',
         'Authorization': info.accessToken
       },
-      body: JSON.stringify({ userID: info.userID, comment: taskComments })
+      body: JSON.stringify({ username: info.username, comment: taskComments })
     }
 
     fetch(API_URL(COMMENT_TASK_URL(item.taskOwner, item._id)), config)
