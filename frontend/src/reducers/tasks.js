@@ -20,7 +20,21 @@ const tasks = createSlice ({
           return {
             ...item,
             title: action.payload.updatedTask.title,
-            description: action.payload.updatedTask.description,
+            description: action.payload.updatedTask.description
+          }
+        } else {
+          return item
+        }
+      })
+      store.items = updatedItem
+    },
+    addComment: (store, action) => {
+      const findItem = store.items.find(item => item._id === action.payload.updatedTask._id)
+
+      const updatedItem = store.items.map((item) => {
+        if (item._id === findItem._id) {
+          return {
+            ...item,
             comments: action.payload.updatedTask.comments
           }
         } else {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, useParams } from 'react-router-dom'
@@ -50,6 +50,8 @@ const TasksSection = () => {
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.tasks.items)
 
+  const [newItemMode, setNewItemMode] = useState(false)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -93,6 +95,8 @@ const TasksSection = () => {
     <Section>
       <TasksSectionHeader 
         projectID={projectID}
+        newItemMode={newItemMode}
+        setNewItemMode={setNewItemMode}
       />
       <Route path="/authenticated/:projectID/tasks/new">
         <NewTask />
@@ -105,6 +109,11 @@ const TasksSection = () => {
             projectID={projectID}
           />
         ))}
+        {newItemMode && (
+          <NewTask 
+            setNewItemMode={setNewItemMode}
+          />
+        )}
       </TasksWrapper>
     </Section>
   )

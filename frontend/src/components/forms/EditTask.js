@@ -7,9 +7,11 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
+import TaskComments from 'components/containers/TaskComments'
+import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
-  width: 50%;
+  width: 60%;
 `
 
 const EditTaskForm = styled.form`
@@ -38,46 +40,10 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
 `
 
-const SaveButton = styled.button`
-  padding: 5px;
-  width: 50px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
-const CancelButton = styled.button`
-  padding: 5px;
-  width: 70px;
-  font-family: "Montserrat";
-  border-radius: 4px;
-  border: none;
-  background: #9c92ac;
-  color: #ffffff;
-  margin: 5px;
-  text-decoration: none;
-  text-align: center;
-  font-size: 1.4em;
-
-  &:hover {
-    background: #c3bdcd;
-    cursor: pointer;
-  }
-`
-
 const EditTask = ({ item, setEditMode }) => {
   const [taskTitle, setTaskTitle] = useState(item.title)
   const [taskDesc, setTaskDesc] = useState(item.description)
-  const [taskComments, setTaskComments] = useState(item.comments)
+  const [taskComments, setTaskComments] = useState('')
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
@@ -96,7 +62,6 @@ const EditTask = ({ item, setEditMode }) => {
     fetch(API_URL(SINGLE_TASK_URL(item.taskOwner, item._id)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           batch(() => {
             dispatch(tasks.actions.editTask(data))
@@ -127,23 +92,21 @@ const EditTask = ({ item, setEditMode }) => {
             value={taskDesc} 
             handleChange={setTaskDesc}
           />
-          <InputField 
-            id="input-task-comments"
-            label="Comments"
-            type="text" 
-            multiline={true}
-            value={taskComments} 
-            handleChange={setTaskComments} 
-          />
         </SubContainer>
+        <TaskComments 
+          item={item}
+          taskComments={taskComments} 
+          setTaskComments={setTaskComments}
+        />
         <ButtonsContainer>
-          <SaveButton 
-            type="button"
-            onClick={handleFormSubmit}
-          >
-            SAVE
-          </SaveButton>
-          <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
+          <Button 
+            btnText="SAVE"
+            handleClick={handleFormSubmit}
+          />
+          <Button 
+            btnText="CANCEL"
+            handleClick={() => setEditMode(false)}
+          />
         </ButtonsContainer>
       </EditTaskForm>
     </FormWrapper>

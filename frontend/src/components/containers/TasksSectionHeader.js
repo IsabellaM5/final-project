@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 import ModalContainer from 'components/reusable/ModalContainer'
 import EditProject from 'components/forms/EditProject'
-import NewTask from 'components/forms/NewTask'
 import DeleteProject from 'components/containers/DeleteProject'
 import Button from 'components/reusable/Button'
 
@@ -63,11 +62,10 @@ const Username = styled.p`
   margin: 2px;
 `
 
-const TasksSectionHeader = ({ projectID }) => {
+const TasksSectionHeader = ({ projectID, newItemMode, setNewItemMode }) => {
   const project = useSelector(store => store.projects.activeProject)
 
   const [editMode, setEditMode] = useState(false)
-  const [newItemMode, setNewItemMode] = useState(false)
 
   return (
     <>
@@ -124,17 +122,6 @@ const TasksSectionHeader = ({ projectID }) => {
           />
         }
       />
-      <ModalContainer 
-        editMode={newItemMode}
-        setEditMode={setNewItemMode}
-        component={
-          <NewTask 
-            newItemMode={newItemMode}
-            setNewItemMode={setNewItemMode}
-          />
-        }
-      />
-        
     </>
   )
 }

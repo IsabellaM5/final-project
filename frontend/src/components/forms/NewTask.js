@@ -10,40 +10,27 @@ import tasks from 'reducers/tasks'
 import InputField from 'components/reusable/InputField'
 import Button from 'components/reusable/Button'
 
-const FormWrapper = styled.div`
-  width: 50%;
-`
-
-const NewTaskForm = styled.form`
+const TaskContainer = styled.div`
+  background: #dfdbe5;
   width: 100%;
-  background: #ffffff;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  padding: 40px;
-  border-radius: 20px;
-
-  &:focus {
-    outline: none;
-  }
-`
-
-const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  padding: 10px;
+  justify-content: space-between;
+  cursor: pointer;
 `
 
 const ButtonsContainer = styled.div`
-
+  display: flex;
+  align-self: flex-end;
 `
 
-const NewTask = ({ newItemMode, setNewItemMode }) => {
+const NewTask = ({ setNewItemMode }) => {
   const { projectID } = useParams()
 
   const [taskTitle, setTaskTitle] = useState('')
-  const [taskDesc, setTaskDesc] = useState('')
-  const [taskComments, setTaskComments] = useState('')
 
   const accessToken = useSelector(store => store.user.info.accessToken)
 
@@ -56,7 +43,7 @@ const NewTask = ({ newItemMode, setNewItemMode }) => {
       'Content-Type': 'application/json',
       'Authorization': accessToken
     },
-    body: JSON.stringify({ title: taskTitle, description: taskDesc, comments: taskComments })
+    body: JSON.stringify({ title: taskTitle })
     }
 
     fetch(API_URL(TASKS_URL(projectID)), options)
@@ -72,45 +59,26 @@ const NewTask = ({ newItemMode, setNewItemMode }) => {
   }
 
   return (
-    <FormWrapper>
-      <NewTaskForm>
-        <SubContainer>
-          <InputField 
-            id="input-task-title"
-            label="Task title"
-            type="text" 
-            value={taskTitle} 
-            handleChange={setTaskTitle} 
-          />
-          <InputField 
-            id="input-task-description"
-            label="Description"
-            type="text" 
-            multiline={true}
-            value={taskDesc} 
-            handleChange={setTaskDesc} 
-          />
-          <InputField 
-            id="input-task-comments"
-            label="Comments"
-            type="text" 
-            multiline={true}
-            value={taskComments} 
-            handleChange={setTaskComments} 
-          />
-        </SubContainer>
-        <ButtonsContainer>
-          <Button 
-            btnText="ADD" 
-            handleClick={handleFormSubmit} 
-          />
-          <Button 
-            btnText="CANCEL"
-            handleClick={() => setNewItemMode(false)}
-          />
-        </ButtonsContainer>
-      </NewTaskForm>
-    </FormWrapper>
+    <TaskContainer>
+      <InputField 
+        id="input-task-title"
+        label="Task title"
+        type="text" 
+        value={taskTitle} 
+        handleChange={setTaskTitle} 
+        width="100%"
+      />
+      <ButtonsContainer>
+        <Button 
+          btnText="ADD"
+          handleClick={handleFormSubmit}
+        />
+        <Button 
+          btnText="CANCEL"
+          handleClick={() => setNewItemMode(false)}
+        />
+      </ButtonsContainer>
+    </TaskContainer>
   )
 }
 
