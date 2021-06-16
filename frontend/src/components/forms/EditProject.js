@@ -10,8 +10,12 @@ import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
 import Button from 'components/reusable/Button'
 
-const ProjectForm = styled.form`
+const FormWrapper = styled.div`
   width: 50%;
+`
+
+const ProjectForm = styled.form`
+  width: 100%;
   background: #ffffff;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -63,7 +67,6 @@ const EditProject = ({ projectID, setEditMode }) => {
     fetch(API_URL(SINGLE_PROJECT(projectID)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           batch(() => {           
             dispatch(projects.actions.setActiveProject(data))
@@ -88,7 +91,6 @@ const EditProject = ({ projectID, setEditMode }) => {
     fetch(API_URL(endpoint(projectID)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(projects.actions.setActiveProject(data))
           setProjectCollabs(data.collaborators)
@@ -99,41 +101,43 @@ const EditProject = ({ projectID, setEditMode }) => {
   }
 
   return (
-    <ProjectForm>
-      <SubContainer>
-        <InputField 
-          id="input-project-name"
-          label="Project name"
-          type="text" 
-          value={projectName} 
-          handleChange={setProjectName} 
+    <FormWrapper>
+      <ProjectForm>
+        <SubContainer>
+          <InputField 
+            id="input-project-name"
+            label="Project name"
+            type="text" 
+            value={projectName} 
+            handleChange={setProjectName} 
+          />
+          <InputField
+            id="input-project-description"
+            label="Description"
+            type="text"
+            value={projectDesc} 
+            multiline={true}
+            handleChange={setProjectDesc} 
+          />
+        </SubContainer>
+        <SearchField 
+          selectedCollaborators={projectCollabs}
+          setSelectedCollaborators={setProjectCollabs}
+          onInputChange={handleInputChange}
+          onDeleteCollaborator={handleInputChange}
         />
-        <InputField
-          id="input-project-description"
-          label="Description"
-          type="text"
-          value={projectDesc} 
-          multiline={true}
-          handleChange={setProjectDesc} 
-        />
-      </SubContainer>
-      <SearchField 
-        selectedCollaborators={projectCollabs}
-        setSelectedCollaborators={setProjectCollabs}
-        onInputChange={handleInputChange}
-        onDeleteCollaborator={handleInputChange}
-      />
-      <ButtonsContainer>
-        <Button 
-          btnText="SAVE"
-          handleClick={handleFormSubmit}
-        />
-        <Button 
-          btnText="CANCEL"
-          handleClick={() => setEditMode(false)}
-        />
-      </ButtonsContainer>
-    </ProjectForm>
+        <ButtonsContainer>
+          <Button 
+            btnText="SAVE"
+            handleClick={handleFormSubmit}
+          />
+          <Button 
+            btnText="CANCEL"
+            handleClick={() => setEditMode(false)}
+          />
+        </ButtonsContainer>
+      </ProjectForm>
+    </FormWrapper>
   )
 }
 

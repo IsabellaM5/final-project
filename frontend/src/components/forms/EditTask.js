@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch, batch } from 'react-redux'
 
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
@@ -9,8 +8,12 @@ import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
 
-const EditTaskForm = styled.form`
+const FormWrapper = styled.div`
   width: 50%;
+`
+
+const EditTaskForm = styled.form`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
@@ -76,8 +79,6 @@ const EditTask = ({ item, setEditMode }) => {
   const [taskDesc, setTaskDesc] = useState(item.description)
   const [taskComments, setTaskComments] = useState(item.comments)
 
-  const { projectID, itemID } = useParams()
-
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const dispatch = useDispatch()
@@ -92,13 +93,15 @@ const EditTask = ({ item, setEditMode }) => {
       body: JSON.stringify({ title: taskTitle, description: taskDesc, comments: taskComments })
     }
 
-    fetch(API_URL(SINGLE_TASK_URL(projectID, itemID)), config)
+    fetch(API_URL(SINGLE_TASK_URL(item.taskOwner, item._id)), config)
       .then(res => res.json())
       .then(data => {
         console.log(data)
         if (data.success) {
-          dispatch(tasks.actions.editTask(data))
-          setEditMode(false)
+          batch(() => {
+            dispatch(tasks.actions.editTask(data))
+            setEditMode(false)
+          })
         } else {
           dispatch(tasks.actions.setErrors(data))
         }
@@ -106,42 +109,44 @@ const EditTask = ({ item, setEditMode }) => {
   }
 
   return (
-    <EditTaskForm>
-      <SubContainer>
-        <InputField 
-          id="input-task-title"
-          label="Task title"
-          type="text" 
-          value={taskTitle} 
-          handleChange={setTaskTitle} 
-        />
-        <InputField 
-          id="input-task-description"
-          label="Description"
-          type="text" 
-          multiline={true}
-          value={taskDesc} 
-          handleChange={setTaskDesc} 
-        />
-        <InputField 
-          id="input-task-comments"
-          label="Comments"
-          type="text" 
-          multiline={true}
-          value={taskComments} 
-          handleChange={setTaskComments} 
-        />
-      </SubContainer>
-      <ButtonsContainer>
-        <SaveButton 
-          type="button"
-          onClick={handleFormSubmit}
-        >
-          SAVE
-        </SaveButton>
-        <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
-      </ButtonsContainer>
-    </EditTaskForm>
+    <FormWrapper>
+      <EditTaskForm>
+        <SubContainer>
+          <InputField 
+            id="input-task-title"
+            label="Task title"
+            type="text" 
+            value={taskTitle} 
+            handleChange={setTaskTitle} 
+          />
+          <InputField 
+            id="input-task-description"
+            label="Description"
+            type="text" 
+            multiline={true}
+            value={taskDesc} 
+            handleChange={setTaskDesc}
+          />
+          <InputField 
+            id="input-task-comments"
+            label="Comments"
+            type="text" 
+            multiline={true}
+            value={taskComments} 
+            handleChange={setTaskComments} 
+          />
+        </SubContainer>
+        <ButtonsContainer>
+          <SaveButton 
+            type="button"
+            onClick={handleFormSubmit}
+          >
+            SAVE
+          </SaveButton>
+          <CancelButton onClick={() => setEditMode(false)}>CANCEL</CancelButton>
+        </ButtonsContainer>
+      </EditTaskForm>
+    </FormWrapper>
   )
 }
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
 
 import { API_URL, PROJECTS_URL } from 'reusable/urls'
 
@@ -11,8 +10,12 @@ import Button from 'components/reusable/Button'
 import InputField from 'components/reusable/InputField'
 import SearchField from 'components/reusable/SearchField'
 
-const NewProjectForm = styled.form`
+const FormWrapper = styled.div`
   width: 50%;
+`
+
+const NewProjectForm = styled.form`
+  width: 100%;
   background: #ffffff;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -78,40 +81,42 @@ const NewProject = ({ setNewItemMode }) => {
   }
 
   return (
-    <NewProjectForm>
-      <SubContainer>
-        <InputField 
-          id="input-project-name"
-          label="Project name"
-          type="text" 
-          value={projectName} 
-          handleChange={setProjectName} 
+    <FormWrapper>
+      <NewProjectForm>
+        <SubContainer>
+          <InputField 
+            id="input-project-name"
+            label="Project name"
+            type="text" 
+            value={projectName} 
+            handleChange={setProjectName} 
+          />
+          <InputField
+            id="input-project-description"
+            label="Description"
+            type="text"
+            value={description} 
+            multiline={true}
+            handleChange={setDescription} 
+          />
+        </SubContainer>
+        <SearchField 
+          selectedCollaborators={selectedCollaborators}
+          setSelectedCollaborators={setSelectedCollaborators}
+          onDeleteCollaborator={removeCollabs}
         />
-        <InputField
-          id="input-project-description"
-          label="Description"
-          type="text"
-          value={description} 
-          multiline={true}
-          handleChange={setDescription} 
-        />
-      </SubContainer>
-      <SearchField 
-        selectedCollaborators={selectedCollaborators}
-        setSelectedCollaborators={setSelectedCollaborators}
-        onDeleteCollaborator={removeCollabs}
-      />
-      <ButtonsContainer>
-        <Button 
-          btnText="ADD"
-          handleClick={handleFormSubmit}
-        />
-        <Button 
-          btnText="CANCEL"
-          handleClick={() => setNewItemMode(false)}
-        />
-      </ButtonsContainer>
-    </NewProjectForm>
+        <ButtonsContainer>
+          <Button 
+            btnText="ADD"
+            handleClick={handleFormSubmit}
+          />
+          <Button 
+            btnText="CANCEL"
+            handleClick={() => setNewItemMode(false)}
+          />
+        </ButtonsContainer>
+      </NewProjectForm>
+    </FormWrapper>
   )
 }
 

@@ -9,8 +9,12 @@ import user from 'reducers/user'
 import InputField from 'components/reusable/InputField'
 import Button from 'components/reusable/Button'
 
-const EditProfileForm = styled.form`
+const FormWrapper = styled.div`
   width: 50%;
+`
+
+const EditProfileForm = styled.form`
+  width: 100%;
   background: #ffffff;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -76,42 +80,44 @@ const EditProfile = ({ setEditMode }) => {
   }
 
   return (
-    <EditProfileForm>
-      <SubContainer>
-        <InputField 
-          id="input-name"
-          label="Name"
-          type="text" 
-          value={name}
-          handleChange={setName} 
-        />
-        <InputField 
-          id="input-role"
-          label="Role"
-          type="text" 
-          value={role}
-          handleChange={setRole} 
-        />
-        <InputField 
-          id="input-bio"
-          label="Bio"
-          type="text" 
-          multiline={true}
-          value={bio}
-          handleChange={setBio} 
-        />
-      </SubContainer>
-      <ButtonsContainer>
-        <Button 
-          btnText="ADD"
-          handleClick={handleFormSubmit}
-        />
-        <Button
-          btnText="CANCEL"
-          handleClick={() => setEditMode(false)}
-      />            
-      </ButtonsContainer>
-    </EditProfileForm>
+    <FormWrapper>
+      <EditProfileForm>
+        <SubContainer>
+          <InputField 
+            id="input-name"
+            label="Name"
+            type="text" 
+            value={name}
+            handleChange={setName} 
+          />
+          <InputField 
+            id="input-role"
+            label="Role"
+            type="text" 
+            value={role}
+            handleChange={setRole} 
+          />
+          <InputField 
+            id="input-bio"
+            label="Bio"
+            type="text" 
+            multiline={true}
+            value={bio}
+            handleChange={setBio} 
+          />
+        </SubContainer>
+        <ButtonsContainer>
+          <Button 
+            btnText="ADD"
+            handleClick={handleFormSubmit}
+          />
+          <Button
+            btnText="CANCEL"
+            handleClick={() => setEditMode(false)}
+          />            
+        </ButtonsContainer>
+      </EditProfileForm>
+    </FormWrapper>
   )
 }
 

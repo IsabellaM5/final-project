@@ -18,6 +18,7 @@ const tasks = createSlice ({
       const updatedItem = store.items.map((item) => {
         if (item._id === findItem._id) {
           return {
+            ...item,
             title: action.payload.updatedTask.title,
             description: action.payload.updatedTask.description,
             comments: action.payload.updatedTask.comments

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components/macro'
 
 const Btn = styled.button`
-  /* width: 75%; */
   margin: 5px 0;
   padding: 5px 10px;
   font-family: "Montserrat";

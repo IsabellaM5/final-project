@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const ProjectContainer = styled.div`
@@ -47,9 +47,6 @@ const ProjectLink = styled(Link)`
 `
 
 const ProjectCard = ({ item }) => {
-
-  const history = useHistory()
-
   return (
     <ProjectLink to={`/authenticated/${item._id}/tasks`}>
       <ProjectContainer image={item.image}>

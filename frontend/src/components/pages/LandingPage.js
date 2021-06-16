@@ -70,7 +70,6 @@ const LandingPage = () => {
     fetch(API_URL(endpoint), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserID(data.userID))

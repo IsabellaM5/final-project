@@ -28,7 +28,6 @@ const Label = styled.p`
 const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onDeleteCollaborator }) => {
   const users = useSelector(store => store.projects.users)
   const accessToken = useSelector(store => store.user.info.accessToken)
-  const activeProject = useSelector(store => store.projects.activeProject)
 
   const usersArray = users.map(user => user.label)
 

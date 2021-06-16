@@ -10,8 +10,12 @@ import tasks from 'reducers/tasks'
 import InputField from 'components/reusable/InputField'
 import Button from 'components/reusable/Button'
 
-const NewTaskForm = styled.form`
+const FormWrapper = styled.div`
   width: 50%;
+`
+
+const NewTaskForm = styled.form`
+  width: 100%;
   background: #ffffff;
   display: flex;
   flex-direction: column;
@@ -58,7 +62,6 @@ const NewTask = ({ newItemMode, setNewItemMode }) => {
     fetch(API_URL(TASKS_URL(projectID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(tasks.actions.setNewTask(data.task))
           setNewItemMode(false)
@@ -69,43 +72,45 @@ const NewTask = ({ newItemMode, setNewItemMode }) => {
   }
 
   return (
-    <NewTaskForm>
-      <SubContainer>
-        <InputField 
-          id="input-task-title"
-          label="Task title"
-          type="text" 
-          value={taskTitle} 
-          handleChange={setTaskTitle} 
-        />
-        <InputField 
-          id="input-task-description"
-          label="Description"
-          type="text" 
-          multiline={true}
-          value={taskDesc} 
-          handleChange={setTaskDesc} 
-        />
-        <InputField 
-          id="input-task-comments"
-          label="Comments"
-          type="text" 
-          multiline={true}
-          value={taskComments} 
-          handleChange={setTaskComments} 
-        />
-      </SubContainer>
-      <ButtonsContainer>
-        <Button 
-          btnText="ADD" 
-          handleClick={handleFormSubmit} 
-        />
-        <Button 
-          btnText="CANCEL"
-          handleClick={() => setNewItemMode(false)}
-        />
-      </ButtonsContainer>
-    </NewTaskForm>
+    <FormWrapper>
+      <NewTaskForm>
+        <SubContainer>
+          <InputField 
+            id="input-task-title"
+            label="Task title"
+            type="text" 
+            value={taskTitle} 
+            handleChange={setTaskTitle} 
+          />
+          <InputField 
+            id="input-task-description"
+            label="Description"
+            type="text" 
+            multiline={true}
+            value={taskDesc} 
+            handleChange={setTaskDesc} 
+          />
+          <InputField 
+            id="input-task-comments"
+            label="Comments"
+            type="text" 
+            multiline={true}
+            value={taskComments} 
+            handleChange={setTaskComments} 
+          />
+        </SubContainer>
+        <ButtonsContainer>
+          <Button 
+            btnText="ADD" 
+            handleClick={handleFormSubmit} 
+          />
+          <Button 
+            btnText="CANCEL"
+            handleClick={() => setNewItemMode(false)}
+          />
+        </ButtonsContainer>
+      </NewTaskForm>
+    </FormWrapper>
   )
 }
 

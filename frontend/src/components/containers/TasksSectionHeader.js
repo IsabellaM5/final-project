@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
-import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import ModalContainer from 'components/reusable/ModalContainer'
@@ -8,7 +7,6 @@ import EditProject from 'components/forms/EditProject'
 import NewTask from 'components/forms/NewTask'
 import DeleteProject from 'components/containers/DeleteProject'
 import Button from 'components/reusable/Button'
-
 
 const HeaderWrapper = styled.div`
   width: 100%;

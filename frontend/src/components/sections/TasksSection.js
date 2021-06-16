@@ -64,7 +64,6 @@ const TasksSection = () => {
     fetch(API_URL(TASKS_URL(projectID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(tasks.actions.setTasks(data))
         } else {
@@ -75,7 +74,6 @@ const TasksSection = () => {
       fetch(API_URL(SINGLE_PROJECT(projectID)), options)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(projects.actions.setActiveProject(data))
 
@@ -102,7 +100,7 @@ const TasksSection = () => {
       <TasksWrapper>
         {items.map(item => (
           <TaskCard 
-            key={item._id} 
+            key={item._id}  
             item={item}
             projectID={projectID}
           />

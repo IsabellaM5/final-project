@@ -42,8 +42,6 @@ const TaskCard = ({ item, projectID }) => {
 
   const dispatch = useDispatch()
 
-  console.log(API_URL(SINGLE_TASK_URL(projectID, item._id)))
-
   const handleDeleteTask = (apiMethod) => {
     const config = {
       method: apiMethod,
@@ -56,7 +54,6 @@ const TaskCard = ({ item, projectID }) => {
     fetch(API_URL(SINGLE_TASK_URL(projectID, item._id)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(tasks.actions.deleteTask(data))
         } else {
@@ -85,7 +82,7 @@ const TaskCard = ({ item, projectID }) => {
           />
         </ButtonsContainer>
       </TaskContainer>
-      <ModalContainer 
+      <ModalContainer
         editMode={editMode}
         setEditMode={setEditMode}
         component={

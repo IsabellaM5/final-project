@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch, batch } from 'react-redux'
-import { Route, useHistory } from 'react-router-dom'
 
 import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 
@@ -33,7 +32,6 @@ const ProfileSection = () => {
   const [editMode, setEditMode] = useState(false)
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
   useEffect(() => {
     const options = {
