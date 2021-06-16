@@ -119,21 +119,26 @@ export const patchTask = async (req, res) => {
 export const patchComments = async (req, res) => {
   const projectID = req.params.projectID
   const taskID = req.params.taskID
-  const { userID, comment } = req.body
+  const { username, comment } = req.body
 
   try {
-    const user = await User.findById(userID)
-
-    const updatedTask = await Task.findByIdAndUpdate(taskID, { $push: { comments: { username: user.username, comment: comment } } }, { new: true })
-    if (updatedTask) {
-      res.status(200).json({ 
-        success: true,
-        updatedTask,
-      })
+    if (comment && username) {
+      const updatedTask = await Task.findByIdAndUpdate(taskID, { $push: { comments: { username: username, comment: comment } } }, { new: true })
+      if (updatedTask) {
+        res.status(200).json({ 
+          success: true,
+          updatedTask
+        })
+      } else {
+        res.status(404).json({ 
+          success: false, 
+          message: 'Could not find task' 
+        })
+      }
     } else {
-      res.status(404).json({ 
+      res.status(400).json({ 
         success: false, 
-        message: 'Could not find task' 
+        message: 'The request was missing required body'
       })
     }
   } catch (error) {

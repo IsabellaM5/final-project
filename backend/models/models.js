@@ -70,10 +70,12 @@ export const Task = mongoose.model('Task', {
   },
   comments: [{
     username: {
-      type: String
+      type: String,
+      required: true
     },
     comment: {
-      type: String
+      type: String,
+      required: true
     },
     postedAt: {
       type: Date, 
