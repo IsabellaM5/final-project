@@ -142,16 +142,15 @@ export const patchProject = async (req, res) => {
 export const patchCollaborators = async (req, res) => {
   const { projectID } = req.params
 
-  const getProject = await Project.findById(projectID)
-  let collaboratorsArray = getProject.collaborators
-
   try {
+    const collaboratorsArray = []
+    
     for (const username of req.body.collaborators) {      
       const collaborator = await User.findOne({ username })
       collaboratorsArray.push(collaborator._id.toString())
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(projectID, { collaborators: collaboratorsArray }, { new: true })
+    const updatedProject = await Project.findByIdAndUpdate(projectID, { $push: { collaborators: collaboratorsArray } }, { new: true })
 
     const collabs = []
     for (const id of updatedProject.collaborators) {

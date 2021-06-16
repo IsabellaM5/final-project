@@ -59,6 +59,7 @@ router.get('/sessions/projects/:projectID/tasks/:taskID', tasks.getSingleTask)
 router.post('/sessions/projects/:projectID/tasks', tasks.newTask)
 router.delete('/sessions/projects/:projectID/tasks/:taskID', tasks.deleteTask)
 router.patch('/sessions/projects/:projectID/tasks/:taskID', tasks.patchTask)
+router.patch('/sessions/projects/:projectID/tasks/:taskID/comments', tasks.patchComments)
 
 // START THE SERVER
 app.listen(port, () => {

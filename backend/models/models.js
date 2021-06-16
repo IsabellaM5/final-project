@@ -68,7 +68,16 @@ export const Task = mongoose.model('Task', {
   taskOwner: {
     type: String
   },
-  comments: {
-    type: String
-  }
+  comments: [{
+    username: {
+      type: String
+    },
+    comment: {
+      type: String
+    },
+    postedAt: {
+      type: Date, 
+      default: Date.now
+    } 
+  }]
 })

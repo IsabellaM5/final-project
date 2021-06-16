@@ -1,4 +1,4 @@
-import { Task } from '../models/models'
+import { Task, User } from '../models/models'
 
 export const getTasks = async (req, res) => {
   const { projectID } = req.params
@@ -42,14 +42,12 @@ export const getSingleTask = async (req, res) => {
 
 export const newTask = async (req, res) => {
   const { projectID } = req.params
-  const { title, description, comments } = req.body
+  const { title } = req.body
 
   try {
     const task = await new Task({
       title,
-      description,
-      taskOwner: projectID,
-      comments
+      taskOwner: projectID
     }).save()
 
     res.status(201).json({
@@ -101,6 +99,35 @@ export const patchTask = async (req, res) => {
       res.status(200).json({ 
         success: true, 
         _id: taskID,
+        updatedTask,
+      })
+    } else {
+      res.status(404).json({ 
+        success: false, 
+        message: 'Could not find task' 
+      })
+    }
+  } catch (error) {
+    res.status(400).json({ 
+      success: false, 
+      message: 'Invalid request/could not update task', 
+      error 
+    })
+  }
+}
+
+export const patchComments = async (req, res) => {
+  const projectID = req.params.projectID
+  const taskID = req.params.taskID
+  const { userID, comment } = req.body
+
+  try {
+    const user = await User.findById(userID)
+
+    const updatedTask = await Task.findByIdAndUpdate(taskID, { $push: { comments: { username: user.username, comment: comment } } }, { new: true })
+    if (updatedTask) {
+      res.status(200).json({ 
+        success: true,
         updatedTask,
       })
     } else {
