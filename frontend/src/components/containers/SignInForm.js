@@ -19,6 +19,11 @@ const Form = styled.form`
   padding: 40px;
   background: #f2eff6;
   border-radius: 20px;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const SubContainer = styled.div`
@@ -28,8 +33,17 @@ const SubContainer = styled.div`
   justify-content: space-evenly;
 `
 
-const RegisterText = styled.span`
+const Container = styled.div`
+  display: flex;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+`
+
+const RegisterText = styled.p`
   font-size: 1.6em;
+  text-align: center;
 `
 
 const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp }) => {
@@ -66,15 +80,17 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
       <Button 
         btnText="SIGN IN" 
         handleClick={onFormSubmit}
+        padding="10px 15px"
       />
 
-      <RegisterText>
-        Not a user? 
-        <Button 
-          btnText="SIGN UP HERE" 
-          handleClick={() => setSignUp(true)}
-        /> 
-      </RegisterText>
+      <Container>
+      <RegisterText>Not a user?</RegisterText>
+      <Button 
+        btnText="SIGN UP HERE" 
+        handleClick={() => setSignUp(true)}
+        padding="10px 15px"
+      /> 
+      </Container>
     </Form>
   )
 }

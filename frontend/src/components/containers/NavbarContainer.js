@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import Button from 'components/reusable/Button'
+import NavUserInfo from 'components/containers/NavUserInfo'
 
 const Container = styled.aside`
   background: #f2eff6;
@@ -14,20 +15,6 @@ const Container = styled.aside`
   flex-direction: column;
   padding: 20px;
 `
-
-const UserInfoContainer = styled.div`
-  
-`
-
-const Avatar = styled.img`
-  border-radius: 50%;
-  overflow: none;
-`
-
-const Username = styled.p`
-  font-size: 1.6em;
-`
-
 
 const NavBar = styled.nav`
 
@@ -60,15 +47,12 @@ const NavbarContainer = ({ onSignOut }) => {
 
   return (
     <Container>
-      <UserInfoContainer>
-        <Avatar src="https://via.placeholder.com/100"/>
-        <Username>{info.username}</Username>
-      </UserInfoContainer>
+      <NavUserInfo />
       <NavBar>
         <ListParent>
           <ListItem to="/authenticated/profile">Profile</ListItem>
           <ListItem to="/authenticated/projects">Overview</ListItem>
-          <ListItem to="/authenticated/projects/new">New Project</ListItem>
+          <ListItem to="/authenticated/projects/new">New project</ListItem>
         </ListParent>
       </NavBar>
       <ButtonContainer>

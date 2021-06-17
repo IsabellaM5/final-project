@@ -10,6 +10,8 @@ import NavbarContainer from 'components/containers/NavbarContainer'
 import ProfileSection from 'components/sections/ProfileSection'
 import ProjectsSection from 'components/sections/ProjectsSection'
 import TasksSection from 'components/sections/TasksSection'
+import WindowDimensions from 'components/WindowDimensions'
+import NavDrawer from 'components/containers/NavDrawer'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -29,9 +31,16 @@ const ContentWrapper = styled.div`
   border-radius: 25px;
   box-shadow: 0px 10px 10px -1px rgb(0 0 0 / 20%),
     0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  
+  @media (max-width: 767px) {
+    width: 95%;
+    min-height: 95vh;
+  }
 `
 
 const AuthenticatedPage = () => {
+  const { height, width } = WindowDimensions()
+
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -53,9 +62,13 @@ const AuthenticatedPage = () => {
   return (
     <MainContainer>
       <ContentWrapper>
-        <NavbarContainer
-          onSignOut={handleSignOut}
-        />
+        {width > 767 ?
+          <NavbarContainer
+            onSignOut={handleSignOut}
+          />
+        :
+          <NavDrawer />
+        }
         <Route path="/authenticated/profile">
           <ProfileSection />
         </Route>

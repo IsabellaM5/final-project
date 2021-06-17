@@ -16,6 +16,10 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 767px) {
+    min-height: 100vh;
+  }
 `
 
 const Section = styled.section`
@@ -28,10 +32,21 @@ const Section = styled.section`
   border-radius: 25px;
   box-shadow: 0px 10px 10px -1px rgb(0 0 0 / 20%),
     0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  
+  @media (max-width: 767px) {
+    flex-direction: column;
+    padding: 25px;
+    height: 95%;
+    width: 95%;
+  }
 `
 
 const CarouselContainer = styled.div`
   width: 48%;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `
 
 const CarouselImage = styled.img`

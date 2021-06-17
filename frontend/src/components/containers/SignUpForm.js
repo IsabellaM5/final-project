@@ -19,6 +19,11 @@ const Form = styled.form`
   padding: 40px;
   background: #f2eff6;
   border-radius: 20px;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const SubContainer = styled.div`
@@ -28,8 +33,17 @@ const SubContainer = styled.div`
   height: 50%;
 `
 
-const RegisterText = styled.span`
+const Container = styled.div`
+  display: flex;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+`
+
+const RegisterText = styled.p`
   font-size: 1.6em;
+  text-align: center;
 `
 
 const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setSignUp }) => {
@@ -77,14 +91,17 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
         btnText="SIGN UP" 
         disabled={password === repeatPassword && password ? false : true } 
         handleClick={onFormSubmit}
+        padding="10px 15px"
       />
-      <RegisterText>
-        Already a user? 
+
+      <Container>
+        <RegisterText>Already a user? </RegisterText>
         <Button 
           btnText="SIGN IN HERE" 
           handleClick={() => setSignUp(false)} 
+          padding="10px 15px"
         /> 
-      </RegisterText>
+      </Container>
     </Form>
   )
 }

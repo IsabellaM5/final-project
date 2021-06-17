@@ -67,7 +67,7 @@ const TaskCard = ({ item, projectID }) => {
   }
 
   return (
-    <>
+    <React.Fragment key={item._id}>
       <TaskContainer onClick={handleEditTask}>
         <Title>{item.title}</Title>
         <ButtonsContainer>
@@ -92,7 +92,7 @@ const TaskCard = ({ item, projectID }) => {
           />
         }
       />
-    </>
+    </React.Fragment>
   )
 }
 

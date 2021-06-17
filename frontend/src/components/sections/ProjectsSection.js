@@ -16,6 +16,10 @@ const Section = styled.section`
   padding: 50px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `
 
 const ProjectsWrapper = styled.div`
@@ -39,6 +43,11 @@ const ProjectsWrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #dfdbe5;
     border-radius: 5px;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
   }
 `
 
