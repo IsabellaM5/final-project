@@ -12,6 +12,10 @@ import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
   width: 60%;
+
+  @media (max-width: 767px) {
+    width: 90%;
+  }
 `
 
 const EditTaskForm = styled.form`
@@ -26,6 +30,13 @@ const EditTaskForm = styled.form`
 
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `
 
@@ -91,6 +102,7 @@ const EditTask = ({ item, setEditMode }) => {
             multiline={true}
             value={taskDesc} 
             handleChange={setTaskDesc}
+            height="120px"
           />
         </SubContainer>
         <TaskComments 

@@ -10,6 +10,7 @@ import DehazeIcon from '@material-ui/icons/Dehaze'
 
 import Icon from 'components/minor/Icon'
 import NavUserInfo from 'components/containers/NavUserInfo'
+import Button from 'components/reusable/Button'
 
 const useStyles = makeStyles({
   drawer: {
@@ -25,7 +26,12 @@ const NavLink = styled(Link)`
   color: #000000;
 `
 
-const NavDrawer = () => {
+const ButtonContainer = styled.div`
+  margin-top: auto;
+  padding: 16px;
+`
+
+const NavDrawer = ({ onSignOut }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const classes = useStyles()
@@ -45,8 +51,8 @@ const NavDrawer = () => {
         handleIconClick={toggleDrawer}
         apiMethod={true}
         position="absolute"
-        top="25px"
-        right="25px"
+        top="10px"
+        right="10px"
       />
       <SwipeableDrawer
         anchor="left"
@@ -55,6 +61,7 @@ const NavDrawer = () => {
         onOpen={() => toggleDrawer(true)}
       >
         <NavUserInfo />
+
         <List
           className={classes.drawer}
         >
@@ -82,6 +89,13 @@ const NavDrawer = () => {
             </NavLink>
           </ListItem>
         </List>
+
+        <ButtonContainer>
+          <Button
+            handleClick={onSignOut} 
+            btnText="SIGN OUT"
+          />
+        </ButtonContainer>
       </SwipeableDrawer>
     </>
   )

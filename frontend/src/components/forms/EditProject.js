@@ -12,6 +12,10 @@ import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
   width: 50%;
+
+  @media (max-width: 767px) {
+    width: 90%;
+  }
 `
 
 const ProjectForm = styled.form`
@@ -20,6 +24,10 @@ const ProjectForm = styled.form`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
+  grid-template-areas: 
+    "project search"
+    "desc collabs"
+    ". buttons";
   grid-gap: 20px;
   padding: 40px;
   border-radius: 20px;
@@ -27,21 +35,29 @@ const ProjectForm = styled.form`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
-const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
+const NameContainer = styled.div`
+  grid-area: project;
+`
+
+const DescContainer = styled.div`
+  grid-area: desc;
 `
 
 const ButtonsContainer = styled.div`
-  grid-column: 1 / 3;
   align-self: end;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  grid-area: buttons;
 `
 
 const EditProject = ({ projectID, setEditMode }) => {
@@ -103,14 +119,17 @@ const EditProject = ({ projectID, setEditMode }) => {
   return (
     <FormWrapper>
       <ProjectForm>
-        <SubContainer>
+        <NameContainer>
           <InputField 
             id="input-project-name"
             label="Project name"
             type="text" 
             value={projectName} 
             handleChange={setProjectName} 
+            width="100%"
           />
+        </NameContainer>
+        <DescContainer>
           <InputField
             id="input-project-description"
             label="Description"
@@ -118,8 +137,9 @@ const EditProject = ({ projectID, setEditMode }) => {
             value={projectDesc} 
             multiline={true}
             handleChange={setProjectDesc} 
+            width="100%"
           />
-        </SubContainer>
+        </DescContainer>
         <SearchField 
           selectedCollaborators={projectCollabs}
           setSelectedCollaborators={setProjectCollabs}

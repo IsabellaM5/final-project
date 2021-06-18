@@ -11,18 +11,57 @@ import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
 import ModalContainer from 'components/reusable/ModalContainer'
 import EditProfile from 'components/forms/EditProfile'
+import Button from 'components/reusable/Button'
 
 const Section = styled.section`
   width: 85%;
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 25px;
+  }
 `
 
 const ProfileWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
-  grid-gap: 10px;
+  row-gap: 20px;
   padding: 0px 10px;
+  max-height: 80%;
+  overflow-y: auto;
+  margin-top: 20px;
+  
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f3f3f3;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #dfdbe5;
+    border-radius: 5px;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    max-height: 90%;
+  }
+`
+
+const ButtonContainer = styled.div`
+  align-self: flex-end;
+
+  @media (max-width: 767px) {
+    align-self: flex-start;
+  }
 `
 
 const ProfileSection = () => {
@@ -69,9 +108,14 @@ const ProfileSection = () => {
 
   return (
     <Section>
+      <ButtonContainer>
+        <Button 
+          btnText="EDIT PROFILE"
+          handleClick={() => setEditMode(true)}
+        />
+      </ButtonContainer>
       <ProfileWrapper>
         <UserInfoContainer 
-          handleEditProfile={() => setEditMode(true)}
           info={info}
         />
         <ProjectsCollabsContainer

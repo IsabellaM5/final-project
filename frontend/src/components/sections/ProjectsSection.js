@@ -8,8 +8,8 @@ import projects from 'reducers/projects'
 
 import ProjectCard from 'components/containers/ProjectCard'
 import NewProject from 'components/forms/NewProject'
-import Button from 'components/reusable/Button'
 import ModalContainer from 'components/reusable/ModalContainer'
+import ProjectsSectionHeader from 'components/containers/ProjectsSectionHeader'
 
 const Section = styled.section`
   width: 85%;
@@ -19,6 +19,7 @@ const Section = styled.section`
 
   @media (max-width: 767px) {
     width: 100%;
+    padding: 25px;
   }
 `
 
@@ -30,6 +31,7 @@ const ProjectsWrapper = styled.div`
   max-height: 80%;
   overflow-y: auto;
   padding: 0px 10px;
+  margin-top: 40px;
   
   &::-webkit-scrollbar {
     width: 10px;
@@ -48,11 +50,8 @@ const ProjectsWrapper = styled.div`
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
     grid-gap: 15px;
+    max-height: 90%;
   }
-`
-
-const ButtonWrapper = styled.div`
-  align-self: flex-end;
 `
 
 const ProjectsSection = () => {
@@ -86,12 +85,9 @@ const ProjectsSection = () => {
 
   return (
     <Section>
-      <ButtonWrapper>
-        <Button 
-          btnText="ADD"
-          handleClick={() => setNewItemMode(true)}
-        />
-      </ButtonWrapper>
+      <ProjectsSectionHeader 
+        setNewItemMode={setNewItemMode}
+      />
       <ProjectsWrapper>
         {items.length !== 0 && (
           items.map(item => (

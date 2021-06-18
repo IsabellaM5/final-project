@@ -62,12 +62,14 @@ const AuthenticatedPage = () => {
   return (
     <MainContainer>
       <ContentWrapper>
-        {width > 767 ?
+        {width > 1023 ?
           <NavbarContainer
             onSignOut={handleSignOut}
           />
         :
-          <NavDrawer />
+          <NavDrawer 
+            onSignOut={handleSignOut}
+          />
         }
         <Route path="/authenticated/profile">
           <ProfileSection />

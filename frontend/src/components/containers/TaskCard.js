@@ -24,10 +24,14 @@ const TaskContainer = styled.div`
 `
 
 const Title = styled.p`
-  font-size: 1.8em;
+  font-size: 1.4em;
   margin: 0;
   z-index: 1;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    font-size: 1.4em;
+  }
 `
 
 const ButtonsContainer = styled.div`

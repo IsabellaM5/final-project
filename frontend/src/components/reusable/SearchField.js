@@ -9,20 +9,18 @@ import { API_URL, GET_USERS, EDIT_COLLAB, DELETE_COLLAB } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-const SearchFieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: flex-end;
+const AutocompleteContainer = styled.div`
+  grid-area: search;
 `
 
 const ChipsContainer = styled.div`
-  margin: 10px 0px;
+  grid-area: collabs;
 `
 
 const Label = styled.p`
   font-size: 1.6em;
-  margin: 0;
+  margin: 0 0 10px 0;
+  align-self: flex-start;
 `
 
 const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onDeleteCollaborator }) => {
@@ -56,45 +54,48 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
   }, [accessToken, dispatch])
 
   return (
-    <SearchFieldContainer>
-      <Autocomplete
-        id="autocomplete"
-        value={selectedOption || ''}
-        onChange={(event, v) => {
-          if (!v) {
-            return
-          }
-          setSelectedOption(v)
-          setSelectedCollaborators([...selectedCollaborators, v])
+    <>
+      <AutocompleteContainer>
+        <Autocomplete
+          id="autocomplete"
+          value={selectedOption || ''}
+          onChange={(event, v) => {
+            if (!v) {
+              return
+            }
+            setSelectedOption(v)
+            setSelectedCollaborators([...selectedCollaborators, v])
 
-          if (onInputChange) {
-            onInputChange(v, EDIT_COLLAB)
-          }
-        }}
-        options={usersArray}
-        style={{ width: 250, marginBottom: 'auto' }}
-        renderInput={(params) => (
-          <TextField {...params} label="Users" variant="outlined" />
+            if (onInputChange) {
+              onInputChange(v, EDIT_COLLAB)
+            }
+          }}
+          options={usersArray}
+          style={{ width: 250, marginBottom: 'auto' }}
+          renderInput={(params) => (
+            <TextField {...params} label="Users" variant="outlined" />
+          )}
+        />
+      </AutocompleteContainer>
+
+      <ChipsContainer>
+        <Label>Collaborators</Label>
+        {selectedCollaborators.length !== 0 && (
+          <>
+            {selectedCollaborators.map(collab => (
+              <Chip
+                key={collab}
+                label={collab}
+                size="medium"
+                onDelete={() => {
+                  onDeleteCollaborator(collab, DELETE_COLLAB)
+                }}
+              />
+            ))}
+          </>  
         )}
-      />
-      <Label>Collaborators</Label>
-      {selectedCollaborators.length !== 0 && (
-        <ChipsContainer 
-          selectedCollaborators={selectedCollaborators}
-        >
-          {selectedCollaborators.map(collab => (
-            <Chip
-              key={collab}
-              label={collab}
-              size="medium"
-              onDelete={() => {
-                onDeleteCollaborator(collab, DELETE_COLLAB)
-              }}
-            />
-          ))}
-        </ChipsContainer>
-      )}
-    </SearchFieldContainer>
+      </ChipsContainer>
+    </>
   )
 }
 

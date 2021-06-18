@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, useParams } from 'react-router-dom'
@@ -11,12 +11,18 @@ import tasks from 'reducers/tasks'
 import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
 import NewTask from 'components/forms/NewTask'
+import AddNewTaskContainer from 'components/containers/AddNewTaskContainer'
 
 const Section = styled.section`
   width: 85%;
   padding: 30px 50px 50px 50px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 25px;
+  }
 `
 
 const TasksWrapper = styled.div`
@@ -27,7 +33,7 @@ const TasksWrapper = styled.div`
   max-height: 80%;
   overflow-y: auto;
   padding: 0px 10px;
-  margin-top: 20px;
+  margin-top: 40px;
   
   &::-webkit-scrollbar {
     width: 10px;
@@ -42,6 +48,16 @@ const TasksWrapper = styled.div`
     background: #dfdbe5;
     border-radius: 5px;
   }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    max-height: 90%;
+  }
+`
+
+const LastContainer = styled.div`
+
 `
 
 const TasksSection = () => {
@@ -53,6 +69,13 @@ const TasksSection = () => {
   const [newItemMode, setNewItemMode] = useState(false)
 
   const dispatch = useDispatch()
+  const lastTaskRef = useRef()
+
+  const scrollToBottom = () => {
+    lastTaskRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(scrollToBottom, [items, newItemMode])
 
   useEffect(() => {
     const options = {
@@ -98,9 +121,6 @@ const TasksSection = () => {
         newItemMode={newItemMode}
         setNewItemMode={setNewItemMode}
       />
-      <Route path="/authenticated/:projectID/tasks/new">
-        <NewTask />
-      </Route>
       <TasksWrapper>
         {items.map(item => (
           <TaskCard 
@@ -109,11 +129,12 @@ const TasksSection = () => {
             projectID={projectID}
           />
         ))}
-        {newItemMode && (
-          <NewTask 
-            setNewItemMode={setNewItemMode}
-          />
-        )}
+      <LastContainer ref={lastTaskRef}>
+        <AddNewTaskContainer
+          newItemMode={newItemMode}
+          setNewItemMode={setNewItemMode}
+        />
+      </LastContainer>
       </TasksWrapper>
     </Section>
   )

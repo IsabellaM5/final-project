@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import Button from 'components/reusable/Button'
@@ -43,8 +42,6 @@ const ButtonContainer = styled.div`
 `
 
 const NavbarContainer = ({ onSignOut }) => {
-  const info = useSelector(store => store.user.info)
-
   return (
     <Container>
       <NavUserInfo />

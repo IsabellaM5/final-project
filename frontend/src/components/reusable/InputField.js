@@ -5,7 +5,11 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles({
   inputField: {
     background: '#ffffff',
-    width: (props) => props.width
+    width: props => props.width,
+    margin: props => props.margin ? props.margin : '0 0 20px 0',
+    '& textarea': {
+      height: props => props.height ? props.height + `!important` : '90px !important'
+    }
   }
 })
 
@@ -22,6 +26,7 @@ const InputField = (props) => {
       onChange={(e) => props.handleChange(e.target.value)}
       variant="outlined" 
       className={classes.inputField}
+      rowsMin={5}
     />
   )
 }

@@ -11,6 +11,10 @@ import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
   width: 50%;
+
+  @media (max-width: 767px) {
+    width: 90%;
+  }
 `
 
 const EditProfileForm = styled.form`
@@ -19,6 +23,9 @@ const EditProfileForm = styled.form`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
+  grid-template-areas:
+    "namerole bio"
+    ". buttons";
   grid-gap: 20px;
   padding: 40px;
   border-radius: 20px;
@@ -26,15 +33,27 @@ const EditProfileForm = styled.form`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
+  grid-area: namerole;
+`
+
+const BioContainer = styled.div`
+  grid-area: bio;
 `
 
 const ButtonsContainer = styled.div`
-  grid-column: 1 / 3;
+  grid-area: buttons;
   display: flex;
   justify-content: flex-end;
 `
@@ -97,6 +116,8 @@ const EditProfile = ({ setEditMode }) => {
             value={role}
             handleChange={setRole} 
           />
+        </SubContainer>
+        <BioContainer>
           <InputField 
             id="input-bio"
             label="Bio"
@@ -104,8 +125,9 @@ const EditProfile = ({ setEditMode }) => {
             multiline={true}
             value={bio}
             handleChange={setBio} 
+            width="100%"
           />
-        </SubContainer>
+        </BioContainer>
         <ButtonsContainer>
           <Button 
             btnText="ADD"

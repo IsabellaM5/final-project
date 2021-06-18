@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
+import WindowDimensions from 'components/WindowDimensions'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,6 +21,7 @@ const Avatar = styled.img`
 
 const Title = styled.h2`
   font-size: 1.8em;
+  font-weight: 500;
 `
 
 const Diagram = styled.img`
@@ -42,11 +45,15 @@ const Collaborator = styled.p`
 `
 
 const ProjectsCollabsContainer = ({ totalProjects }) => {
+  const { height, width } = WindowDimensions()
+
   return (
     <Container>
       <TotalProjectsWrapper>
         <Title>Total projects ongoing: {totalProjects.length}</Title>
-        <Diagram src="https://via.placeholder.com/200"/>
+        {width > 767 && 
+          <Diagram src="https://via.placeholder.com/200"/>
+        }
       </TotalProjectsWrapper>
       <CollaboratorsContainer>
         <Title>Collaborators</Title>

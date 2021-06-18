@@ -3,7 +3,10 @@ import styled from 'styled-components/macro'
 import { useSelector } from 'react-redux'
 
 const UserInfoContainer = styled.div`
-  padding: 16px;
+  
+  @media (max-width: 767px) {
+    padding: 16px;
+  }
 `
 
 const Avatar = styled.img`

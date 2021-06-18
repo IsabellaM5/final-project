@@ -36,7 +36,7 @@ const DeleteProject = ({ projectID }) => {
   }
   return (
     <Button 
-      btnText="DELETE PROJECT" 
+      btnText="DELETE" 
       handleClick={handleDeleteProject}
     />
   )

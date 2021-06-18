@@ -33,12 +33,20 @@ const ProjectName = styled.p`
   margin: 0;
   z-index: 1;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    font-size: 2.0em;
+  }
 `
 
 const ProjectDescription = styled.p`
   font-size: 1.8em;
   margin: 0;
   z-index: 1;
+
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+  }
 `
 
 const ProjectLink = styled(Link)`

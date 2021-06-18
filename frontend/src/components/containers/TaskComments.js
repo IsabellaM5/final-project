@@ -16,6 +16,10 @@ const Wrapper = styled.div`
   border-radius: 5px;
   box-sizing: content-box;
   max-height: 400px;
+
+  @media (max-width: 767px) {
+    max-height: 300px;
+  }
 `
 
 const Container = styled.div`
@@ -42,6 +46,10 @@ const Container = styled.div`
   &::-webkit-scrollbar-thumb {
     background: #dfdbe5;
     border-radius: 5px;
+  }
+
+  @media (max-width: 767px) {
+    max-height: 200px;
   }
 `
 
@@ -143,7 +151,6 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
           id="input-task-comments"
           label="Comments"
           type="text" 
-          multiline={true}
           value={taskComments} 
           handleChange={setTaskComments} 
           width="75%"
@@ -151,6 +158,7 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
         <Button 
           btnText="SEND"
           handleClick={handleFormSubmit}
+          height="50px"
         />
       </InputContainer>
     </Wrapper>
