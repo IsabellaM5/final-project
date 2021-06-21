@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
+import EditAvatar from 'components/forms/EditAvatar'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,7 +47,8 @@ const UserInfoContainer = ({ info }) => {
   return (
     <Container>
       <ImageUserContainer>
-        <Avatar src="https://via.placeholder.com/90"/>
+        <Avatar src={info.image}/>
+        <EditAvatar />
         <Wrapper>
           <Title>Username</Title>
           <Info>{info.username}</Info>

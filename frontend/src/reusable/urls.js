@@ -7,6 +7,9 @@ export const SIGN_UP = 'signup'
 export const GET_USERS = 'sessions/users'
 export const SINGLE_USER = (slug) => `sessions/${slug}`
 
+// AVATAR
+export const EDIT_AVATAR = (slug) => `sessions/${slug}/avatar`
+
 // PROJECTS
 export const PROJECTS_URL = (slug) => `sessions/${slug}/projects`
 export const SINGLE_PROJECT = (slug) => `sessions/projects/${slug}`

@@ -10,7 +10,7 @@ const initialState = localStorage.getItem('user') ?
       role: '',
       name: '',
       bio: '',
-      image: '',
+      image: JSON.parse(localStorage.getItem('user')).image,
     }, 
     errors: null,
     loading: false
@@ -61,7 +61,9 @@ const user = createSlice ({
       store.info.name = action.payload.name
       store.info.role = action.payload.role
       store.info.bio = action.payload.bio
-      store.info.image = action.payload.image
+    },
+    editAvatar: (store, action) => {
+      store.info.image = action.payload.profileImage.url
     },
     setErrors: (store, action) => {
       store.errors = action.payload
