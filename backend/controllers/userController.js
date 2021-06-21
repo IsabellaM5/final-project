@@ -148,3 +148,19 @@ export const patchUser = async (req, res) => {
     res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
   }
 }
+
+export const patchAvatar = async (req, res) => {
+  const { userID } = req.params
+
+  try {
+    const user = await User.findByIdAndUpdate(userID, { profileImage: { name: req.file.filename, url: req.file.path } }, { new: true })
+
+    if (user) {
+      res.status(200).json({ sucess: true, profileImage: user.profileImage })
+    } else {
+      res.status(404).json({ success: false, message: 'Could not update picture' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
+  }
+}

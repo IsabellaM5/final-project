@@ -1,13 +1,13 @@
 import express, { Router } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-
 import listEndpoints from 'express-list-endpoints'
 
 import { authenticateUser } from './controllers/authenticateUser'
 import * as user from './controllers/userController'
 import * as projects from './controllers/projectsController'
 import * as tasks from './controllers/tasksController'
+import parser from './controllers/upload'
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/finalprojectAPI"
 mongoose.connect(mongoUrl, { 
@@ -43,6 +43,9 @@ router.get('/sessions/users', user.getAllUsers)
 router.get('/sessions/:userID', user.getUser)
 router.delete('/sessions/:userID', user.deleteUser)
 router.patch('/sessions/:userID', user.patchUser)
+
+// AVATAR
+router.patch('/sessions/:userID/avatar', parser, user.patchAvatar)
 
 // PROJECTS
 router.get('/sessions/:userID/projects', projects.getProjects)

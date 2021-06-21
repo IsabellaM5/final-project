@@ -28,8 +28,9 @@ export const User = mongoose.model('User', {
   bio: {
     type: String
   },
-  image: {
-    type: String
+  profileImage: {
+    name: String,
+    url: String
   },
   accessToken: {
     type: String,
