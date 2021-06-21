@@ -11,10 +11,19 @@ const Container = styled.div`
 `
 
 const ImageUserContainer = styled.div`
-  
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "img ."
+    "input ."
+    "text .";
+
   @media (max-width: 767px) {
-    display: flex;
-    justify-content: space-between;
+    grid-template-areas: 
+    "text img"
+    ". input";
+
     width: 100%;
   }
 `
@@ -23,14 +32,21 @@ const Avatar = styled.img`
   border-radius: 50%;
   overflow: none;
   align-self: center;
+  height: 150px;
+  width: 150px;
+  grid-area: img;
 
   @media (max-width: 767px) {
     order: 2;
+    height: 90px;
+    width: 90px;
+    justify-self: end;
   }
 `
 
 const Wrapper = styled.div`
   margin: 10px 0;
+  grid-area: text;
 `
 
 const Title = styled.h2`
@@ -62,10 +78,6 @@ const UserInfoContainer = ({ info }) => {
       <Wrapper>
         <Title>Role</Title>
         <Info>{info.role}</Info>
-      </Wrapper>
-      <Wrapper>
-        <Title>Biography</Title>
-        <Info>{info.bio}</Info>
       </Wrapper>
     </Container>
   )

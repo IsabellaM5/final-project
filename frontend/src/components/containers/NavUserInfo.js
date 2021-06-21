@@ -12,6 +12,13 @@ const UserInfoContainer = styled.div`
 const Avatar = styled.img`
   border-radius: 50%;
   overflow: none;
+  height: 100px;
+  width: 100px;
+
+  @media (max-width: 767px) {
+    height: 70px;
+    width: 70px;
+  }
 `
 
 const Username = styled.p`
@@ -28,7 +35,7 @@ const NavUserInfo = () => {
 
   return (
     <UserInfoContainer>
-      <Avatar src="https://via.placeholder.com/100"/>
+      <Avatar src={info.image}/>
       <Username>{info.username}</Username>
       <Email>{info.email}</Email>
     </UserInfoContainer>

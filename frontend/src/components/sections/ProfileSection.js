@@ -119,6 +119,7 @@ const ProfileSection = () => {
           info={info}
         />
         <ProjectsCollabsContainer
+          info={info}
           totalProjects={totalProjects}
         />
       </ProfileWrapper>

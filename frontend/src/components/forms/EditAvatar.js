@@ -7,11 +7,37 @@ import { API_URL, EDIT_AVATAR } from 'reusable/urls'
 import user from 'reducers/user'
 
 const EditAvatarForm = styled.form`
+  grid-area: input;
+  justify-self: center;
 
+  @media (max-width: 767px) {
+    justify-self: end;
+  }
+`
+
+const Label = styled.label`
+  padding: 10px 15px;
+  font-family: "Montserrat";
+  border-radius: 4px;
+  border: none;
+  background: #9c92ac;
+  color: #ffffff;
+  font-size: 1.4em;
+  line-height: 45px;
+
+  &:hover {
+    background: #c3bdcd;
+    cursor: pointer;
+    color: #000000;
+  }
+
+  @media (max-width: 767px) {
+    line-height: 40px;
+  }
 `
 
 const ImageInput = styled.input`
-
+  display: none;
 `
 
 const EditAvatar = () => {
@@ -50,7 +76,9 @@ const EditAvatar = () => {
 
   return (
     <EditAvatarForm>
-      <ImageInput 
+      <Label htmlFor="input-file">Upload image</Label>
+      <ImageInput
+        id="input-file" 
         type="file"
         ref={fileInput}
         onChange={handleInputChange}

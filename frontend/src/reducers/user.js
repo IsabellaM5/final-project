@@ -56,6 +56,9 @@ const user = createSlice ({
     setBio: (store, action) => {
       store.info.bio = action.payload
     },
+    setImage: (store, action) => {
+      store.info.image = action.payload
+    },
     editUser: (store, action) => {
       store.info.email = action.payload.email
       store.info.name = action.payload.name
