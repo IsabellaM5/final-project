@@ -75,7 +75,7 @@ export const newProject = async (req, res) => {
     const project = await new Project({
       name,
       description,
-      collaborators,
+      collaborators: collaboratorsArray,
       projectOwner: userID
     }).save()
   
