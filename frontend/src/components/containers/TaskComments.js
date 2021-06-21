@@ -8,6 +8,7 @@ import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
 import Button from 'components/reusable/Button'
+import WindowDimensions from 'components/WindowDimensions'
 
 const Wrapper = styled.div`
   padding: 15px;
@@ -91,6 +92,8 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
   const dispatch = useDispatch()
   const lastCommentRef = useRef()
 
+  const { width } = WindowDimensions()
+
   const scrollToBottom = () => {
     lastCommentRef.current.scrollIntoView({ behavior: "smooth" })
   }
@@ -153,7 +156,7 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
           type="text" 
           value={taskComments} 
           handleChange={setTaskComments} 
-          width="75%"
+          width={width < 768 ? '70%' : '75%'}
         />
         <Button 
           btnText="SEND"

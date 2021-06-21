@@ -46,10 +46,12 @@ const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
   grid-area: namerole;
+  width: 100%;
 `
 
 const BioContainer = styled.div`
   grid-area: bio;
+  width: 100%;
 `
 
 const ButtonsContainer = styled.div`

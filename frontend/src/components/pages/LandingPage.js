@@ -19,7 +19,7 @@ const MainContainer = styled.div`
   align-items: center;
 
   @media (max-width: 767px) {
-    min-height: 100vh;
+    min-height: 90vh;
   }
 `
 
@@ -37,8 +37,9 @@ const Section = styled.section`
   @media (max-width: 767px) {
     flex-direction: column;
     padding: 25px;
-
-    width: 95%;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
   }
 `
 

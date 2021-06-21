@@ -62,28 +62,32 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
           label="Username"
           type="text" 
           value={username}
-          handleChange={setUsername} 
+          handleChange={setUsername}
+          width={width < 768 && '100%'} 
         />
         <InputField 
           id="input-email"
           label="Email"
           type="text" 
           value={email} 
-          handleChange={setEmail} 
+          handleChange={setEmail}
+          width={width < 768 && '100%'} 
         />
         <InputField 
           id="input-password"
           label="Password"
           type="password" 
           value={password} 
-          handleChange={setPassword} 
+          handleChange={setPassword}
+          width={width < 768 && '100%'} 
         />
         <InputField 
           id="input-repeat-password"
           label="Repeat password"
           type="password" 
           value={repeatPassword} 
-          handleChange={setRepeatPassword} 
+          handleChange={setRepeatPassword}
+          width={width < 768 && '100%'} 
         />
       </SubContainer>
 

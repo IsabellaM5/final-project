@@ -43,6 +43,7 @@ const EditTaskForm = styled.form`
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 const ButtonsContainer = styled.div`

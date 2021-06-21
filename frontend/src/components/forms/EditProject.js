@@ -46,10 +46,12 @@ const ProjectForm = styled.form`
 
 const NameContainer = styled.div`
   grid-area: project;
+  width: 100%;
 `
 
 const DescContainer = styled.div`
   grid-area: desc;
+  width: 100%;
 `
 
 const ButtonsContainer = styled.div`
