@@ -26,7 +26,6 @@ const InputField = (props) => {
       onChange={(e) => props.handleChange(e.target.value)}
       variant="outlined" 
       className={classes.inputField}
-      rowsMin={5}
     />
   )
 }
