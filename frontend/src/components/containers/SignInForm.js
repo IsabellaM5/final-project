@@ -31,6 +31,10 @@ const SubContainer = styled.div`
   flex-direction: column;
   height: 30%;
   justify-content: space-evenly;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `
 
 const Container = styled.div`
@@ -46,7 +50,7 @@ const RegisterText = styled.p`
   text-align: center;
 `
 
-const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp }) => {
+const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp, width }) => {
   // const error = useSelector(store => store.user.errors)
 
   const body = { usernameOrEmail: username, password: password }
@@ -65,6 +69,7 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
           type="text" 
           value={username}
           handleChange={setUsername} 
+          width={width < 768 && '100%'}
         />
         <InputField 
           id="input-password"
@@ -72,6 +77,7 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
           type="password" 
           value={password}
           handleChange={setPassword} 
+          width={width < 768 && '100%'}
         />
       </SubContainer>
 

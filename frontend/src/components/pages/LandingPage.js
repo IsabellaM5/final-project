@@ -9,6 +9,7 @@ import { API_URL } from 'reusable/urls'
 
 import SignInForm from 'components/containers/SignInForm'
 import SignUpForm from 'components/containers/SignUpForm'
+import WindowDimensions from 'components/WindowDimensions'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -36,7 +37,7 @@ const Section = styled.section`
   @media (max-width: 767px) {
     flex-direction: column;
     padding: 25px;
-    height: 95%;
+
     width: 95%;
   }
 `
@@ -65,6 +66,8 @@ const LandingPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  const { width } = WindowDimensions()
+
   useEffect(() => {
     if (accessToken) {
       history.push('/authenticated/projects')
@@ -72,8 +75,6 @@ const LandingPage = () => {
   }, [accessToken, history])
 
   const handleFormSubmit = (endpoint, body) => {
-    // event.preventDefault()
-
     const options = {
       method: 'POST',
       headers: {
@@ -121,6 +122,7 @@ const LandingPage = () => {
             password={password} 
             setPassword={setPassword}
             setSignUp={setSignUp}
+            width={width}
           />
         : 
           <SignUpForm
@@ -134,6 +136,7 @@ const LandingPage = () => {
             repeatPassword={repeatPassword}
             setRepeatPassword={setRepeatPassword}
             setSignUp={setSignUp}
+            width={width}
           />}
       </Section>
     </MainContainer>

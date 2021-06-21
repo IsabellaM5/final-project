@@ -46,7 +46,7 @@ const RegisterText = styled.p`
   text-align: center;
 `
 
-const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setSignUp }) => {
+const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setSignUp, width }) => {
   const body = { username: username, email: email, password: password }
 
   const onFormSubmit = () => {
