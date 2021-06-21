@@ -80,14 +80,6 @@ const NavDrawer = ({ onSignOut }) => {
               <ListItemText>Overview</ListItemText>
             </NavLink>
           </ListItem>
-
-          <ListItem
-            onClick={() => toggleDrawer(false)}
-          >
-            <NavLink to="/authenticated/projects/new">
-              <ListItemText>New project</ListItemText>
-            </NavLink>
-          </ListItem>
         </List>
 
         <ButtonContainer>

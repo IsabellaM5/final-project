@@ -45,7 +45,7 @@ const Collaborator = styled.p`
 `
 
 const ProjectsCollabsContainer = ({ totalProjects }) => {
-  const { height, width } = WindowDimensions()
+  const { width } = WindowDimensions()
 
   return (
     <Container>

@@ -49,7 +49,6 @@ const NavbarContainer = ({ onSignOut }) => {
         <ListParent>
           <ListItem to="/authenticated/profile">Profile</ListItem>
           <ListItem to="/authenticated/projects">Overview</ListItem>
-          <ListItem to="/authenticated/projects/new">New project</ListItem>
         </ListParent>
       </NavBar>
       <ButtonContainer>

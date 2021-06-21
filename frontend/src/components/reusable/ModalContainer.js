@@ -15,14 +15,13 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
-    // background: 'red'
   }
 }))
 
 const ModalContainer = ({ component, editMode, setEditMode }) => {
   const classes = useStyles()
 
-  const { height, width } = WindowDimensions()
+  const { width } = WindowDimensions()
 
   return (
     <Modal

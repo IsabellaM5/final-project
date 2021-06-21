@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { API_URL, SINGLE_PROJECT, TASKS_URL } from 'reusable/urls'
 
@@ -10,7 +10,6 @@ import tasks from 'reducers/tasks'
 
 import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
-import NewTask from 'components/forms/NewTask'
 import AddNewTaskContainer from 'components/containers/AddNewTaskContainer'
 
 const Section = styled.section`

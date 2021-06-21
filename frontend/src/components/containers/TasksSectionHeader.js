@@ -22,10 +22,6 @@ const useStyles = makeStyles({
 
 const HeaderWrapper = styled.div`
   width: 100%;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  align-items: start;
-  justify-items: start; */
   border-bottom: 1px solid #dfdbe5;
   padding-bottom: 35px;
   position: relative;
@@ -34,13 +30,6 @@ const HeaderWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
-  /* @media (max-width: 767px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-  } */
 `
 
 const MoreProjectInfoContainer = styled.div`
@@ -49,11 +38,8 @@ const MoreProjectInfoContainer = styled.div`
 
   @media (max-width: 767px) {
     flex-direction: column;
+    align-items: center;
   }
-`
-
-const Container = styled.div`
-  display: flex;
 `
 
 const ProjectInfoContainer = styled.div`
@@ -61,14 +47,31 @@ const ProjectInfoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: 10px;
+  max-width: 40%;
+
+  @media (max-width: 767px) {
+
+  }
+`
+
+const CollabContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  max-width: 60%;
+
+  @media (max-width: 767px) {
+
+  }
 `
 
 const ProjectBtnsContainer = styled.div`
   justify-self: stretch;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   height: 100%;
-  grid-column: 4 / 5;
+  max-width: 25%;
 
   @media (max-width: 767px) {
     justify-content: center; 
@@ -97,6 +100,15 @@ const DescriptionText = styled.h3`
   }
 `
 
+const Container = styled.div`
+  max-width: 75%;
+  display: flex;
+
+  @media (max-width: 767px) {
+
+  }
+`
+
 const Heading = styled.p`
   font-size: 1.8em;
   font-weight: 500;
@@ -108,12 +120,18 @@ const Heading = styled.p`
 `
 
 const Username = styled.p`
-  font-size: 1.8em;
+  font-size: 1.6em;
   margin: 2px;
 
   @media (max-width: 767px) {
-    font-size: 1.6em;
+    font-size: 1.4em;
   }
+`
+
+const UsernameWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `
 
 const TasksSectionHeader = ({ projectID }) => {
@@ -166,15 +184,19 @@ const TasksSectionHeader = ({ projectID }) => {
                 </Username>
               </ProjectInfoContainer>
 
-              <ProjectInfoContainer>
+              <CollabContainer>
                 <Heading>
                   Collaborators
                 </Heading>
+
                 {project.collaborators && (
-                  project.collaborators.map(collab => (
-                    <Username key={collab}>{collab}</Username>
-                  )))}
-              </ProjectInfoContainer>
+                  <UsernameWrapper>
+                    {project.collaborators.map(collab => (
+                      <Username key={collab}>{collab}</Username>
+                    ))}
+                  </UsernameWrapper>
+                )}
+              </CollabContainer>
             </Container>
 
             <ProjectBtnsContainer>

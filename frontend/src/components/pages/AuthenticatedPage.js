@@ -39,7 +39,7 @@ const ContentWrapper = styled.div`
 `
 
 const AuthenticatedPage = () => {
-  const { height, width } = WindowDimensions()
+  const { width } = WindowDimensions()
 
   const dispatch = useDispatch()
   const history = useHistory()

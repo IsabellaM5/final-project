@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components/macro'
 
 const Btn = styled.button`
-  margin: ${props => props.margin ? props.margin : '5px 0'};
-  padding: ${props => props.padding ? props.padding : '5px 10px'};
+  margin: ${props => props.margin ? props.margin : '5px 5px 0 0'};
+  padding: ${props => props.padding ? props.padding : '10px 15px'};
   font-family: "Montserrat";
   border-radius: ${props => props.borderRadius ? props.borderRadius : '4px'};
   border: none;
