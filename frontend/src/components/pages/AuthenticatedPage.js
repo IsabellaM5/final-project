@@ -56,6 +56,7 @@ const AuthenticatedPage = () => {
     batch(() => {
       dispatch(user.actions.setSignOut())
       localStorage.removeItem('user')
+      localStorage.removeItem('project')
     })
   }
 
