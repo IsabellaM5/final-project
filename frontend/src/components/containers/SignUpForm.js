@@ -31,6 +31,10 @@ const SubContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   height: 50%;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `
 
 const Container = styled.div`
