@@ -28,7 +28,7 @@ export const User = mongoose.model('User', {
   bio: {
     type: String
   },
-  profileImage: {
+  image: {
     name: String,
     url: String
   },
