@@ -153,10 +153,10 @@ export const patchAvatar = async (req, res) => {
   const { userID } = req.params
 
   try {
-    const user = await User.findByIdAndUpdate(userID, { profileImage: { name: req.file.filename, url: req.file.path } }, { new: true })
+    const user = await User.findByIdAndUpdate(userID, { image: { name: req.file.filename, url: req.file.path } }, { new: true })
 
     if (user) {
-      res.status(200).json({ success: true, profileImage: user.profileImage })
+      res.status(200).json({ success: true, profileImage: user.image })
     } else {
       res.status(404).json({ success: false, message: 'Could not update picture' })
     }
