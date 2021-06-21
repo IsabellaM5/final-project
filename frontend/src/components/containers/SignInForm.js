@@ -39,15 +39,17 @@ const SubContainer = styled.div`
 
 const Container = styled.div`
   display: flex;
-
-  @media (max-width: 767px) {
-    flex-direction: column;
-  }
+  flex-direction: column;
 `
 
 const RegisterText = styled.p`
-  font-size: 1.6em;
+  font-size: 2.0em;
   text-align: center;
+  margin: 5px 0 0 0;
+
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+  }
 `
 
 const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp, width }) => {
