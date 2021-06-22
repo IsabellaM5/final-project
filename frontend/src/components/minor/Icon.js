@@ -14,13 +14,15 @@ const IconButton = styled.button`
     top: ${props => props.top};
     right: ${props => props.right};
     bottom: ${props => props.bottom};
+    left: ${props => props.left};
+    z-index: ${props => props.zIndex};
     
     &:hover {
       background: #EEE6E6;
     }
   `
 
-const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom }) => {
+const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom, left, zIndex }) => {
   return (
     <IconButton 
       type="button"
@@ -29,6 +31,8 @@ const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom }
       top={top}
       right={right}
       bottom={bottom}
+      left={left}
+      zIndex={zIndex}
     >
       {icon}
     </IconButton>

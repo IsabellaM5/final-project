@@ -8,6 +8,7 @@ import { API_URL, SINGLE_PROJECT, TASKS_URL } from 'reusable/urls'
 import projects from 'reducers/projects'
 import tasks from 'reducers/tasks'
 
+import BackButton from 'components/reusable/BackButton'
 import TasksSectionHeader from 'components/containers/TasksSectionHeader'
 import TaskCard from 'components/containers/TaskCard'
 import AddNewTaskContainer from 'components/containers/AddNewTaskContainer'
@@ -115,6 +116,9 @@ const TasksSection = () => {
 
   return (
     <Section>
+      <BackButton 
+        path={'/authenticated/projects'}
+      />
       <TasksSectionHeader 
         projectID={projectID}
         newItemMode={newItemMode}

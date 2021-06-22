@@ -132,7 +132,7 @@ const EditProfile = ({ setEditMode }) => {
         </BioContainer>
         <ButtonsContainer>
           <Button 
-            btnText="ADD"
+            btnText="SAVE"
             handleClick={handleFormSubmit}
           />
           <Button

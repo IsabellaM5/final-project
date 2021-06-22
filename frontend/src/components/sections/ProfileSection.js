@@ -7,6 +7,7 @@ import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 import user from 'reducers/user'
 import projects from 'reducers/projects'
 
+import BackButton from 'components/reusable/BackButton'
 import UserInfoContainer from 'components/containers/UserInfoContainer'
 import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
 import ModalContainer from 'components/reusable/ModalContainer'
@@ -108,6 +109,9 @@ const ProfileSection = () => {
 
   return (
     <Section>
+      <BackButton 
+        path={'/authenticated/projects'}
+      />
       <ButtonContainer>
         <Button 
           btnText="EDIT PROFILE"

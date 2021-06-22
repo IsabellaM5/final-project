@@ -72,7 +72,7 @@ const TaskCard = ({ item, projectID }) => {
 
   return (
     <React.Fragment key={item._id}>
-      <TaskContainer onClick={handleEditTask}>
+      <TaskContainer>
         <Title>{item.title}</Title>
         <ButtonsContainer>
           <Icon 
