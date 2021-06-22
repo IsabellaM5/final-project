@@ -6,8 +6,8 @@ import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-import ProjectDescInput from 'components/minor/ProjectDescInput'
 import ProjectNameInput from 'components/minor/ProjectNameInput'
+import ProjectDescInput from 'components/minor/ProjectDescInput'
 import SearchField from 'components/reusable/SearchField'
 import Button from 'components/reusable/Button'
 
@@ -144,7 +144,7 @@ const EditProject = ({ projectID, setEditMode }) => {
           <Button 
             btnText="SAVE"
             handleClick={handleFormSubmit}
-            disabled={projectName.lenght !== 0 ? false : true }
+            disabled={projectName.length !== 0 ? false : true}
           />
           <Button 
             btnText="CANCEL"

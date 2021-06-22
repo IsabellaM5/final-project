@@ -6,6 +6,7 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
+import TaskTitleInput from 'components/minor/TaskTitleInput'
 import InputField from 'components/reusable/InputField'
 import TaskComments from 'components/containers/TaskComments'
 import Button from 'components/reusable/Button'
@@ -89,12 +90,9 @@ const EditTask = ({ item, setEditMode }) => {
     <FormWrapper>
       <EditTaskForm>
         <SubContainer>
-          <InputField 
-            id="input-task-title"
-            label="Task title"
-            type="text" 
-            value={taskTitle} 
-            handleChange={setTaskTitle} 
+          <TaskTitleInput 
+            taskTitle={taskTitle}
+            setTaskTitle={setTaskTitle} 
           />
           <InputField 
             id="input-task-description"
@@ -115,6 +113,7 @@ const EditTask = ({ item, setEditMode }) => {
           <Button 
             btnText="SAVE"
             handleClick={handleFormSubmit}
+            disabled={taskTitle.length !== 0 ? false : true}
           />
           <Button 
             btnText="CANCEL"
