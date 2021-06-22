@@ -27,7 +27,7 @@ const InputField = (props) => {
       className={classes.inputField}
       error={props.error}
       helperText={props.helperText}
-      autoComplete={props.autoComplete}
+      autoComplete="off"
     />
   )
 }

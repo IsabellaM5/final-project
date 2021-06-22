@@ -43,7 +43,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
   }
 
   const pushUsersArray = (v) => {
-    const pushNewOption = availableOptions.push(v)
+    const pushNewOption = [...availableOptions, v]
     setAvailableOptions(pushNewOption)
   }
 
