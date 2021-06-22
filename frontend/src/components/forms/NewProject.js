@@ -7,7 +7,8 @@ import { API_URL, PROJECTS_URL } from 'reusable/urls'
 import projects from 'reducers/projects'
 
 import Button from 'components/reusable/Button'
-import InputField from 'components/reusable/InputField'
+import ProjectNameInput from 'components/minor/ProjectNameInput'
+import ProjectDescInput from 'components/minor/ProjectDescInput'
 import SearchField from 'components/reusable/SearchField'
 
 const FormWrapper = styled.div`
@@ -102,24 +103,15 @@ const NewProject = ({ setNewItemMode }) => {
     <FormWrapper>
       <NewProjectForm>
         <NameContainer>
-          <InputField 
-            id="input-project-name"
-            label="Project name"
-            type="text" 
-            value={projectName} 
-            handleChange={setProjectName} 
-            width="100%"
+          <ProjectNameInput 
+            projectName={projectName}
+            setProjectName={setProjectName}
           />
         </NameContainer>
         <DescContainer>
-          <InputField
-            id="input-project-description"
-            label="Description"
-            type="text"
-            value={description} 
-            multiline={true}
-            handleChange={setDescription} 
-            width="100%"
+          <ProjectDescInput
+            projectDesc={description}
+            setProjectDesc={setDescription}
           />
         </DescContainer>
         <SearchField 
@@ -131,6 +123,7 @@ const NewProject = ({ setNewItemMode }) => {
           <Button 
             btnText="ADD"
             handleClick={handleFormSubmit}
+            disabled={projectName.length !== 0 ? false : true}
           />
           <Button 
             btnText="CANCEL"

@@ -82,13 +82,13 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
           username={username}
           setUsername={setUsername}
           width={width}
-          helpText={'This field is required'}
+          helpText={''}
           signUp={signUp}
         />
         <PasswordInput 
           password={password}
           setPassword={setPassword}
-          helpText={'This field is required'}
+          helpText={''}
           signUp={signUp}
         />
 
