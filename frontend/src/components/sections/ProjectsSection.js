@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { API_URL, PROJECTS_URL } from 'reusable/urls'
+import { API_URL, PROJECTS_URL, GET_USERS } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
@@ -64,7 +64,7 @@ const ProjectsSection = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const options = {
+    const config = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -72,11 +72,19 @@ const ProjectsSection = () => {
       }
     }
 
-    fetch(API_URL(PROJECTS_URL(userID)), options)
-      .then(res => res.json())
+    Promise.all([
+      fetch(API_URL(PROJECTS_URL(userID)), config),
+      fetch(API_URL(GET_USERS), config)
+    ])
+      .then((res) => {
+        console.log(res)
+        return Promise.all(res.map(r => r.json()))
+      })
       .then(data => {
-        if (data.success) {
-          dispatch(projects.actions.setProjects(data.altProjects))
+        console.log(data)
+        if (data[0].success && data[1].success) {
+          dispatch(projects.actions.setProjects(data[0].altProjects))
+          dispatch(projects.actions.setUsers(data[1]))
         } else {
           dispatch(projects.actions.setErrors(data))
         }

@@ -1,24 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import { useSelector } from 'react-redux'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import { useSelector, useDispatch } from 'react-redux'
 
-import Icon from 'components/minor/Icon'
+import { API_URL, GET_USERS } from 'reusable/urls'
+
+import projects from 'reducers/projects'
+
 import ModalContainer from 'components/reusable/ModalContainer'
 import EditProject from 'components/forms/EditProject'
-import DeleteProject from 'components/containers/DeleteProject'
-import Button from 'components/reusable/Button'
-import { makeStyles } from '@material-ui/core/styles'
-
-const useStyles = makeStyles({
-  expand: {
-    fontSize: '40px',
-    background: '#ffffff',
-    borderRadius: '50px',
-    border: '1px solid #dfdbe5'
-  }
-})
+import ProjectInfoExpand from 'components/containers/ProjectInfoExpand'
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -32,16 +22,6 @@ const HeaderWrapper = styled.div`
   align-items: center;
 `
 
-const MoreProjectInfoContainer = styled.div`
-  display: flex;
-  margin-top: 20px;
-
-  @media (max-width: 767px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`
-
 const ProjectInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,30 +31,6 @@ const ProjectInfoContainer = styled.div`
 
   @media (max-width: 767px) {
 
-  }
-`
-
-const CollabContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 10px;
-  max-width: 60%;
-
-  @media (max-width: 767px) {
-
-  }
-`
-
-const ProjectBtnsContainer = styled.div`
-  justify-self: stretch;
-  display: flex;
-  align-items: flex-start;
-  height: 100%;
-  max-width: 25%;
-
-  @media (max-width: 767px) {
-    justify-content: center; 
   }
 `
 
@@ -100,47 +56,34 @@ const DescriptionText = styled.h3`
   }
 `
 
-const Container = styled.div`
-  max-width: 75%;
-  display: flex;
-
-  @media (max-width: 767px) {
-
-  }
-`
-
-const Heading = styled.p`
-  font-size: 1.8em;
-  font-weight: 500;
-  margin: 2px;
-
-  @media (max-width: 767px) {
-    font-size: 1.6em;
-  }
-`
-
-const Username = styled.p`
-  font-size: 1.6em;
-  margin: 2px;
-
-  @media (max-width: 767px) {
-    font-size: 1.4em;
-  }
-`
-
-const UsernameWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`
-
 const TasksSectionHeader = ({ projectID }) => {
   const project = useSelector(store => store.projects.activeProject)
+  const accessToken = useSelector(store => store.user.info.accessToken)
+
+  const dispatch = useDispatch()
 
   const [editMode, setEditMode] = useState(false)
   const [moreInfo, setMoreInfo] = useState(false)
 
-  const classes = useStyles()
+  useEffect(() => {
+    const config = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': accessToken
+      }
+    }
+
+    fetch(API_URL(GET_USERS), config)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          dispatch(projects.actions.setUsers(data))
+        } else {
+          dispatch(projects.actions.setErrors(data))
+        }
+      })
+  }, [accessToken, dispatch])
 
   const toggleExpand = (v) => {
     setMoreInfo(v)
@@ -158,74 +101,15 @@ const TasksSectionHeader = ({ projectID }) => {
           </DescriptionText>
         </ProjectInfoContainer>
 
-        {!moreInfo &&
-          <Icon
-            icon={
-              <ExpandMoreIcon 
-                className={classes.expand}
-              />
-            }
-            handleIconClick={toggleExpand}
-            apiMethod={true}
-            position="absolute"
-            bottom="-25px"
-          />
-        }
-
-        {moreInfo && 
-          <MoreProjectInfoContainer>
-            <Container>
-              <ProjectInfoContainer>
-                <Heading>
-                  Project Manager
-                </Heading>
-                <Username>
-                  {project.projectOwner}
-                </Username>
-              </ProjectInfoContainer>
-
-              <CollabContainer>
-                <Heading>
-                  Collaborators
-                </Heading>
-
-                {project.collaborators && (
-                  <UsernameWrapper>
-                    {project.collaborators.map(collab => (
-                      <Username key={collab}>{collab}</Username>
-                    ))}
-                  </UsernameWrapper>
-                )}
-              </CollabContainer>
-            </Container>
-
-            <ProjectBtnsContainer>
-              <Button 
-                btnText="EDIT"
-                handleClick={() => setEditMode(true)}  
-              />
-
-              <DeleteProject 
-                projectID={projectID}
-              />
-            </ProjectBtnsContainer>
-          </MoreProjectInfoContainer>
-        }
-
-        {moreInfo &&
-          <Icon
-            icon={
-              <ExpandLessIcon 
-                className={classes.expand}
-              />
-            }
-            handleIconClick={toggleExpand}
-            apiMethod={false}
-            position="absolute"
-            bottom="-25px"
-          />
-        }
+        <ProjectInfoExpand 
+          moreInfo={moreInfo}
+          toggleExpand={toggleExpand}
+          project={project}
+          setEditMode={setEditMode}
+          projectID={projectID}
+        />
       </HeaderWrapper>
+      
       <ModalContainer 
         editMode={editMode}
         setEditMode={setEditMode}
