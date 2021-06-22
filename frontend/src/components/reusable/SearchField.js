@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Chip from '@material-ui/core/Chip'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from "@material-ui/lab/Autocomplete"
 
-import { API_URL, GET_USERS, EDIT_COLLAB, DELETE_COLLAB } from 'reusable/urls'
-
-import projects from 'reducers/projects'
+import { EDIT_COLLAB, DELETE_COLLAB } from 'reusable/urls'
 
 const AutocompleteContainer = styled.div`
   grid-area: search;
@@ -25,59 +23,51 @@ const Label = styled.p`
 
 const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onDeleteCollaborator }) => {
   const users = useSelector(store => store.projects.users)
-  const accessToken = useSelector(store => store.user.info.accessToken)
-
-  const usersArray = users.map(user => user.label)
-
-  const [selectedOption, setSelectedOption] = useState(usersArray[0])
-
-  const dispatch = useDispatch()
+  const [availableOptions, setAvailableOptions] = useState(users)
 
   useEffect(() => {
-    const config = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': accessToken
-      }
-    }
+    setAvailableOptions(users)
 
-    fetch(API_URL(GET_USERS), config)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          dispatch(projects.actions.setUsers(data))
-        } else {
-          dispatch(projects.actions.setErrors(data))
-        }
-      })
-  }, [accessToken, dispatch])
+    if (selectedCollaborators.length !== 0) {
+      const filteredOptions = availableOptions.filter(collab => !selectedCollaborators.includes(collab))
+      setAvailableOptions(filteredOptions)
+    } 
+  }, [users])
+
+  const [selectedOption, setSelectedOption] = useState(availableOptions[0])
+
+  const filterUsersArray = (v) => {
+    const filteredOptions = availableOptions.filter(c => c !== v)
+    setAvailableOptions(filteredOptions)
+    console.log('onChange funktion')
+  }
 
   return (
     <>
-      <AutocompleteContainer>
-        <Autocomplete
-          id="autocomplete"
-          value={selectedOption || ''}
-          onChange={(event, v) => {
-            if (!v) {
-              return
-            }
-            setSelectedOption(v)
-            setSelectedCollaborators([...selectedCollaborators, v])
+        <AutocompleteContainer>
+          <Autocomplete
+            id="autocomplete"
+            value={selectedOption || ''}
+            onChange={(event, v) => {
+              if (!v) {
+                return
+              }
+              setSelectedOption(v)
+              setSelectedCollaborators([...selectedCollaborators, v])
+              filterUsersArray(v)
 
-            if (onInputChange) {
-              onInputChange(v, EDIT_COLLAB)
-            }
-          }}
-          options={usersArray}
-          style={{ width: 250, marginBottom: 'auto' }}
-          renderInput={(params) => (
-            <TextField {...params} label="Users" variant="outlined" />
-          )}
-        />
-      </AutocompleteContainer>
-
+              if (onInputChange) {
+                onInputChange(v, EDIT_COLLAB)
+              }
+            }}
+            options={availableOptions}
+            style={{ width: 250, marginBottom: 'auto' }}
+            renderInput={(params) => (
+              <TextField {...params} label="Users" variant="outlined" />
+            )}
+          />
+        </AutocompleteContainer>
+      
       <ChipsContainer>
         <Label>Collaborators</Label>
         {selectedCollaborators.length !== 0 && (

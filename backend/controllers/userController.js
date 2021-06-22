@@ -8,7 +8,7 @@ export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
     for (const user of users) {
-      usersArray.push({ value: user.username.toLowerCase(), label: user.username }) 
+      usersArray.push(user.username) 
     }
     res.status(201).json({ success: true, usersArray })
   } catch (error) {
@@ -85,8 +85,10 @@ export const signIn = async (req, res) => {
         image: user.image, 
         accessToken: user.accessToken 
       })
-    } else {
-      res.status(404).json({ success: false, message: 'Could not find user' })
+    } else if (user && !bcrypt.compareSync(password, user.password)) {
+      res.status(404).json({ success: false, message: 'Password was incorrect' })
+    } else if (!user) {
+      res.status(404).json({ success: false, message: 'User does not exist' })
     }
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
