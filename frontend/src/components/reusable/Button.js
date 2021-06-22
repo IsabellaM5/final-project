@@ -13,10 +13,14 @@ const Btn = styled.button`
   height: ${props => props.height};
   font-weight: ${props => props.fontWeight};
 
+  &:disabled {
+    opacity: ${props => props.disabled ? '0.4' : ''};
+  }
+
   &:hover {
-    background: ${props => props.backgroundHover ? props.backgroundHover : '#c3bdcd'};
-    cursor: pointer;
-    color: #000000;
+    background: ${props => props.backgroundHover ? props.backgroundHover : props.disabled ? '' : '#c3bdcd'};
+    cursor: ${props => props.disabled ? '' : 'pointer'};
+    color: ${props => props.disabled ? '' : '#000000'};
   }
   `
 

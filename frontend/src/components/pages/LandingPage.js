@@ -124,6 +124,7 @@ const LandingPage = () => {
             setUsername={setUsername} 
             password={password} 
             setPassword={setPassword}
+            signUp={signUp}
             setSignUp={setSignUp}
             width={width}
           />
@@ -138,6 +139,7 @@ const LandingPage = () => {
             setPassword={setPassword}
             repeatPassword={repeatPassword}
             setRepeatPassword={setRepeatPassword}
+            signUp={signUp}
             setSignUp={setSignUp}
             width={width}
           />}

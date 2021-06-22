@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { useSelector } from 'react-redux'
 
 import { SIGN_IN } from 'reusable/urls'
 
-import InputField from 'components/reusable/InputField'
+import UsernameInput from 'components/minor/UsernameInput'
+import PasswordInput from 'components/minor/PasswordInput'
 import Button from 'components/reusable/Button'
 
 const MainHeading = styled.h1`
@@ -52,8 +54,19 @@ const RegisterText = styled.p`
   }
 `
 
-const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, setSignUp, width }) => {
-  // const error = useSelector(store => store.user.errors)
+const ErrorMessage = styled.p`
+  font-size: 1.8em;
+  color: #ff0000;
+  margin: 0;
+
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+  }
+`
+
+const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, signUp, setSignUp, width }) => {
+  const err = useSelector(store => store.user.errors) 
+  console.log(err)
 
   const body = { usernameOrEmail: username, password: password }
 
@@ -65,25 +78,22 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
     <Form>
       <MainHeading>SIGN IN</MainHeading>
       <SubContainer> 
-        <InputField 
-          id="input-username"
-          label="Username"
-          type="text" 
-          value={username}
-          handleChange={setUsername} 
-          width={width < 768 && '100%'}
+        <UsernameInput 
+          username={username}
+          setUsername={setUsername}
+          width={width}
+          helpText={'This field is required'}
+          signUp={signUp}
         />
-        <InputField 
-          id="input-password"
-          label="Password"
-          type="password" 
-          value={password}
-          handleChange={setPassword} 
-          width={width < 768 && '100%'}
+        <PasswordInput 
+          password={password}
+          setPassword={setPassword}
+          helpText={'This field is required'}
+          signUp={signUp}
         />
-      </SubContainer>
 
-      {/* {error && <ErrorMessage>{error.message}</ErrorMessage>} */}
+        {err && username.length !== 0 ? <ErrorMessage>{err.message}</ErrorMessage> : ''}
+      </SubContainer>
 
       <Button 
         btnText="SIGN IN" 
@@ -92,12 +102,12 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
       />
 
       <Container>
-      <RegisterText>Not a user?</RegisterText>
-      <Button 
-        btnText="SIGN UP HERE" 
-        handleClick={() => setSignUp(true)}
-        padding="10px 15px"
-      /> 
+        <RegisterText>Not a user?</RegisterText>
+        <Button 
+          btnText="SIGN UP HERE" 
+          handleClick={() => setSignUp(true)}
+          padding="10px 15px"
+        /> 
       </Container>
     </Form>
   )

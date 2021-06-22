@@ -3,7 +3,10 @@ import styled from 'styled-components/macro'
 
 import { SIGN_UP } from 'reusable/urls'
 
-import InputField from 'components/reusable/InputField'
+import UsernameInput from 'components/minor/UsernameInput'
+import EmailInput from 'components/minor/EmailInput'
+import PasswordInput from 'components/minor/PasswordInput'
+import RepeatPasswordInput from 'components/minor/RepeatPasswordInput'
 import Button from 'components/reusable/Button'
 
 const MainHeading = styled.h1`
@@ -52,7 +55,7 @@ const RegisterText = styled.p`
   }
 `
 
-const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, setSignUp, width }) => {
+const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, signUp, setSignUp, width }) => {
   const body = { username: username, email: email, password: password }
 
   const onFormSubmit = () => {
@@ -63,37 +66,28 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
     <Form>
       <MainHeading>SIGN UP</MainHeading>
       <SubContainer>
-        <InputField 
-          id="input-username"
-          label="Username"
-          type="text" 
-          value={username}
-          handleChange={setUsername}
-          width={width < 768 && '100%'} 
+        <UsernameInput 
+          username={username}
+          setUsername={setUsername}
+          width={width}
+          signUp={signUp}
         />
-        <InputField 
-          id="input-email"
-          label="Email"
-          type="text" 
-          value={email} 
-          handleChange={setEmail}
-          width={width < 768 && '100%'} 
+        <EmailInput 
+          email={email}
+          setEmail={setEmail}
+          width={width}
         />
-        <InputField 
-          id="input-password"
-          label="Password"
-          type="password" 
-          value={password} 
-          handleChange={setPassword}
-          width={width < 768 && '100%'} 
+        <PasswordInput 
+          password={password}
+          setPassword={setPassword}
+          width={width}
+          signUp={signUp}
         />
-        <InputField 
-          id="input-repeat-password"
-          label="Repeat password"
-          type="password" 
-          value={repeatPassword} 
-          handleChange={setRepeatPassword}
-          width={width < 768 && '100%'} 
+        <RepeatPasswordInput 
+          password={password}
+          repeatPassword={repeatPassword}
+          setRepeatPassword={setRepeatPassword}
+          width={width}
         />
       </SubContainer>
 
