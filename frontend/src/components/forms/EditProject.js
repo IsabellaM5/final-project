@@ -6,7 +6,7 @@ import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-import InputField from 'components/reusable/InputField'
+import ProjectDescInput from 'components/minor/ProjectDescInput'
 import ProjectNameInput from 'components/minor/ProjectNameInput'
 import SearchField from 'components/reusable/SearchField'
 import Button from 'components/reusable/Button'
@@ -129,14 +129,9 @@ const EditProject = ({ projectID, setEditMode }) => {
           />
         </NameContainer>
         <DescContainer>
-          <InputField
-            id="input-project-description"
-            label="Description"
-            type="text"
-            value={projectDesc} 
-            multiline={true}
-            handleChange={setProjectDesc} 
-            width="100%"
+          <ProjectDescInput
+            projectDesc={projectDesc}
+            setProjectDesc={setProjectDesc}
           />
         </DescContainer>
         <SearchField 
@@ -149,6 +144,7 @@ const EditProject = ({ projectID, setEditMode }) => {
           <Button 
             btnText="SAVE"
             handleClick={handleFormSubmit}
+            disabled={projectName.lenght !== 0 ? false : true }
           />
           <Button 
             btnText="CANCEL"
