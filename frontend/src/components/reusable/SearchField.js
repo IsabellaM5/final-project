@@ -34,12 +34,17 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
     } 
   }, [users])
 
-  const [selectedOption, setSelectedOption] = useState(availableOptions[0])
+  const [selectedOption, setSelectedOption] = useState('')
 
   const filterUsersArray = (v) => {
     const filteredOptions = availableOptions.filter(c => c !== v)
     setAvailableOptions(filteredOptions)
     console.log('onChange funktion')
+  }
+
+  const pushUsersArray = (v) => {
+    const pushNewOption = availableOptions.push(v)
+    setAvailableOptions(pushNewOption)
   }
 
   return (
@@ -78,6 +83,7 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
                 label={collab}
                 size="medium"
                 onDelete={() => {
+                  pushUsersArray(collab)
                   onDeleteCollaborator(collab, DELETE_COLLAB)
                 }}
               />
