@@ -60,11 +60,23 @@ const LastContainer = styled.div`
 
 `
 
+const ErrorMessage = styled.p`
+  font-size: 3.2em;
+  color: #000000;
+  margin: 0;
+  text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 2.0em;
+  }
+`
+
 const TasksSection = () => {
   const { projectID } = useParams()
 
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.tasks.items)
+  const error = useSelector(store => store.user.errors)
 
   const [newItemMode, setNewItemMode] = useState(false)
 
@@ -139,6 +151,7 @@ const TasksSection = () => {
         />
       </LastContainer>
       </TasksWrapper>
+      {error && <ErrorMessage>Opps, something went wrong...</ErrorMessage>}
     </Section>
   )
 }

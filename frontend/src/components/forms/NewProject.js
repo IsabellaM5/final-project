@@ -123,7 +123,7 @@ const NewProject = ({ setNewItemMode }) => {
           <Button 
             btnText="ADD"
             handleClick={handleFormSubmit}
-            disabled={projectName.length !== 0 ? false : true}
+            disabled={projectName.length === 0 || projectName.length > 20 || description.length > 40 ? true : false}
           />
           <Button 
             btnText="CANCEL"

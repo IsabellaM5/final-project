@@ -54,10 +54,22 @@ const ProjectsWrapper = styled.div`
   }
 `
 
+const ErrorMessage = styled.p`
+  font-size: 3.2em;
+  color: #000000;
+  margin: 0;
+  text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 2.0em;
+  }
+`
+
 const ProjectsSection = () => {
   const userID = useSelector(store => store.user.info.userID)
   const accessToken = useSelector(store => store.user.info.accessToken)
   const items = useSelector(store => store.projects.items)
+  const error = useSelector(store => store.user.errors)
 
   const [newItemMode, setNewItemMode] = useState(false)
 
@@ -77,11 +89,9 @@ const ProjectsSection = () => {
       fetch(API_URL(GET_USERS), config)
     ])
       .then((res) => {
-        console.log(res)
         return Promise.all(res.map(r => r.json()))
       })
       .then(data => {
-        console.log(data)
         if (data[0].success && data[1].success) {
           dispatch(projects.actions.setProjects(data[0].altProjects))
           dispatch(projects.actions.setUsers(data[1]))
@@ -105,8 +115,9 @@ const ProjectsSection = () => {
             />
           ))
         )}
-        
       </ProjectsWrapper>
+        
+      {error && <ErrorMessage>Opps, something went wrong...</ErrorMessage>}
       <ModalContainer 
         editMode={newItemMode}
         setEditMode={setNewItemMode}

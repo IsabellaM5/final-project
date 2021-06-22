@@ -15,7 +15,6 @@ const TaskTitleInput = ({ taskTitle, setTaskTitle }) => {
         taskTitle.length === 0 ? 'This field is required' :
         taskTitle.length > 20 ? 'Cannot be longer than 20 characters' : ''
       } 
-      autoComplete="off"
     />
   )
 }

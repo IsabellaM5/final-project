@@ -14,12 +14,11 @@ const ProjectNameInput = ({ projectName, setProjectName }) => {
       value={projectName} 
       handleChange={setProjectName} 
       width="100%"
-      error={projectName.length === 0 || projectName.length > 20}
+      error={err || projectName.length > 20}
       helperText={
-        projectName.length === 0 ? 'This field is required' :
+        err & projectName.length === 0 || projectName.length === 0 ? 'This field is required' :
         projectName.length > 20 ? 'Cannot be longer than 20 characters' : ''
       } 
-      autoComplete="off"
     />
   )
 }

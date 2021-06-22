@@ -19,7 +19,6 @@ const RepeatPasswordInput = ({ password, repeatPassword, setRepeatPassword, widt
         err || err & repeatPassword.length !== 0 ? 'This field is required' :
         err || repeatPassword !== password & repeatPassword.length !== 0 ? 'Passwords does not match' : ''
       } 
-      autoComplete="off"
     />
   )
 }
