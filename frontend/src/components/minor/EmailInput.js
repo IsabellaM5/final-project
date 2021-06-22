@@ -16,7 +16,6 @@ const EmailInput = ({ email, setEmail, width }) => {
       width={width < 768 && '100%'}
       error={err}
       helperText={err && email.length !== 0 ? 'This field is required' : ''} 
-      autoComplete="off"
     />
   )
 }

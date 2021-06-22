@@ -14,7 +14,6 @@ const ProjectDescInput = ({ projectDesc, setProjectDesc }) => {
       width="100%"
       error={projectDesc.length > 40}
       helperText={projectDesc.length > 40 ? 'Cannot be longer than 40 characters' : ''} 
-      autoComplete="off"
     />
   )
 }

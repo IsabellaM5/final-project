@@ -144,7 +144,7 @@ const EditProject = ({ projectID, setEditMode }) => {
           <Button 
             btnText="SAVE"
             handleClick={handleFormSubmit}
-            disabled={projectName.length !== 0 ? false : true}
+            disabled={projectName.length === 0 || projectDesc.length > 40 ? true : false}
           />
           <Button 
             btnText="CANCEL"

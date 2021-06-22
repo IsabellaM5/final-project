@@ -19,7 +19,6 @@ const PasswordInput = ({ password, setPassword, width, helpText, signUp }) => {
         err || err & password.length !== 0 & !helpText ? 'This field is required' :
         err & password.length < 6 || password.length < 6 & password.length !== 0 & !helpText ? 'Must be at least 6 characters' : ''
       } 
-      autoComplete="off"
     />
   )
 }

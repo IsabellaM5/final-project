@@ -72,6 +72,7 @@ const NewTask = ({ setNewItemMode }) => {
         <Button 
           btnText="ADD"
           handleClick={handleFormSubmit}
+          disabled={taskTitle.length === 0 ? true : false}
         />
         <Button 
           btnText="CANCEL"
