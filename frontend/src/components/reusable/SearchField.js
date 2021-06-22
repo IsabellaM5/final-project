@@ -28,12 +28,28 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
   const accessToken = useSelector(store => store.user.info.accessToken)
 
   const usersArray = users.map(user => user.label)
+  console.log(usersArray)
 
-  const [selectedOption, setSelectedOption] = useState(usersArray[0])
+  const [availableOptions, setAvailableOptions] = useState([usersArray])
+  console.log(availableOptions)
+
+  const filterUsersArray = (v) => {
+    const filteredOptions = availableOptions.filter(c => c !== v)
+    setAvailableOptions(filteredOptions)
+  }
+
+  const [selectedOption, setSelectedOption] = useState(availableOptions[0])
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // if (selectedCollaborators.length !== 0) {
+    //   selectedCollaborators.map(collab => {
+    //     console.log(collab)
+    //     const filter = usersArray.filter(c => c !== collab)
+    //     setAvailableOptions(filter)
+    //   })
+    // }
     const config = {
       method: 'GET',
       headers: {
@@ -65,12 +81,13 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
             }
             setSelectedOption(v)
             setSelectedCollaborators([...selectedCollaborators, v])
+            filterUsersArray(v)
 
             if (onInputChange) {
               onInputChange(v, EDIT_COLLAB)
             }
           }}
-          options={usersArray}
+          options={availableOptions}
           style={{ width: 250, marginBottom: 'auto' }}
           renderInput={(params) => (
             <TextField {...params} label="Users" variant="outlined" />

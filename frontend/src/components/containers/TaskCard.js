@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { FaTrashAlt, FaEdit } from 'react-icons/fa'
 
 import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
 import ModalContainer from 'components/reusable/ModalContainer'
+import TaskCardMenu from 'components/containers/TaskCardMenu'
 import EditTask from 'components/forms/EditTask' 
-import Icon from 'components/minor/Icon'
 
 const TaskContainer = styled.div`
   background: #dfdbe5;
@@ -36,7 +35,7 @@ const Title = styled.p`
 
 const ButtonsContainer = styled.div`
   display: flex;
-  align-self: flex-start;
+  align-self: center;
 `
 
 const TaskCard = ({ item, projectID }) => {
@@ -75,14 +74,10 @@ const TaskCard = ({ item, projectID }) => {
       <TaskContainer>
         <Title>{item.title}</Title>
         <ButtonsContainer>
-          <Icon 
-            icon={<FaEdit size="15" />}
-            handleIconClick={handleEditTask}
-          />
-          <Icon 
-            icon={<FaTrashAlt size="15" />} 
-            handleIconClick={handleDeleteTask}
-            apiMethod={'DELETE'} 
+          <TaskCardMenu 
+            _id={item._id}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
           />
         </ButtonsContainer>
       </TaskContainer>
