@@ -8,6 +8,7 @@ import projects from 'reducers/projects'
 
 import Button from 'components/reusable/Button'
 import InputField from 'components/reusable/InputField'
+import ProjectNameInput from 'components/minor/ProjectNameInput'
 import SearchField from 'components/reusable/SearchField'
 
 const FormWrapper = styled.div`
@@ -102,13 +103,9 @@ const NewProject = ({ setNewItemMode }) => {
     <FormWrapper>
       <NewProjectForm>
         <NameContainer>
-          <InputField 
-            id="input-project-name"
-            label="Project name"
-            type="text" 
-            value={projectName} 
-            handleChange={setProjectName} 
-            width="100%"
+          <ProjectNameInput 
+            projectName={projectName}
+            setProjectName={setProjectName}
           />
         </NameContainer>
         <DescContainer>

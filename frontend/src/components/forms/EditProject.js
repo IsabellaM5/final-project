@@ -7,6 +7,7 @@ import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 import projects from 'reducers/projects'
 
 import InputField from 'components/reusable/InputField'
+import ProjectNameInput from 'components/minor/ProjectNameInput'
 import SearchField from 'components/reusable/SearchField'
 import Button from 'components/reusable/Button'
 
@@ -122,13 +123,9 @@ const EditProject = ({ projectID, setEditMode }) => {
     <FormWrapper>
       <ProjectForm>
         <NameContainer>
-          <InputField 
-            id="input-project-name"
-            label="Project name"
-            type="text" 
-            value={projectName} 
-            handleChange={setProjectName} 
-            width="100%"
+          <ProjectNameInput 
+            projectName={projectName}
+            setProjectName={setProjectName}
           />
         </NameContainer>
         <DescContainer>
