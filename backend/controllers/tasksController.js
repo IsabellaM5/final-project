@@ -15,7 +15,7 @@ export const getTasks = async (req, res) => {
   } catch (error) {
     res.status(400).json({ 
       success: false, 
-      message: 'Page not found', 
+      message: 'Invalid request', 
       error 
     })
   }
@@ -34,7 +34,7 @@ export const getSingleTask = async (req, res) => {
   } catch (error) {
     res.status(400).json({ 
       success: false, 
-      message: 'Page not found', 
+      message: 'Invalid request', 
       error 
     })
   }
@@ -110,7 +110,7 @@ export const patchTask = async (req, res) => {
   } catch (error) {
     res.status(400).json({ 
       success: false, 
-      message: 'Invalid request/could not update task', 
+      message: 'Invalid request', 
       error 
     })
   }
@@ -136,15 +136,15 @@ export const patchComments = async (req, res) => {
         })
       }
     } else {
-      res.status(400).json({ 
+      res.status(404).json({ 
         success: false, 
-        message: 'The request was missing required body'
+        message: 'Request missing required body'
       })
     }
   } catch (error) {
     res.status(400).json({ 
       success: false, 
-      message: 'Invalid request/could not update task', 
+      message: 'Invalid request', 
       error 
     })
   }

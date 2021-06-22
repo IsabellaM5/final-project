@@ -10,9 +10,9 @@ export const getAllUsers = async (req, res) => {
     for (const user of users) {
       usersArray.push(user.username) 
     }
-    res.status(201).json({ success: true, usersArray })
+    res.status(200).json({ success: true, usersArray })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Could not get users', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
 
@@ -22,7 +22,7 @@ export const getUser = async (req, res) => {
   try {
     const singleUser = await User.findById(userID)
 
-    res.status(201).json({ 
+    res.status(200).json({ 
       success: true, 
       email: singleUser.email,
       role: singleUser.role,
@@ -31,7 +31,7 @@ export const getUser = async (req, res) => {
       image: singleUser.image
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Could not get user', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
 
@@ -58,7 +58,7 @@ export const signUp = async (req, res) => {
     if (error.code === 11000) {
       res.status(400).json({ message: 'User already exists', fields: error.keyValue })
     }
-    res.status(400).json({ success: false, message: 'Could not create user', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
 
@@ -74,7 +74,7 @@ export const signIn = async (req, res) => {
     })    
 
     if (user && bcrypt.compareSync(password, user.password)) {
-      res.status(201).json({ 
+      res.status(200).json({ 
         success: true,
         userID: user._id,
         username: user.username, 
@@ -116,16 +116,16 @@ export const deleteUser = async (req, res) => {
         if (deletedTasks) {
           res.status(200).json({ success: true, deletedUser, deletedProjects, deletedTasks })
         } else {
-          res.status(400).json({ success: false, message: 'Tasks related to project could not be deleted' })
+          res.status(404).json({ success: false, message: 'Tasks related to project could not be deleted' })
         }
       } else {
-        res.status(400).json({ success: false, message: 'Projects related to user could not be deleted' })
+        res.status(404).json({ success: false, message: 'Projects related to user could not be deleted' })
       }
     } else {
-      res.status(400).json({ success: false, message: 'Could not find user' })
+      res.status(404).json({ success: false, message: 'Could not find user' })
     }
   } catch (error) {
-    res.status(404).json({ success: false, message: 'Invalid request/Could not delete user', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
 
@@ -147,7 +147,7 @@ export const patchUser = async (req, res) => {
       res.status(404).json({ success: false, message: 'Could not find user' })
     }
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
 
@@ -163,6 +163,6 @@ export const patchAvatar = async (req, res) => {
       res.status(404).json({ success: false, message: 'Could not update picture' })
     }
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request/could not update user', error })
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 }
