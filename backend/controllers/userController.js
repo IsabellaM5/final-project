@@ -52,6 +52,10 @@ export const signUp = async (req, res) => {
       userID: newUser._id, 
       username: newUser.username, 
       email: newUser.email,
+      role: newUser.role,
+      name: newUser.name,
+      bio: newUser.bio,
+      image: newUser.image, 
       accessToken: newUser.accessToken 
     })
   } catch (error) {
