@@ -21,6 +21,7 @@ const FormWrapper = styled.div`
 
   @media (max-width: 1023px) {
     width: 90%;
+    margin: 50px 0;
   }
 `
 

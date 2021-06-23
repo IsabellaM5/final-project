@@ -7,6 +7,7 @@ import user from 'reducers/user'
 
 import { API_URL } from 'reusable/urls'
 
+import CarouselContainer from 'components/signIn/CarouselContainer'
 import SignInForm from 'components/signIn/SignInForm'
 import SignUpForm from 'components/signIn/SignUpForm'
 import WindowDimensions from 'components/misc/WindowDimensions'
@@ -45,19 +46,6 @@ const Section = styled.section`
     border-radius: 0;
     box-shadow: none;
   }
-`
-
-const CarouselContainer = styled.div`
-  width: 48%;
-
-  @media (max-width: 1439px) {
-    display: none;
-  }
-`
-
-const CarouselImage = styled.img`
-  width: 100%;
-  border-radius: 20px;
 `
 
 const LandingPage = () => {
@@ -117,9 +105,7 @@ const LandingPage = () => {
   return (
     <MainContainer>
       <Section>
-        <CarouselContainer>
-          <CarouselImage src="/assets/landing-page-placeholder-image.jpg" />
-        </CarouselContainer>
+        <CarouselContainer /> 
         {!signUp ? 
           <SignInForm 
             handleFormSubmit={handleFormSubmit}

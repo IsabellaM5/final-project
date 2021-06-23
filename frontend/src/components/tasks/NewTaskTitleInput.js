@@ -29,6 +29,7 @@ const NewTaskTitleInput = ({ taskTitle, setTaskTitle }) => {
       handleChange={setTaskTitle}
       error={err || taskTitle.length > 30}
       helperText={helpText} 
+      width="100%"
     />
   )
 }

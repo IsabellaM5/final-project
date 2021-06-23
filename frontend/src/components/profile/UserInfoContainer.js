@@ -15,9 +15,9 @@ const ImageUserContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-template-areas: 
-    "img ."
-    "input ."
-    "text .";
+    "img img"
+    "input input"
+    "text text";
 
   @media (max-width: 767px) {
     width: 100%;

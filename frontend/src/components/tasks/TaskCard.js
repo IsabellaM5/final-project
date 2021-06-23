@@ -20,8 +20,7 @@ const TaskContainer = styled.div`
   padding: 10px;
   justify-content: space-between;
   cursor: pointer;
-  border-left: ${props => props.complete && "3px solid #d3ffbd"};
-  border-right: ${props => props.complete && "3px solid #d3ffbd"};
+  border-left: ${props => props.complete && "10px solid #54D842"};
   text-decoration: ${props => props.complete && "line-through"};
   color: ${props => props.complete ? "#8f8f8f" : "#000000"};
 `
@@ -78,7 +77,11 @@ const TaskCard = ({ item, projectID }) => {
       <TaskContainer
         complete={item.complete}
       >
-        <Title>{item.title}</Title>
+        <Title
+          onClick={handleEditTask}
+        >
+          {item.title}
+        </Title>
         <ButtonsContainer>
           <TaskCardMenu 
             _id={item._id}

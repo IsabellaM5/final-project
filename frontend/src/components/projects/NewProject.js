@@ -65,6 +65,10 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   grid-area: buttons;
+
+  @media (max-width: 767px) {
+    align-self: center;
+  }
 `
 
 const NewProject = ({ setNewItemMode }) => {
