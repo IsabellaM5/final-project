@@ -12,7 +12,7 @@ const AddNewTaskContainer = ({ newItemMode, setNewItemMode }) => {
         />
       :
         <Button 
-          btnText="+ ADD ANOTHER TASK"
+          btnText="+ ADD A TASK"
           handleClick={() => setNewItemMode(true)}
           width="100%"
           background="#9c92ac"

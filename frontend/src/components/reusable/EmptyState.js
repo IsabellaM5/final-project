@@ -6,21 +6,27 @@ const EmptyStateContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: ${props => props.height ? props.height : '100%'};
 `
 
 const EmptyStateParagraph = styled.p`
-  font-size: 2.0em;
+  font-size: ${props => props.fontSize ? props.fontSize : '2.0em'};
   color: #303960;
   text-align: center;
   padding: 0 60px;
 `
 
-const EmptyState = ({ icon, text }) => {
+const EmptyState = ({ icon, text, height, fontSize }) => {
   return (
-    <EmptyStateContainer>
+    <EmptyStateContainer
+      height={height}
+    >
       {icon}
-      <EmptyStateParagraph>{text}</EmptyStateParagraph>
+      <EmptyStateParagraph
+        fontSize={fontSize}
+      >
+        {text}
+      </EmptyStateParagraph>
     </EmptyStateContainer>
   )
 }

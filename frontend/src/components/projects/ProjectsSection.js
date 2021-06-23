@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
-import { BsFillInboxFill } from "react-icons/bs"
+import { BsFillInboxFill } from 'react-icons/bs'
 
 import { API_URL, PROJECTS_URL, GET_USERS } from 'reusable/urls'
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { IoIosCreate } from 'react-icons/io'
 
 import { API_URL, SINGLE_PROJECT, TASKS_URL } from 'reusable/urls'
 
@@ -12,6 +13,7 @@ import BackButton from 'components/navigation/BackButton'
 import TasksSectionHeader from 'components/tasks/TasksSectionHeader'
 import TaskCard from 'components/tasks/TaskCard'
 import AddNewTaskContainer from 'components/tasks/AddNewTaskContainer'
+import EmptyState from 'components/reusable/EmptyState'
 
 const Section = styled.section`
   width: 85%;
@@ -132,6 +134,8 @@ const TasksSection = () => {
       })
   }, [accessToken, dispatch, projectID])
 
+  console.log(items)
+
   return (
     <Section>
       <BackButton 
@@ -142,6 +146,7 @@ const TasksSection = () => {
         newItemMode={newItemMode}
         setNewItemMode={setNewItemMode}
       />
+
       <TasksWrapper>
         {items.map(item => (
           <TaskCard 
@@ -150,13 +155,27 @@ const TasksSection = () => {
             projectID={projectID}
           />
         ))}
-      <LastContainer ref={lastTaskRef}>
-        <AddNewTaskContainer
-          newItemMode={newItemMode}
-          setNewItemMode={setNewItemMode}
-        />
-      </LastContainer>
+        <LastContainer ref={lastTaskRef}>
+          <AddNewTaskContainer
+            newItemMode={newItemMode}
+            setNewItemMode={setNewItemMode}
+          />
+        </LastContainer>
       </TasksWrapper>
+
+      {(items.length === 0 && !newItemMode) && 
+        <EmptyState 
+          icon={
+            <IoIosCreate 
+              size="150px"
+              color="#9c92ac"
+            />
+          }
+          text="You have no tasks yet"
+          height="60%"
+        />
+      }
+
       {error && <ErrorMessage>Opps, something went wrong...</ErrorMessage>}
     </Section>
   )

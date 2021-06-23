@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { BsChatDots } from 'react-icons/bs'
+
+import EmptyState from 'components/reusable/EmptyState'
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,26 +65,41 @@ const LastMessageContainer = styled.div`
 const TaskCommentWindow = ({ item, info, lastCommentRef }) => {
   return (
     <Wrapper>
-      {item.comments.map(c => (
+      {item.comments.length !== 0 ? (
         <>
-          {c.comment && (
-            <Container
-              alignSelf={c.username === info.username}
-            >
-            <Name>{c.username}</Name>
-            <CommentWrapper
-              color={c.username === info.username}
-            >
-              <CommentText
-                color={c.username === info.username}
-              >
-                {c.comment}
-              </CommentText>
-            </CommentWrapper>
-          </Container> 
-          )}
+          {item.comments.map(c => (
+            <>
+              {c.comment && (
+                <Container
+                  alignSelf={c.username === info.username}
+                >
+                  <Name>{c.username}</Name>
+                  <CommentWrapper
+                    color={c.username === info.username}
+                  >
+                    <CommentText
+                      color={c.username === info.username}
+                    >
+                      {c.comment}
+                    </CommentText>
+                  </CommentWrapper>
+                </Container> 
+              )}
+            </>
+          ))} 
         </>
-      ))}
+      ) : (
+        <EmptyState 
+          icon={
+            <BsChatDots 
+              size="40px"
+              color="#9c92ac"
+            />
+          }
+          text="No comments here"
+          fontSize="1.6em"
+        />
+      )}
       <LastMessageContainer 
         ref={lastCommentRef}
       />
