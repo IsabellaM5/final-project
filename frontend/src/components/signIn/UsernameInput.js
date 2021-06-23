@@ -8,22 +8,19 @@ const UsernameInput = ({ username, setUsername, width, signUp }) => {
   
   const [helpText, setHelpText] = useState('')
 
-  const handleHelperText = () => {
-    if (username.length < 3 && username.length > 0 && signUp) {
-      setHelpText('Must be at least 3 characters')
-    } else if (username.length > 15 && signUp) {
-      setHelpText('Cannot be longer than 15 characters')
-    } else {
-      setHelpText('')
-    }
-  }
-
   useEffect(()=> {
-    handleHelperText()
-    console.log('useEffect')
-  }, [username])
+    const handleHelperText = () => {
+      if (username.length < 3 && username.length > 0 && signUp) {
+        setHelpText('Must be at least 3 characters')
+      } else if (username.length > 15 && signUp) {
+        setHelpText('Cannot be longer than 15 characters')
+      } else {
+        setHelpText('')
+      }
+    }
 
-  console.log(helpText)
+    handleHelperText()
+  }, [username, signUp])
 
   return (
     <InputField 

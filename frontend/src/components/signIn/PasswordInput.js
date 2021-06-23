@@ -8,18 +8,17 @@ const PasswordInput = ({ password, setPassword, width, signUp }) => {
 
   const [helpText, setHelpText] = useState('')
 
-  const handleHelperText = () => {
-    if (password.length < 6 && password.length > 0 && signUp) {
-      setHelpText('Must be at least 6 characters')
-    } else {
-      setHelpText('')
-    }
-  }
-
   useEffect(()=> {
+    const handleHelperText = () => {
+      if (password.length < 6 && password.length > 0 && signUp) {
+        setHelpText('Must be at least 6 characters')
+      } else {
+        setHelpText('')
+      }
+    }
+
     handleHelperText()
-    console.log('useEffect')
-  }, [password])
+  }, [password, signUp])
 
   return (
     <InputField 

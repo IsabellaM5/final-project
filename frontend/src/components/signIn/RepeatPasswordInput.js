@@ -1,10 +1,27 @@
-import React from 'react' 
+import React, { useState, useEffect } from 'react' 
 import { useSelector } from 'react-redux'
 
 import InputField from 'components/reusable/InputField'
 
-const RepeatPasswordInput = ({ password, repeatPassword, setRepeatPassword, width }) => {
+const RepeatPasswordInput = ({ password, repeatPassword, setRepeatPassword, width, signUp }) => {
   const err = useSelector(store => store.user.errors)
+
+  const [helpText, setHelpText] = useState('')
+
+  useEffect(()=> {
+    const handleHelperText = () => {
+      if (repeatPassword.length > 0 && signUp) {
+        setHelpText('This field is required')
+      } else if (repeatPassword !== password && repeatPassword.length !== 0) {
+        setHelpText('Passwords does not match')
+      } else {
+        setHelpText('')
+      }
+    }
+
+    handleHelperText()
+    console.log('useEffect')
+  }, [repeatPassword, password, signUp])
 
   return (
     <InputField 
@@ -15,10 +32,7 @@ const RepeatPasswordInput = ({ password, repeatPassword, setRepeatPassword, widt
       handleChange={setRepeatPassword}
       width={width < 768 && '100%'} 
       error={err || repeatPassword !== password & repeatPassword.length !== 0}
-      helperText={
-        err || err & repeatPassword.length !== 0 ? 'This field is required' :
-        err || repeatPassword !== password & repeatPassword.length !== 0 ? 'Passwords does not match' : ''
-      } 
+      helperText={helpText} 
     />
   )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { useSelector } from 'react-redux'
 
 import { SIGN_UP } from 'reusable/urls'
 
@@ -54,7 +55,19 @@ const RegisterText = styled.p`
   }
 `
 
+const ErrorMessage = styled.p`
+  font-size: 1.8em;
+  color: #ff0000;
+  margin: 0 0 10px 0;
+
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+  }
+`
+
 const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, signUp, setSignUp, width }) => {
+  const err = useSelector(store => store.user.errors)
+  
   const body = { username: username, email: email, password: password }
 
   const onFormSubmit = () => {
@@ -89,7 +102,7 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
           width={width}
         />
 
-      {/* {err && username.length !== 0 ? <ErrorMessage>{err.message}</ErrorMessage> : ''} */}
+      {err && username.length !== 0 ? <ErrorMessage>{err.message}</ErrorMessage> : ''}
       </SubContainer>
 
       <Button 
