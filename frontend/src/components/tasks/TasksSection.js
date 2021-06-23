@@ -14,6 +14,7 @@ import TasksSectionHeader from 'components/tasks/TasksSectionHeader'
 import TaskCard from 'components/tasks/TaskCard'
 import AddNewTaskContainer from 'components/tasks/AddNewTaskContainer'
 import EmptyState from 'components/reusable/EmptyState'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const Section = styled.section`
   width: 85%;
@@ -94,6 +95,8 @@ const TasksSection = () => {
   const dispatch = useDispatch()
   const lastTaskRef = useRef()
 
+  const { width } = WindowDimensions()
+
   const scrollToBottom = () => {
     lastTaskRef.current.scrollIntoView({ behavior: "smooth" })
   }
@@ -167,12 +170,13 @@ const TasksSection = () => {
         <EmptyState 
           icon={
             <IoIosCreate 
-              size="150px"
+              size={width > 1023 ? '130px' : '80px'}
               color="#9c92ac"
             />
           }
           text="You have no tasks yet"
           height="60%"
+          fontSize={width > 1023 ? '2.0em' : '1.6em'}
         />
       }
 

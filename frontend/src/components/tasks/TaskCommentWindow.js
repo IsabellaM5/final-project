@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 import { BsChatDots } from 'react-icons/bs'
 
 import EmptyState from 'components/reusable/EmptyState'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,6 +64,8 @@ const LastMessageContainer = styled.div`
 `
 
 const TaskCommentWindow = ({ item, info, lastCommentRef }) => {
+  const { width } = WindowDimensions()
+
   return (
     <Wrapper>
       {item.comments.length !== 0 ? (
@@ -92,12 +95,12 @@ const TaskCommentWindow = ({ item, info, lastCommentRef }) => {
         <EmptyState 
           icon={
             <BsChatDots 
-              size="40px"
+              size={width > 1023 ? '40px' : '30px'}
               color="#9c92ac"
             />
           }
           text="No comments here"
-          fontSize="1.6em"
+          fontSize={width > 1023 ? '1.8em' : '1.4em'}
         />
       )}
       <LastMessageContainer 

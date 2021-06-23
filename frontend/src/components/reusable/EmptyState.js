@@ -10,7 +10,7 @@ const EmptyStateContainer = styled.div`
 `
 
 const EmptyStateParagraph = styled.p`
-  font-size: ${props => props.fontSize ? props.fontSize : '2.0em'};
+  font-size: ${props => props.fontSize};
   color: #303960;
   text-align: center;
   padding: 0 60px;

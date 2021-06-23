@@ -12,6 +12,7 @@ import ProjectCard from 'components/projects/ProjectCard'
 import NewProject from 'components/projects/NewProject'
 import ModalContainer from 'components/reusable/ModalContainer'
 import ProjectsSectionHeader from 'components/projects/ProjectsSectionHeader'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const Section = styled.section`
   width: 85%;
@@ -86,6 +87,8 @@ const ProjectsSection = () => {
 
   const dispatch = useDispatch()
 
+  const { width } = WindowDimensions()
+
   useEffect(() => {
     const config = {
       method: 'GET',
@@ -131,11 +134,12 @@ const ProjectsSection = () => {
         <EmptyState 
           icon={
             <BsFillInboxFill 
-              size="150px"
+              size={width > 1023 ? '130px' : '80px'}
               color="#9c92ac"
             />
           }
           text="You have no projects yet. Click ADD to create your first!"
+          fontSize={width > 1023 ? '2.0em' : '1.6em'}
         />
       )}
 
