@@ -7,7 +7,7 @@ import { API_URL, TASKS_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-import InputField from 'components/reusable/InputField'
+import NewTaskTitleInput from 'components/tasks/NewTaskTitleInput'
 import Button from 'components/reusable/Button'
 
 const TaskContainer = styled.div`
@@ -60,19 +60,15 @@ const NewTask = ({ setNewItemMode }) => {
 
   return (
     <TaskContainer>
-      <InputField 
-        id="input-task-title"
-        label="Task title"
-        type="text" 
-        value={taskTitle} 
-        handleChange={setTaskTitle} 
-        width="100%"
+      <NewTaskTitleInput 
+        taskTitle={taskTitle}
+        setTaskTitle={setTaskTitle}
       />
       <ButtonsContainer>
         <Button 
           btnText="ADD"
           handleClick={handleFormSubmit}
-          disabled={taskTitle.length === 0 ? true : false}
+          disabled={taskTitle.length !== 0 && taskTitle.length < 31 ? false : true}
         />
         <Button 
           btnText="CANCEL"
