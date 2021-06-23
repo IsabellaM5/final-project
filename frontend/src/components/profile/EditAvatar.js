@@ -11,7 +11,7 @@ const EditAvatarForm = styled.form`
   justify-self: center;
 
   @media (max-width: 767px) {
-    justify-self: end;
+    justify-self: start;
   }
 `
 
@@ -21,7 +21,7 @@ const Label = styled.label`
   border-radius: 4px;
   border: none;
   background: #9c92ac;
-  color: #ffffff;
+  color: #000000;
   font-size: 1.4em;
   line-height: 45px;
 
@@ -76,7 +76,7 @@ const EditAvatar = () => {
 
   return (
     <EditAvatarForm>
-      <Label htmlFor="input-file">Upload image</Label>
+      <Label htmlFor="input-file">UPLOAD IMAGE</Label>
       <ImageInput
         id="input-file" 
         type="file"

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import InputField from 'components/reusable/InputField'
 
-const UsernameInput = ({ username, setUsername, width, signUp }) => {
+const UsernameInput = ({ username, setUsername, width, signUp, label }) => {
   const err = useSelector(store => store.user.errors)
   
   const [helpText, setHelpText] = useState('')
@@ -25,7 +25,7 @@ const UsernameInput = ({ username, setUsername, width, signUp }) => {
   return (
     <InputField 
       id="input-username"
-      label="Username"
+      label={label}
       type="text" 
       value={username}
       handleChange={setUsername}

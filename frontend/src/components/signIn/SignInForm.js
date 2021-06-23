@@ -81,6 +81,7 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
           setUsername={setUsername}
           width={width}
           signUp={signUp}
+          label="Username or email"
         />
         <PasswordInput 
           password={password}

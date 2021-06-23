@@ -83,6 +83,7 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
           setUsername={setUsername}
           width={width}
           signUp={signUp}
+          label="Username"
         />
         <EmailInput 
           email={email}

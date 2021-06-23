@@ -14,6 +14,10 @@ import SearchField from 'components/projects/SearchField'
 const FormWrapper = styled.div`
   width: 50%;
 
+  @media (max-width: 1439px) {
+    width: 75%;
+  }
+
   @media (max-width: 1023px) {
     width: 90%;
   }

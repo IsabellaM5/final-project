@@ -20,10 +20,6 @@ const ImageUserContainer = styled.div`
     "text .";
 
   @media (max-width: 767px) {
-    grid-template-areas: 
-    "text img"
-    ". input";
-
     width: 100%;
   }
 `
@@ -40,7 +36,7 @@ const Avatar = styled.img`
     order: 2;
     height: 90px;
     width: 90px;
-    justify-self: end;
+    justify-self: start;
   }
 `
 

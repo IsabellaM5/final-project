@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 15px;
   background: #ffffff;
-  //box-sizing: inherit;
+  box-sizing: inherit;
   border: 1px solid #000000;
   border-radius: 5px;
   margin-bottom: 10px;

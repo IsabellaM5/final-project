@@ -59,10 +59,6 @@ const ProfileWrapper = styled.div`
 
 const ButtonContainer = styled.div`
   align-self: flex-end;
-
-  @media (max-width: 767px) {
-    align-self: flex-start;
-  }
 `
 
 const ProfileSection = () => {

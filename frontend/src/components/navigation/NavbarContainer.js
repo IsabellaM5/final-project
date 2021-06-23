@@ -13,6 +13,10 @@ const Container = styled.aside`
   display: flex;
   flex-direction: column;
   padding: 20px;
+
+  @media (max-width: 1439px) {
+    width: 20%;
+  }
 `
 
 const NavBar = styled.nav`
