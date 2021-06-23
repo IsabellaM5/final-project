@@ -8,7 +8,7 @@ import tasks from 'reducers/tasks'
 
 import InputField from 'components/reusable/InputField'
 import Button from 'components/reusable/Button'
-import WindowDimensions from 'components/WindowDimensions'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const Wrapper = styled.div`
   padding: 15px;

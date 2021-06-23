@@ -6,15 +6,15 @@ import { API_URL, SINGLE_PROJECT } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-import ProjectNameInput from 'components/minor/ProjectNameInput'
-import ProjectDescInput from 'components/minor/ProjectDescInput'
-import SearchField from 'components/reusable/SearchField'
+import ProjectNameInput from 'components/projects/ProjectNameInput'
+import ProjectDescInput from 'components/projects/ProjectDescInput'
+import SearchField from 'components/projects/SearchField'
 import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
   width: 50%;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 90%;
   }
 `

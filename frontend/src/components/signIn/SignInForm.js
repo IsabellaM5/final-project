@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { useSelector } from 'react-redux'
 
-import { SIGN_UP } from 'reusable/urls'
+import { SIGN_IN } from 'reusable/urls'
 
-import UsernameInput from 'components/minor/UsernameInput'
-import EmailInput from 'components/minor/EmailInput'
-import PasswordInput from 'components/minor/PasswordInput'
-import RepeatPasswordInput from 'components/minor/RepeatPasswordInput'
+import UsernameInput from 'components/signIn/UsernameInput'
+import PasswordInput from 'components/signIn/PasswordInput'
 import Button from 'components/reusable/Button'
 
 const MainHeading = styled.h1`
@@ -23,17 +22,16 @@ const Form = styled.form`
   background: #f2eff6;
   border-radius: 20px;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1439px) {
     width: 100%;
-    height: 100%;
   }
 `
 
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
+  height: 30%;
   justify-content: space-evenly;
-  height: 50%;
 
   @media (max-width: 767px) {
     width: 100%;
@@ -55,54 +53,55 @@ const RegisterText = styled.p`
   }
 `
 
-const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, signUp, setSignUp, width }) => {
-  const body = { username: username, email: email, password: password }
+const ErrorMessage = styled.p`
+  font-size: 1.8em;
+  color: #ff0000;
+  margin: 0;
+
+  @media (max-width: 767px) {
+    font-size: 1.6em;
+  }
+`
+
+const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPassword, signUp, setSignUp, width }) => {
+  const err = useSelector(store => store.user.errors) 
+
+  const body = { usernameOrEmail: username, password: password }
 
   const onFormSubmit = () => {
-    handleFormSubmit(SIGN_UP, body)
+    handleFormSubmit(SIGN_IN, body)
   }
 
   return (
     <Form>
-      <MainHeading>SIGN UP</MainHeading>
-      <SubContainer>
+      <MainHeading>SIGN IN</MainHeading>
+      <SubContainer> 
         <UsernameInput 
           username={username}
           setUsername={setUsername}
           width={width}
           signUp={signUp}
         />
-        <EmailInput 
-          email={email}
-          setEmail={setEmail}
-          width={width}
-        />
         <PasswordInput 
           password={password}
           setPassword={setPassword}
-          width={width}
           signUp={signUp}
         />
-        <RepeatPasswordInput 
-          password={password}
-          repeatPassword={repeatPassword}
-          setRepeatPassword={setRepeatPassword}
-          width={width}
-        />
+
+        {err && username.length !== 0 ? <ErrorMessage>{err.message}</ErrorMessage> : ''}
       </SubContainer>
 
       <Button 
-        btnText="SIGN UP" 
-        disabled={password === repeatPassword && password ? false : true } 
+        btnText="SIGN IN" 
         handleClick={onFormSubmit}
         padding="10px 15px"
       />
 
       <Container>
-        <RegisterText>Already a user? </RegisterText>
+        <RegisterText>Not a user?</RegisterText>
         <Button 
-          btnText="SIGN IN HERE" 
-          handleClick={() => setSignUp(false)} 
+          btnText="SIGN UP HERE" 
+          handleClick={() => setSignUp(true)}
           padding="10px 15px"
         /> 
       </Container>
@@ -110,4 +109,4 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
   )
 }
 
-export default SignUpForm
+export default SignInForm

@@ -49,29 +49,29 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
 
   return (
     <>
-        <AutocompleteContainer>
-          <Autocomplete
-            id="autocomplete"
-            value={selectedOption || ''}
-            onChange={(event, v) => {
-              if (!v) {
-                return
-              }
-              setSelectedOption(v)
-              setSelectedCollaborators([...selectedCollaborators, v])
-              filterUsersArray(v)
+      <AutocompleteContainer>
+        <Autocomplete
+          id="autocomplete"
+          value={selectedOption || ''}
+          onChange={(event, v) => {
+            if (!v) {
+              return
+            }
+            setSelectedOption(v)
+            setSelectedCollaborators([...selectedCollaborators, v])
+            filterUsersArray(v)
 
-              if (onInputChange) {
-                onInputChange(v, EDIT_COLLAB)
-              }
-            }}
-            options={availableOptions}
-            style={{ width: 250, marginBottom: 'auto' }}
-            renderInput={(params) => (
-              <TextField {...params} label="Users" variant="outlined" />
-            )}
-          />
-        </AutocompleteContainer>
+            if (onInputChange) {
+              onInputChange(v, EDIT_COLLAB)
+            }
+          }}
+          options={availableOptions}
+          style={{ width: 250, marginBottom: 'auto' }}
+          renderInput={(params) => (
+            <TextField {...params} label="Users" variant="outlined" />
+          )}
+        />
+      </AutocompleteContainer>
       
       <ChipsContainer>
         <Label>Collaborators</Label>

@@ -7,9 +7,9 @@ import user from 'reducers/user'
 
 import { API_URL } from 'reusable/urls'
 
-import SignInForm from 'components/containers/SignInForm'
-import SignUpForm from 'components/containers/SignUpForm'
-import WindowDimensions from 'components/WindowDimensions'
+import SignInForm from 'components/signIn/SignInForm'
+import SignUpForm from 'components/signIn/SignUpForm'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -31,8 +31,7 @@ const Section = styled.section`
   justify-content: space-between;
   background: #ffffff;
   border-radius: 25px;
-  box-shadow: 0px 10px 10px -1px rgb(0 0 0 / 20%),
-    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  box-shadow: 7px 7px 20px 0px rgb(0 0 0 / 20%);
   
   @media (max-width: 767px) {
     flex-direction: column;
@@ -47,7 +46,7 @@ const Section = styled.section`
 const CarouselContainer = styled.div`
   width: 48%;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1439px) {
     display: none;
   }
 `

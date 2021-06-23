@@ -8,10 +8,10 @@ import { API_URL, SINGLE_PROJECT, TASKS_URL } from 'reusable/urls'
 import projects from 'reducers/projects'
 import tasks from 'reducers/tasks'
 
-import BackButton from 'components/reusable/BackButton'
-import TasksSectionHeader from 'components/containers/TasksSectionHeader'
-import TaskCard from 'components/containers/TaskCard'
-import AddNewTaskContainer from 'components/containers/AddNewTaskContainer'
+import BackButton from 'components/navigation/BackButton'
+import TasksSectionHeader from 'components/tasks/TasksSectionHeader'
+import TaskCard from 'components/tasks/TaskCard'
+import AddNewTaskContainer from 'components/tasks/AddNewTaskContainer'
 
 const Section = styled.section`
   width: 85%;
@@ -19,7 +19,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 100%;
     padding: 25px;
   }
@@ -49,10 +49,14 @@ const TasksWrapper = styled.div`
     border-radius: 5px;
   }
 
-  @media (max-width: 767px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     max-height: 90%;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
   }
 `
 

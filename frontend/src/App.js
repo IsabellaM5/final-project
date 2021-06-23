@@ -8,7 +8,7 @@ import user from 'reducers/user'
 import projects from 'reducers/projects'
 import tasks from 'reducers/tasks'
 
-import Redirect from 'components/Redirect'
+import Redirect from 'components/misc/Redirect'
 import LandingPage from 'components/pages/LandingPage'
 import AuthenticatedPage from 'components/pages/AuthenticatedPage'
 

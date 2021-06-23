@@ -22,7 +22,7 @@ const IconButton = styled.button`
     }
   `
 
-const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom, left, zIndex }) => {
+const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom, left, zIndex, ariaLabel }) => {
   return (
     <IconButton 
       type="button"
@@ -33,6 +33,7 @@ const Icon = ({ icon, handleIconClick, apiMethod, position, top, right, bottom, 
       bottom={bottom}
       left={left}
       zIndex={zIndex}
+      aria-label={ariaLabel}
     >
       {icon}
     </IconButton>

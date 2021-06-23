@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Button from 'components/reusable/Button'
-import NewTask from 'components/forms/NewTask'
+import NewTask from 'components/tasks/NewTask'
 
 const AddNewTaskContainer = ({ newItemMode, setNewItemMode }) => {
   return ( 

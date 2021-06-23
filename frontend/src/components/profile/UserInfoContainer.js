@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import EditAvatar from 'components/forms/EditAvatar'
+import EditAvatar from 'components/profile/EditAvatar'
 
 const Container = styled.div`
   display: flex;
@@ -63,7 +63,7 @@ const UserInfoContainer = ({ info }) => {
   return (
     <Container>
       <ImageUserContainer>
-        <Avatar src={info.image}/>
+        <Avatar src={info.image ? info.image : '/assets/user-purple.png'}/>
         <EditAvatar />
         <Wrapper>
           <Title>Username</Title>

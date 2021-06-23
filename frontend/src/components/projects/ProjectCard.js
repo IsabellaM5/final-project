@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 
-
 const ProjectContainer = styled.div`
   background-image: url(${props => props.image ? props.image : '/assets/landing-page-placeholder-image.jpg' });
   background-repeat: no-repeat;

@@ -9,9 +9,9 @@ const UsernameInput = ({ username, setUsername, width, signUp }) => {
   const [helpText, setHelpText] = useState('')
 
   const handleHelperText = () => {
-    if (username.length < 3 && username.length > 0) {
+    if (username.length < 3 && username.length > 0 && signUp) {
       setHelpText('Must be at least 3 characters')
-    } else if (username.length > 15) {
+    } else if (username.length > 15 && signUp) {
       setHelpText('Cannot be longer than 15 characters')
     } else {
       setHelpText('')
@@ -40,13 +40,3 @@ const UsernameInput = ({ username, setUsername, width, signUp }) => {
 }
 
 export default UsernameInput
-
-// err && helpText && signUp === true ? helpText 
-// :
-// err || err & username.length !== 0 & !helpText & signUp === true ? 'This field is required' 
-// :
-// err & username.length < 3 || username.length < 3 & username.length !== 0 & !helpText & signUp === true ? 'Must be at least 3 characters' 
-// :
-// err & username.length > 15 || username.length > 15 & !helpText & signUp === true ? 'Cannot be longer than 15 characters' 
-// : 
-// ''

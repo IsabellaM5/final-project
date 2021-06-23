@@ -7,11 +7,11 @@ import { API_URL, PROJECTS_URL, SINGLE_USER } from 'reusable/urls'
 import user from 'reducers/user'
 import projects from 'reducers/projects'
 
-import BackButton from 'components/reusable/BackButton'
-import UserInfoContainer from 'components/containers/UserInfoContainer'
-import ProjectsCollabsContainer from 'components/containers/ProjectsCollabsContainer'
+import BackButton from 'components/navigation/BackButton'
+import UserInfoContainer from 'components/profile/UserInfoContainer'
+import ProjectsCollabsContainer from 'components/profile/ProjectsCollabsContainer'
 import ModalContainer from 'components/reusable/ModalContainer'
-import EditProfile from 'components/forms/EditProfile'
+import EditProfile from 'components/profile/EditProfile'
 import Button from 'components/reusable/Button'
 
 const Section = styled.section`
@@ -20,7 +20,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 100%;
     padding: 25px;
   }

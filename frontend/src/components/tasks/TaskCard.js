@@ -7,8 +7,8 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 import tasks from 'reducers/tasks'
 
 import ModalContainer from 'components/reusable/ModalContainer'
-import TaskCardMenu from 'components/containers/TaskCardMenu'
-import EditTask from 'components/forms/EditTask' 
+import TaskCardMenu from 'components/tasks/TaskCardMenu'
+import EditTask from 'components/tasks/EditTask' 
 
 const TaskContainer = styled.div`
   background: #dfdbe5;

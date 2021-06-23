@@ -8,13 +8,17 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles } from '@material-ui/core/styles'
 import DehazeIcon from '@material-ui/icons/Dehaze'
 
-import Icon from 'components/minor/Icon'
-import NavUserInfo from 'components/containers/NavUserInfo'
+import Icon from 'components/reusable/Icon'
+import NavUserInfo from 'components/navigation/NavUserInfo'
 import Button from 'components/reusable/Button'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const useStyles = makeStyles({
   drawer: {
     width: '45vw'
+  },
+  drawerTablet: {
+    width: '30vw'
   },
   hamburger: {
     fontSize: '40px'
@@ -35,6 +39,7 @@ const NavDrawer = ({ onSignOut }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const classes = useStyles()
+  const { width } = WindowDimensions()
   
   const toggleDrawer = (v) => {
     setDrawerOpen(v)
@@ -53,6 +58,7 @@ const NavDrawer = ({ onSignOut }) => {
         position="absolute"
         top="10px"
         right="10px"
+        ariaLabel="menu"
       />
       <SwipeableDrawer
         anchor="left"
@@ -63,7 +69,7 @@ const NavDrawer = ({ onSignOut }) => {
         <NavUserInfo />
 
         <List
-          className={classes.drawer}
+          className={width < 768 ? classes.drawer : classes.drawerTablet}
         >
           <ListItem
             onClick={() => toggleDrawer(false)}

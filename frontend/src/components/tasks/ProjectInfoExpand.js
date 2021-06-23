@@ -4,9 +4,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Icon from 'components/minor/Icon'
+import Icon from 'components/reusable/Icon'
 
-import DeleteProject from 'components/containers/DeleteProject'
+import DeleteProject from 'components/tasks/DeleteProject'
 import Button from 'components/reusable/Button'
 
 const useStyles = makeStyles({
@@ -99,7 +99,6 @@ const UsernameWrapper = styled.div`
 `
 
 const ProjectInfoExpand = ({ moreInfo, toggleExpand, project, setEditMode, projectID }) => {
-
   const classes = useStyles()
 
   return (
@@ -157,6 +156,7 @@ const ProjectInfoExpand = ({ moreInfo, toggleExpand, project, setEditMode, proje
         apiMethod={moreInfo ? false : true}
         position="absolute"
         bottom="-25px"
+        ariaLabel={moreInfo ? 'collapse-project-info' : 'expand-project-info'}
       />
     </>
   )

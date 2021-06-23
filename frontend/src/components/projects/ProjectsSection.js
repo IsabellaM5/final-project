@@ -6,10 +6,10 @@ import { API_URL, PROJECTS_URL, GET_USERS } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
-import ProjectCard from 'components/containers/ProjectCard'
-import NewProject from 'components/forms/NewProject'
+import ProjectCard from 'components/projects/ProjectCard'
+import NewProject from 'components/projects/NewProject'
 import ModalContainer from 'components/reusable/ModalContainer'
-import ProjectsSectionHeader from 'components/containers/ProjectsSectionHeader'
+import ProjectsSectionHeader from 'components/projects/ProjectsSectionHeader'
 
 const Section = styled.section`
   width: 85%;
@@ -17,7 +17,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 100%;
     padding: 25px;
   }
@@ -47,10 +47,14 @@ const ProjectsWrapper = styled.div`
     border-radius: 5px;
   }
 
-  @media (max-width: 767px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     max-height: 90%;
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
   }
 `
 

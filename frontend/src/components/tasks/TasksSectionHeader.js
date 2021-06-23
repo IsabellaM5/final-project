@@ -7,8 +7,8 @@ import { API_URL, GET_USERS } from 'reusable/urls'
 import projects from 'reducers/projects'
 
 import ModalContainer from 'components/reusable/ModalContainer'
-import EditProject from 'components/forms/EditProject'
-import ProjectInfoExpand from 'components/containers/ProjectInfoExpand'
+import EditProject from 'components/projects/EditProject'
+import ProjectInfoExpand from 'components/tasks/ProjectInfoExpand'
 
 const HeaderWrapper = styled.div`
   width: 100%;

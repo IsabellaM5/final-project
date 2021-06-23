@@ -12,7 +12,7 @@ import Button from 'components/reusable/Button'
 const FormWrapper = styled.div`
   width: 50%;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 90%;
   }
 `

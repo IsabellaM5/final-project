@@ -8,7 +8,7 @@ const Btn = styled.button`
   border-radius: ${props => props.borderRadius ? props.borderRadius : '4px'};
   border: none;
   background: ${props => props.background ? props.background : '#9c92ac'};
-  color: ${props => props.color ? props.color : '#ffffff'};
+  color: ${props => props.color ? props.color : '#000000'};
   width: ${props => props.width};
   height: ${props => props.height};
   font-weight: ${props => props.fontWeight};
@@ -24,7 +24,7 @@ const Btn = styled.button`
   }
   `
 
-  const Button = ({ btnText, handleClick, disabled, width, height, padding, background, color, backgroundHover, borderRadius, margin, fontWeight }) => {
+  const Button = ({ btnText, handleClick, disabled, width, height, padding, background, color, backgroundHover, borderRadius, margin, fontWeight, ariaLabel }) => {
     return (
       <Btn 
         type="button" 
@@ -39,6 +39,7 @@ const Btn = styled.button`
         borderRadius={borderRadius}
         margin={margin}
         fontWeight={fontWeight}
+        aria-label={ariaLabel}
       >
         {btnText}
       </Btn>

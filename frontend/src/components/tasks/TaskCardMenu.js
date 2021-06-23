@@ -38,6 +38,7 @@ const TaskCardMenu = ({ _id, handleEditTask, handleDeleteTask }) => {
       <IconBtn 
         type="button" 
         onClick={handleClick}
+        aria-label="expand-menu"
       >
         {<MoreVertIcon />}
       </IconBtn>

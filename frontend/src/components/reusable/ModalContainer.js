@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from '@material-ui/core/Modal'
 import { makeStyles } from '@material-ui/core/styles'
 
-import WindowDimensions from 'components/WindowDimensions'
+import WindowDimensions from 'components/misc/WindowDimensions'
 
 const useStyles = makeStyles(() => ({
   backdropModal: {

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 const UserInfoContainer = styled.div`
   
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     padding: 16px;
   }
 `
@@ -29,13 +29,12 @@ const Email = styled.p`
   font-size: 1.4em;
 `
 
-
 const NavUserInfo = () => {
   const info = useSelector(store => store.user.info)
 
   return (
     <UserInfoContainer>
-      <Avatar src={info.image}/>
+      <Avatar src={info.image ? info.image : '/assets/user-purple.png'}/>
       <Username>{info.username}</Username>
       <Email>{info.email}</Email>
     </UserInfoContainer>

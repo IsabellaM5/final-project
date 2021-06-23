@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 
-import Icon from 'components/minor/Icon'
+import Icon from 'components/reusable/Icon'
 
 const BackButton = ({ path }) => {
   const history = useHistory()
@@ -22,6 +22,7 @@ const BackButton = ({ path }) => {
       apiMethod={path}
       position="fixed"
       zIndex="1"
+      ariaLabel="back"
     />
   )
 }

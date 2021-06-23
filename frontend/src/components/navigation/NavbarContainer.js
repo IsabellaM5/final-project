@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 
 import Button from 'components/reusable/Button'
-import NavUserInfo from 'components/containers/NavUserInfo'
+import NavUserInfo from 'components/navigation/NavUserInfo'
 
 const Container = styled.aside`
   background: #f2eff6;

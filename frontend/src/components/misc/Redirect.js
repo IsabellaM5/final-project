@@ -10,7 +10,6 @@ const Redirect = () => {
 
   return (
     <>
-      HEY
     </>
   )
 }

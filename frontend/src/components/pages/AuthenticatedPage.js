@@ -6,12 +6,12 @@ import { Route } from 'react-router-dom'
 
 import user from 'reducers/user'
 
-import NavbarContainer from 'components/containers/NavbarContainer'
-import ProfileSection from 'components/sections/ProfileSection'
-import ProjectsSection from 'components/sections/ProjectsSection'
-import TasksSection from 'components/sections/TasksSection'
-import WindowDimensions from 'components/WindowDimensions'
-import NavDrawer from 'components/containers/NavDrawer'
+import NavbarContainer from 'components/navigation/NavbarContainer'
+import ProfileSection from 'components/profile/ProfileSection'
+import ProjectsSection from 'components/projects/ProjectsSection'
+import TasksSection from 'components/tasks/TasksSection'
+import WindowDimensions from 'components/misc/WindowDimensions'
+import NavDrawer from 'components/navigation/NavDrawer'
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -29,8 +29,15 @@ const ContentWrapper = styled.div`
   justify-content: space-between;
   background: #ffffff;
   border-radius: 25px;
-  box-shadow: 0px 10px 10px -1px rgb(0 0 0 / 20%),
-    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  box-shadow: 7px 7px 20px 0px rgb(0 0 0 / 20%); 
+
+  @media (max-width: 1439px) {
+    width: 95%;
+  }
+
+  @media (max-width: 1023px) {
+    width: 85%;
+  }
   
   @media (max-width: 767px) {
     width: 95%;

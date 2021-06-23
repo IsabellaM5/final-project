@@ -6,15 +6,15 @@ import { API_URL, SINGLE_TASK_URL } from 'reusable/urls'
 
 import tasks from 'reducers/tasks'
 
-import TaskTitleInput from 'components/minor/TaskTitleInput'
+import TaskTitleInput from 'components/tasks/TaskTitleInput'
 import InputField from 'components/reusable/InputField'
-import TaskComments from 'components/containers/TaskComments'
+import TaskComments from 'components/tasks/TaskComments'
 import Button from 'components/reusable/Button'
 
 const FormWrapper = styled.div`
   width: 60%;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     width: 90%;
   }
 `
