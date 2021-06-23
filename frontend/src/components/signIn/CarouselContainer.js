@@ -17,6 +17,7 @@ const CarouselContainer = () => {
     <CarouselWrapper>
       <Carousel 
         autoPlay
+        interval="4000"
         axis="horizontal" 
         showThumbs
         thumbWidth="100px"
