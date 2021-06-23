@@ -82,26 +82,23 @@ const ProfileSection = () => {
       }
     }
 
-    fetch(API_URL(SINGLE_USER(info.userID)), options)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
+    Promise.all([
+      fetch(API_URL(SINGLE_USER(info.userID)), options),
+      fetch(API_URL(PROJECTS_URL(info.userID)), options)
+    ])
+      .then((res) => {
+        return Promise.all(res.map(r => r.json()))
+      })
+      .then((data) => {
+        if (data[0].success && data[1].success) {
           batch(() => {
-            dispatch(user.actions.setRole(data.role))
-            dispatch(user.actions.setName(data.name))
-            dispatch(user.actions.setBio(data.bio))
+            dispatch(user.actions.setRole(data[0].role))
+            dispatch(user.actions.setName(data[0].name))
+            dispatch(user.actions.setBio(data[0].bio))
+            dispatch(projects.actions.setProjects(data[1].altProjects))
           })
         } else {
           dispatch(user.actions.setErrors(data))
-        }
-      })
-
-    fetch(API_URL(PROJECTS_URL(info.userID)), options)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          dispatch(projects.actions.setProjects(data.altProjects))
-        } else {
           dispatch(projects.actions.setErrors(data))
         }
       })

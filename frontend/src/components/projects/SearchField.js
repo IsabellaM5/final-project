@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components/macro'
 import { useSelector } from 'react-redux'
-import Chip from '@material-ui/core/Chip'
-import TextField from '@material-ui/core/TextField'
-import Autocomplete from "@material-ui/lab/Autocomplete"
 
-import { EDIT_COLLAB, DELETE_COLLAB } from 'reusable/urls'
-
-const AutocompleteContainer = styled.div`
-  grid-area: search;
-`
-
-const ChipsContainer = styled.div`
-  grid-area: collabs;
-`
-
-const Label = styled.p`
-  font-size: 1.6em;
-  margin: 0 0 10px 0;
-  align-self: flex-start;
-`
+import SearchFieldInput from 'components/projects/SearchFieldInput'
+import SearchFieldChips from 'components/projects/SearchFieldChips'
 
 const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputChange, onDeleteCollaborator }) => {
   const users = useSelector(store => store.projects.users)
@@ -49,48 +32,20 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
 
   return (
     <>
-      <AutocompleteContainer>
-        <Autocomplete
-          id="autocomplete"
-          value={selectedOption || ''}
-          onChange={(event, v) => {
-            if (!v) {
-              return
-            }
-            setSelectedOption(v)
-            setSelectedCollaborators([...selectedCollaborators, v])
-            filterUsersArray(v)
-
-            if (onInputChange) {
-              onInputChange(v, EDIT_COLLAB)
-            }
-          }}
-          options={availableOptions}
-          style={{ width: 250, marginBottom: 'auto' }}
-          renderInput={(params) => (
-            <TextField {...params} label="Users" variant="outlined" />
-          )}
-        />
-      </AutocompleteContainer>
-      
-      <ChipsContainer>
-        <Label>Collaborators</Label>
-        {selectedCollaborators.length !== 0 && (
-          <>
-            {selectedCollaborators.map(collab => (
-              <Chip
-                key={collab}
-                label={collab}
-                size="medium"
-                onDelete={() => {
-                  pushUsersArray(collab)
-                  onDeleteCollaborator(collab, DELETE_COLLAB)
-                }}
-              />
-            ))}
-          </>  
-        )}
-      </ChipsContainer>
+      <SearchFieldInput 
+        availableOptions={availableOptions}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedCollaborators={selectedCollaborators}
+        setSelectedCollaborators={setSelectedCollaborators}
+        filterUsersArray={filterUsersArray}
+        onInputChange={onInputChange}
+      />
+      <SearchFieldChips 
+        selectedCollaborators={selectedCollaborators}
+        pushUsersArray={pushUsersArray}
+        onDeleteCollaborator={onDeleteCollaborator}
+      />
     </>
   )
 }

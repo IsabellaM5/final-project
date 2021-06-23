@@ -94,7 +94,7 @@ const TasksSection = () => {
   useEffect(scrollToBottom, [items, newItemMode])
 
   useEffect(() => {
-    const options = {
+    const config = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -102,21 +102,17 @@ const TasksSection = () => {
       }
     }
 
-    fetch(API_URL(TASKS_URL(projectID)), options)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          dispatch(tasks.actions.setTasks(data))
-        } else {
-          dispatch(tasks.actions.setErrors(data))
-        }
+    Promise.all([
+      fetch(API_URL(TASKS_URL(projectID)), config),
+      fetch(API_URL(SINGLE_PROJECT(projectID)), config)
+    ])
+      .then((res) => {
+        return Promise.all(res.map(r => r.json()))
       })
-
-      fetch(API_URL(SINGLE_PROJECT(projectID)), options)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          dispatch(projects.actions.setActiveProject(data))
+      .then((data) => {
+        if (data[0].success && data[1].success) {
+          dispatch(tasks.actions.setTasks(data[0]))
+          dispatch(projects.actions.setActiveProject(data[1]))
 
           localStorage.setItem('project', JSON.stringify({
             _id: data._id,
@@ -126,6 +122,7 @@ const TasksSection = () => {
           }))
         } else {
           dispatch(tasks.actions.setErrors(data))
+          dispatch(projects.actions.setErrors(data))
         }
       })
   }, [accessToken, dispatch, projectID])
