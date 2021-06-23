@@ -67,7 +67,7 @@ const TaskCommentWindow = ({ item, info, lastCommentRef }) => {
 
   return (
     <Wrapper>
-      {item.comments.length !== 0 ? (
+      {item.comments.length >= 1 ? (
         <>
           {item.comments.map(c => (
             <>

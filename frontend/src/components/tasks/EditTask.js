@@ -75,7 +75,7 @@ const EditTask = ({ item, setEditMode }) => {
         'Content-Type': 'application/json',
         'Authorization': accessToken
       },
-      body: JSON.stringify({ title: taskTitle, description: taskDesc, comments: taskComments })
+      body: JSON.stringify({ title: taskTitle, description: taskDesc })
     }
 
     fetch(API_URL(SINGLE_TASK_URL(item.taskOwner, item._id)), config)

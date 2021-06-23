@@ -27,23 +27,23 @@ const CarouselContainer = () => {
         thumbWidth="100px"
       >
         <ImageContainer>
-          <Image src="/assets/landing-page-placeholder-image.jpg" />
+          <img src="/assets/carousel/carousel-img-4.jpg" />
         </ImageContainer>
 
         <ImageContainer>
-          <Image src="/assets/landing-page-placeholder-image.jpg" />
+          <img src="/assets/carousel/carousel-img-1.png" />
         </ImageContainer>
 
         <ImageContainer>
-          <Image src="/assets/landing-page-placeholder-image.jpg" />
+          <img src="/assets/carousel/carousel-img-2.png" />
         </ImageContainer>
 
         <ImageContainer>
-          <Image src="/assets/landing-page-placeholder-image.jpg" />
+          <img src="/assets/carousel/carousel-img-3.png" />
         </ImageContainer>
 
         <ImageContainer>
-          <Image src="/assets/landing-page-placeholder-image.jpg" />
+          <img src="/assets/carousel/carousel-img-6.png" />
         </ImageContainer>
       </Carousel>
     </CarouselWrapper>
