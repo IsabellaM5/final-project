@@ -33,6 +33,10 @@ const Section = styled.section`
   border-radius: 25px;
   box-shadow: 7px 7px 20px 0px rgb(0 0 0 / 20%);
   
+  @media (max-width: 1439px) {
+    height: 95%;
+  }
+
   @media (max-width: 767px) {
     flex-direction: column;
     padding: 25px;
