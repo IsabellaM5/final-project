@@ -61,7 +61,6 @@ const EditAvatar = () => {
     fetch(API_URL(EDIT_AVATAR(info.userID)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {         
           dispatch(user.actions.editAvatar(data))
 

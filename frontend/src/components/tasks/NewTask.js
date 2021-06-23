@@ -37,7 +37,7 @@ const NewTask = ({ setNewItemMode }) => {
   const dispatch = useDispatch()
 
   const handleFormSubmit = () => {
-    const options = {
+    const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const NewTask = ({ setNewItemMode }) => {
     body: JSON.stringify({ title: taskTitle })
     }
 
-    fetch(API_URL(TASKS_URL(projectID)), options)
+    fetch(API_URL(TASKS_URL(projectID)), config)
       .then(res => res.json())
       .then(data => {
         if (data.success) {

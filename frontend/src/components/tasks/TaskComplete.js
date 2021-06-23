@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components/macro'
 import { FormControlLabel, Checkbox } from '@material-ui/core'
 import { Favorite, FavoriteBorder } from '@material-ui/icons'
 import { useDispatch } from 'react-redux'
@@ -59,7 +58,6 @@ const TaskComplete = ({ item, accessToken }) => {
           />
         }
       />
-      
     </>
   )
 }

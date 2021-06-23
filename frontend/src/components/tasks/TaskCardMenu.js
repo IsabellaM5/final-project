@@ -24,8 +24,6 @@ const TaskCardMenu = ({ _id, handleEditTask, handleDeleteTask }) => {
   const open = Boolean(anchorEl)
   
   const handleClick = (event) => {
-    
-    console.log(event)
     setAnchorEl(event.currentTarget)
   }
 

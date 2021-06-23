@@ -22,7 +22,6 @@ const SearchField = ({ selectedCollaborators, setSelectedCollaborators, onInputC
   const filterUsersArray = (v) => {
     const filteredOptions = availableOptions.filter(c => c !== v)
     setAvailableOptions(filteredOptions)
-    console.log('onChange funktion')
   }
 
   const pushUsersArray = (v) => {

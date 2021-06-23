@@ -11,7 +11,6 @@ const TotalProjectsWrapper = styled.div`
 
 `
 
-
 const Title = styled.h2`
   font-size: 1.8em;
   font-weight: 500;

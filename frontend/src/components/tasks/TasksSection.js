@@ -137,8 +137,6 @@ const TasksSection = () => {
       })
   }, [accessToken, dispatch, projectID])
 
-  console.log(items)
-
   return (
     <Section>
       <BackButton 

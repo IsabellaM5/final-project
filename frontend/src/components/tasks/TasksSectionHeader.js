@@ -15,7 +15,6 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid #dfdbe5;
   padding-bottom: 35px;
   position: relative;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,10 +27,6 @@ const ProjectInfoContainer = styled.div`
   align-items: center;
   margin-right: 10px;
   max-width: 40%;
-
-  @media (max-width: 767px) {
-
-  }
 `
 
 const ProjectName = styled.h2`

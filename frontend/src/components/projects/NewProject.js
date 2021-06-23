@@ -77,7 +77,7 @@ const NewProject = ({ setNewItemMode }) => {
   const dispatch = useDispatch()
 
   const handleFormSubmit = () => {
-    const options = {
+    const config = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const NewProject = ({ setNewItemMode }) => {
       body: JSON.stringify({ name: projectName, description: description, collaborators: selectedCollaborators })
     }
 
-    fetch(API_URL(PROJECTS_URL(user.userID)), options)
+    fetch(API_URL(PROJECTS_URL(user.userID)), config)
       .then(res => res.json())
       .then(data => {
         if (data.success) {

@@ -80,7 +80,7 @@ const LandingPage = () => {
   }, [accessToken, history])
 
   const handleFormSubmit = (endpoint, body) => {
-    const options = {
+    const config = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ const LandingPage = () => {
       body: JSON.stringify(body)
     }
 
-    fetch(API_URL(endpoint), options)
+    fetch(API_URL(endpoint), config)
       .then(res => res.json())
       .then(data => {
         if (data.success) {

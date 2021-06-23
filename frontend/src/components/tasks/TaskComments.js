@@ -49,15 +49,14 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
     fetch(API_URL(COMMENT_TASK_URL(item.taskOwner, item._id)), config)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.success) {
           dispatch(tasks.actions.addComment(data))
+          setTaskComments('')
         } else {
           dispatch(tasks.actions.setErrors(data))
         }
       })
-    
-    setTaskComments('')
+      .finally(() => scrollToBottom())
   }
 
   return (

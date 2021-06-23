@@ -4,10 +4,6 @@ import styled from 'styled-components/macro'
 const Wrapper = styled.div`
   width: 75%;
   display: flex;
-
-  @media (max-width: 767px) {
-
-  }
 `
 
 const PmContainer = styled.div`
@@ -16,10 +12,6 @@ const PmContainer = styled.div`
   align-items: center;
   margin-right: 10px;
   width: 50%;
-
-  @media (max-width: 767px) {
-
-  }
 `
 
 const CollabContainer = styled.div`
@@ -28,10 +20,6 @@ const CollabContainer = styled.div`
   align-items: center;
   margin-right: 10px;
   max-width: 60%;
-
-  @media (max-width: 767px) {
-
-  }
 `
 
 const Heading = styled.p`

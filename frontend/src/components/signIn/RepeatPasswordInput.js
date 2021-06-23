@@ -20,7 +20,6 @@ const RepeatPasswordInput = ({ password, repeatPassword, setRepeatPassword, widt
     }
 
     handleHelperText()
-    console.log('useEffect')
   }, [repeatPassword, password, signUp])
 
   return (

@@ -75,7 +75,7 @@ const ProfileSection = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const options = {
+    const config = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -84,8 +84,8 @@ const ProfileSection = () => {
     }
 
     Promise.all([
-      fetch(API_URL(SINGLE_USER(info.userID)), options),
-      fetch(API_URL(PROJECTS_URL(info.userID)), options)
+      fetch(API_URL(SINGLE_USER(info.userID)), config),
+      fetch(API_URL(PROJECTS_URL(info.userID)), config)
     ])
       .then((res) => {
         return Promise.all(res.map(r => r.json()))
