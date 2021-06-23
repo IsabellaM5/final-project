@@ -57,6 +57,8 @@ const TaskComments = ({ item, taskComments, setTaskComments }) => {
           dispatch(tasks.actions.setErrors(data))
         }
       })
+    
+    setTaskComments('')
   }
 
   return (
