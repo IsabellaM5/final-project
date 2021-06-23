@@ -44,6 +44,21 @@ const tasks = createSlice ({
       })
       store.items = updatedItem
     },
+    toggleComplete: (store, action) => {
+      const findItem = store.items.find(item => item._id === action.payload.updatedTask._id)
+
+      const updatedItem = store.items.map((item) => {
+        if (item._id === findItem._id) {
+          return {
+            ...item,
+            complete: action.payload.updatedTask.complete
+          }
+        } else {
+          return item
+        }
+      })
+      store.items = updatedItem
+    },
     deleteTask: (store, action) => {
       const filterItems = store.items.filter(item => item._id !== action.payload.deletedTask._id)
       store.items = filterItems

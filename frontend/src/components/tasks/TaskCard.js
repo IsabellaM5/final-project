@@ -20,6 +20,10 @@ const TaskContainer = styled.div`
   padding: 10px;
   justify-content: space-between;
   cursor: pointer;
+  border-left: ${props => props.complete && "3px solid #d3ffbd"};
+  border-right: ${props => props.complete && "3px solid #d3ffbd"};
+  text-decoration: ${props => props.complete && "line-through"};
+  color: ${props => props.complete ? "#8f8f8f" : "#000000"};
 `
 
 const Title = styled.p`
@@ -71,7 +75,9 @@ const TaskCard = ({ item, projectID }) => {
 
   return (
     <React.Fragment key={item._id}>
-      <TaskContainer>
+      <TaskContainer
+        complete={item.complete}
+      >
         <Title>{item.title}</Title>
         <ButtonsContainer>
           <TaskCardMenu 

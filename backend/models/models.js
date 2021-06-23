@@ -61,7 +61,7 @@ export const Task = mongoose.model('Task', {
   title: {
     type: String, 
     required: true,
-    maxlength: 20
+    maxlength: 30
   },
   description: {
     type: String
@@ -82,5 +82,9 @@ export const Task = mongoose.model('Task', {
       type: Date, 
       default: Date.now
     } 
-  }]
+  }],
+  complete: {
+    type: Boolean,
+    default: false
+  }
 })

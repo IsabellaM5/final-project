@@ -21,3 +21,4 @@ export const DELETE_COLLAB = (slug) => `sessions/projects/${slug}/collaborators/
 export const TASKS_URL = (slug) => `sessions/projects/${slug}/tasks`
 export const SINGLE_TASK_URL = (project, task) => `sessions/projects/${project}/tasks/${task}`
 export const COMMENT_TASK_URL = (project, task) => `sessions/projects/${project}/tasks/${task}/comments`
+export const COMPLETE_TASK_URL = (project, task) => `sessions/projects/${project}/tasks/${task}/complete`
