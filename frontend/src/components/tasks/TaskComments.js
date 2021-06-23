@@ -15,8 +15,7 @@ const Wrapper = styled.div`
   border: 1px solid #000000;
   background: #f2eff6;
   border-radius: 5px;
-  box-sizing: content-box;
-  max-height: 400px;
+  max-height: 380px;
 
   @media (max-width: 767px) {
     max-height: 300px;
