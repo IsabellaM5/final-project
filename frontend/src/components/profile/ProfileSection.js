@@ -20,6 +20,11 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 1439px) {
+    width: 80%;
+    padding: 25px;
+  }
+
   @media (max-width: 1023px) {
     width: 100%;
     padding: 25px;

@@ -19,6 +19,11 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 1439px) {
+    width: 80%;
+    padding: 25px;
+  }
+
   @media (max-width: 1023px) {
     width: 100%;
     padding: 25px;
@@ -49,7 +54,7 @@ const TasksWrapper = styled.div`
     border-radius: 5px;
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 1439px) {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     max-height: 90%;
