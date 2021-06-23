@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import { useSelector, useDispatch } from 'react-redux'
+import { BsFillInboxFill } from "react-icons/bs"
 
 import { API_URL, PROJECTS_URL, GET_USERS } from 'reusable/urls'
 
 import projects from 'reducers/projects'
 
+import EmptyState from 'components/reusable/EmptyState'
 import ProjectCard from 'components/projects/ProjectCard'
 import NewProject from 'components/projects/NewProject'
 import ModalContainer from 'components/reusable/ModalContainer'
@@ -110,17 +112,28 @@ const ProjectsSection = () => {
       <ProjectsSectionHeader 
         setNewItemMode={setNewItemMode}
       />
-      <ProjectsWrapper>
-        {items.length !== 0 && (
-          items.map(item => (
+
+      {items.length !== 0 ? (
+        <ProjectsWrapper>
+          {items.map(item => (
             <ProjectCard 
               key={item._id} 
               item={item} 
             />
-          ))
-        )}
-      </ProjectsWrapper>
-        
+          ))}
+        </ProjectsWrapper>
+      ) : (
+        <EmptyState 
+          icon={
+            <BsFillInboxFill 
+              size="150px"
+              color="#9c92ac"
+            />
+          }
+          text="You have no projects yet. Click ADD to create your first!"
+        />
+      )}
+
       {error && <ErrorMessage>Opps, something went wrong...</ErrorMessage>}
       <ModalContainer 
         editMode={newItemMode}
