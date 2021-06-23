@@ -105,7 +105,9 @@ const LandingPage = () => {
   return (
     <MainContainer>
       <Section>
-        <CarouselContainer /> 
+        {width > 1439 && 
+          <CarouselContainer />
+        }
         {!signUp ? 
           <SignInForm 
             handleFormSubmit={handleFormSubmit}

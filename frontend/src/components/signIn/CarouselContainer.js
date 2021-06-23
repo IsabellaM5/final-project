@@ -12,11 +12,6 @@ const ImageContainer = styled.div`
   overflow: hidden;
 `
 
-const Image = styled.img`
-
-`
-
-
 const CarouselContainer = () => {
   return (
     <CarouselWrapper>
