@@ -8,6 +8,7 @@ import tasks from 'reducers/tasks'
 
 import TaskTitleInput from 'components/tasks/TaskTitleInput'
 import InputField from 'components/reusable/InputField'
+import TaskComplete from 'components/tasks/TaskComplete'
 import TaskComments from 'components/tasks/TaskComments'
 import Button from 'components/reusable/Button'
 
@@ -106,6 +107,10 @@ const EditTask = ({ item, setEditMode }) => {
             value={taskDesc} 
             handleChange={setTaskDesc}
             height="120px"
+          />
+          <TaskComplete 
+            item={item}
+            accessToken={accessToken}
           />
         </SubContainer>
         <TaskComments 

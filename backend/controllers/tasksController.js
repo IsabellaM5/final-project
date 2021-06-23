@@ -149,3 +149,30 @@ export const patchComments = async (req, res) => {
     })
   }
 }
+
+export const patchComplete = async (req, res) => {
+  const projectID = req.params.projectID
+  const taskID = req.params.taskID
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(taskID, { complete: req.body.complete }, { new: true })
+
+    if (updatedTask) {
+      res.status(200).json({ 
+        success: true,
+        updatedTask
+      })
+    } else {
+      res.status(404).json({ 
+        success: false, 
+        message: 'Could not find task' 
+      })
+    }
+  } catch (error) {
+    res.status(400).json({ 
+      success: false, 
+      message: 'Invalid request', 
+      error 
+    })
+  }
+}
