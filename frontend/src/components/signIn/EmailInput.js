@@ -3,12 +3,10 @@ import { useSelector } from 'react-redux'
 
 import InputField from 'components/reusable/InputField'
 
-const EmailInput = ({ email, setEmail, width, signUp }) => {
+const EmailInput = ({ email, setEmail, width, signUp, emailRegex }) => {
   const err = useSelector(store => store.user.errors)
 
   const [helpText, setHelpText] = useState('')
-
-  const emailRegex = /\S+@\S+\.\S+/
 
   useEffect(()=> {
     const handleHelperText = () => {
@@ -22,7 +20,6 @@ const EmailInput = ({ email, setEmail, width, signUp }) => {
     }
 
     handleHelperText()
-    console.log('useEffect')
   }, [email, signUp, emailRegex])
 
   return (

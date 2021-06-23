@@ -1,6 +1,5 @@
 import React from "react"
 import styled from 'styled-components/macro'
-import { BsFillInboxFill } from "react-icons/bs"
 
 const EmptyStateContainer = styled.div`
   display: flex;

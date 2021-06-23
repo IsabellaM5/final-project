@@ -67,6 +67,8 @@ const ErrorMessage = styled.p`
 
 const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, signUp, setSignUp, width }) => {
   const err = useSelector(store => store.user.errors)
+
+  const emailRegex = /\S+@\S+\.\S+/
   
   const body = { username: username, email: email, password: password }
 
@@ -89,6 +91,7 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
           email={email}
           setEmail={setEmail}
           width={width}
+          emailRegex={emailRegex}
         />
         <PasswordInput 
           password={password}
@@ -108,7 +111,7 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
 
       <Button 
         btnText="SIGN UP" 
-        disabled={password === repeatPassword && password ? false : true } 
+        disabled={password === repeatPassword && password && emailRegex.test(email) ? false : true } 
         handleClick={onFormSubmit}
         padding="10px 15px"
       />
