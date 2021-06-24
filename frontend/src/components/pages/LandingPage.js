@@ -96,6 +96,10 @@ const LandingPage = () => {
               image: data.image.url
             }))
           })
+          setUsername('')
+          setEmail('')
+          setPassword('')
+          setRepeatPassword('')
         } else {
           dispatch(user.actions.setErrors(data))
         }
