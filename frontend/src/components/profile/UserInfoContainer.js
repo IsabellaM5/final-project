@@ -59,7 +59,7 @@ const UserInfoContainer = ({ info }) => {
   return (
     <Container>
       <ImageUserContainer>
-        <Avatar src={info.image ? info.image : '/assets/user-purple.png'}/>
+        <Avatar src={info.image ? info.image : '/assets/user-purple.png'} alt="profile image"/>
         <EditAvatar />
         <Wrapper>
           <Title>Username</Title>
