@@ -114,6 +114,7 @@ const SignUpForm = ({ handleFormSubmit, username, setUsername, email, setEmail, 
         disabled={password === repeatPassword && password && emailRegex.test(email) ? false : true } 
         handleClick={onFormSubmit}
         padding="10px 15px"
+        width="200px"
       />
 
       <Container>

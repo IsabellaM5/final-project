@@ -96,6 +96,7 @@ const SignInForm = ({ handleFormSubmit, username, setUsername, password, setPass
         btnText="SIGN IN" 
         handleClick={onFormSubmit}
         padding="10px 15px"
+        width="200px"
       />
 
       <Container>
