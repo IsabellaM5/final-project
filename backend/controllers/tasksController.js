@@ -1,4 +1,4 @@
-import { Task, User } from '../models/models'
+import { Task } from '../models/models'
 
 export const getTasks = async (req, res) => {
   const { projectID } = req.params
