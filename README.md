@@ -11,8 +11,8 @@ Initially, we built and completed the Sign up and Sign in functionality. With th
 
 ### Frontend
 - Projects section; overview of projects and single project (**GET req**), add a new project (**POST req**), edit a project (**PATCH req**), add/remove collaborator (**PATCH req**), delete project (**DELETE req**)
-- Tasks section; overview of tasks (GET req), add a new task (POST req), add a new comment to a task (PATCH req), edit a task (PATCH req), delete task (DELETE req)
-- Profile section; overview of user info (GET req), edit profile (PATCH req), upload avatar image (PATCH req)
+- Tasks section; overview of tasks (**GET req**), add a new task (**POST req**), add a new comment to a task (**PATCH req**), edit a task (**PATCH req**), delete task (**DELETE req**)
+- Profile section; overview of user info (**GET req**), edit profile (**PATCH req**), upload avatar image (**PATCH req**)
 - Styling is mostly done using Styled components
 
 #### Technologies/Packages used
@@ -23,6 +23,7 @@ Initially, we built and completed the Sign up and Sign in functionality. With th
 - Material.ui
 - React icons
 - Carousel (react-responsive-carousel)
+
 
 ### Backend
 - Using **Express Router** to refactor code
@@ -42,18 +43,18 @@ Initially, we built and completed the Sign up and Sign in functionality. With th
 - Cloudinary
 - express-list-endpoints
 
-#### ENDPOINTS
 
+#### ENDPOINTS
 ##### All endpoints
 Displays all endpoints for this API using npm package express-list-endpoints. Base URL: https://final-project-isma-sawa.herokuapp.com
 
 - ```GET /```
 
-##### SIGN UP & SIGN IN
+##### Sign up & Sign in
 - ```POST /signup```
 - ```POST /signin```
 
-##### USER
+##### User
 Restricted access (users only).
 
 - ```GET /sessions/:userID``` - single user
@@ -61,12 +62,12 @@ Restricted access (users only).
 - ```DELETE /sessions/:userID``` - delete user
 - ```PATCH /sessions/:userID``` - edit user
 
-##### AVATAR IMAGE
+##### Avatar image
 Restricted access (users only).
 
 - ```PATCH /sessions/:userID/avatar``` - edit avatar image
 
-##### PROJECTS
+##### Projects
 Restricted access (users only).
 
 - ```GET /sessions/:userID/projects``` - all projects
@@ -77,7 +78,7 @@ Restricted access (users only).
 - ```PATCH /sessions/projects/:projectID/collaborators``` - add collaborators
 - ```PATCH /sessions/projects/:projectID/collaborators/delete``` - delete a collaborator
 
-##### TASKS
+##### Tasks
 Restricted access (users only).
 
 - ```GET /sessions/projects/:projectID/tasks``` - all tasks
@@ -88,5 +89,15 @@ Restricted access (users only).
 - ```PATCH /sessions/projects/:projectID/tasks/:taskID/comments``` - add comment
 - ```PATCH /sessions/projects/:projectID/tasks/:taskID/complete``` - toggle complete
 
+
 ## View it live
 To view our application **Organizr** live, please visit this link: https://organizr-final.netlify.app
+
+## Ongoing development
+Features/Functionalities we want to implement:
+- Tasks; functionality for labels, due date, sorting and filtering options of task list, draggable task items
+- Projects; functionality for due date, sorting and filtering options of projects, draggable project items
+- User; functionality to delete user on frontend (endpoint ready in backend)
+- Implement dark/light color theme
+- Email notification (in backend) - upon sign up and possibility to subscribe to changes to different items
+- Monthly/weekly/sprint overview
